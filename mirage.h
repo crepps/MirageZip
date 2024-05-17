@@ -12,5 +12,6 @@ private:
 public:
     Mirage();
     int ZipFile();
+    int Concatenate();
     ~Mirage();
 };

@@ -36,9 +36,12 @@ int Mirage::ZipFile()
         zip_file_set_encryption(archive, 0, ZIP_EM_AES_256, password.c_str());
 
     zip_close(archive);
+
+    return 0;
 }
 int Mirage::Concatenate()
 {
+    return 0;
 }
 Mirage::~Mirage()
 {
