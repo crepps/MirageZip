@@ -81,6 +81,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies />
@@ -124,14 +125,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="gui.cpp" />
-    <ClCompile Include="mirage.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="miragezip.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gui.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="mirage.h" />
+    <ClInclude Include="miragezip.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gui.resx">

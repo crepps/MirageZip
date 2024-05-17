@@ -1,17 +1,20 @@
 #pragma once
 #include <string>
 #include <fstream>
+#include <filesystem>
 #include "zip.h"
+#include <stdlib.h>
 
-class Mirage
+class MirageZip
 {
 private:
     std::string filePath,
         password;
 
 public:
-    Mirage();
+    MirageZip();
+    int CreateAppData();
     int ZipFile();
     int Concatenate();
-    ~Mirage();
+    ~MirageZip();
 };

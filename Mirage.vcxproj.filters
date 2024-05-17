@@ -18,15 +18,15 @@
     <ClInclude Include="gui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="mirage.h">
+    <ClInclude Include="miragezip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="gui.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="mirage.cpp">
+    <ClCompile Include="miragezip.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

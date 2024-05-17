@@ -1,10 +1,22 @@
-#include "mirage.h"
+#include "miragezip.h"
 
-Mirage::Mirage()
+MirageZip::MirageZip()
 {
-
+    CreateAppData();
 }
-int Mirage::ZipFile()
+int MirageZip::CreateAppData()
+{
+    std::error_code err;
+    std::string path{ getenv("LOCALAPPDATA")};
+
+    path += "\\MirageZip";
+    err.clear();
+    if (!std::filesystem::create_directories(path, err))
+        return 1;
+
+    return 0;
+}
+int MirageZip::ZipFile()
 {
     // Create archive and open
     int errCode = 0;
@@ -13,12 +25,12 @@ int Mirage::ZipFile()
     // Open file, get size
     std::ifstream file(filePath, std::ios::binary);
     file.seekg(0, std::ios::end);
-    int n = file.tellg();
+    int fileSize = file.tellg();
     file.seekg(0, std::ios::beg);
 
     // Store file data in buffer, close file
-    char* data = new char[n];
-    file.read(data, n);
+    char* data = new char[fileSize];
+    file.read(data, fileSize);
     file.close();
 
     // Get filename from path
@@ -28,7 +40,7 @@ int Mirage::ZipFile()
 
     // Zip file using buffer, close archive
     zip_source_t* source;
-    source = zip_source_buffer(archive, data, n, 0);
+    source = zip_source_buffer(archive, data, fileSize, 0);
     delete [] data;
     zip_file_add(archive, fileName.c_str(), source, 0);
 
@@ -39,10 +51,10 @@ int Mirage::ZipFile()
 
     return 0;
 }
-int Mirage::Concatenate()
+int MirageZip::Concatenate()
 {
     return 0;
 }
-Mirage::~Mirage()
+MirageZip::~MirageZip()
 {
 }
