@@ -6,13 +6,22 @@ MirageZip::MirageZip()
 }
 int MirageZip::CreateAppData()
 {
-    std::error_code err;
-    std::string path{ getenv("LOCALAPPDATA")};
+    struct stat info;
+    std::string path{ getenv("LOCALAPPDATA") };
 
     path += "\\MirageZip";
-    err.clear();
-    if (!std::filesystem::create_directories(path, err))
-        return 1;
+    workingDir = path;
+    stat(path.c_str(), &info);
+
+    // If directory doesn't exist, create it
+    if (!(info.st_mode & S_IFDIR))
+    {
+        std::error_code err;
+        
+        err.clear();
+        if (!std::filesystem::create_directories(path, err))
+            return 1;
+    }
 
     return 0;
 }
@@ -33,7 +42,7 @@ int MirageZip::ZipFile()
     file.read(data, fileSize);
     file.close();
 
-    // Get filename from path
+    // Get filename from file path
     std::string fileName(filePath);
     size_t strPos = fileName.find_last_of("\\");
     fileName.erase(0, strPos + 1);

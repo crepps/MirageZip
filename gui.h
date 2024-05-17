@@ -673,32 +673,19 @@ namespace Mirage {
 	}
 	private: System::Void button_go_Click(System::Object^ sender, System::EventArgs^ e)
 	{
-		std::string str;
-		FolderBrowserDialog^ folderBrowserDialog1;
-		folderBrowserDialog1 = gcnew System::Windows::Forms::FolderBrowserDialog;
-		folderBrowserDialog1->Description = "Select file destination.";
-		System::Windows::Forms::DialogResult result = folderBrowserDialog1->ShowDialog();
-
+		std::string filePath;
+		System::Windows::Forms::SaveFileDialog^ saveFileDialog1;
+		saveFileDialog1 = gcnew System::Windows::Forms::SaveFileDialog();
+		saveFileDialog1->Filter = "Image Files|*.jpg;*.jpeg;*.png;";
+		System::Windows::Forms::DialogResult result = saveFileDialog1->ShowDialog();
 		if (result == System::Windows::Forms::DialogResult::OK)
 		{
-			ConvertString(folderBrowserDialog1->SelectedPath, str);
-			exportPath = str.c_str();
-		}
-
-		// Continue if valid directory selected
-		if (exportPath)
-		{
-			struct stat info;
-
-			stat(exportPath, &info);
-
-			if (info.st_mode & S_IFDIR)
-			{
-				this->input_1->Text = "";
-				this->ActiveControl = input_1;
-				transIncrement = -20;
-				timer_scroll->Start();
-			}
+			ConvertString(saveFileDialog1->FileName, filePath);
+			exportPath = filePath.c_str();
+			this->input_1->Text = "";
+			this->ActiveControl = input_1;
+			transIncrement = -20;
+			timer_scroll->Start();
 		}
 	}
 	private: System::Void button_next1_Click(System::Object^ sender, System::EventArgs^ e)

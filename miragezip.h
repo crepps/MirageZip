@@ -8,7 +8,8 @@
 class MirageZip
 {
 private:
-    std::string filePath,
+    std::string workingDir,
+        filePath,
         password;
 
 public:
