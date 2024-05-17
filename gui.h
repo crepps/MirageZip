@@ -44,12 +44,12 @@ namespace Mirage {
 	using namespace System::Drawing;
 
 	/// <summary>
-	/// Summary for MainForm
+	/// Summary for gui
 	/// </summary>
-	public ref class MainForm : public System::Windows::Forms::Form
+	public ref class gui : public System::Windows::Forms::Form
 	{
 	public:
-		MainForm(void)
+		gui(void)
 		{
 			InitializeComponent();
 
@@ -68,7 +68,7 @@ namespace Mirage {
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		~MainForm()
+		~gui()
 		{
 			if (components)
 			{
@@ -117,7 +117,7 @@ namespace Mirage {
 		void InitializeComponent(void)
 		{
 			this->components = (gcnew System::ComponentModel::Container());
-			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(MainForm::typeid));
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(gui::typeid));
 			this->header_1 = (gcnew System::Windows::Forms::Label());
 			this->button_image = (gcnew System::Windows::Forms::Button());
 			this->button_file = (gcnew System::Windows::Forms::Button());
@@ -163,7 +163,7 @@ namespace Mirage {
 			this->button_image->Size = System::Drawing::Size(217, 197);
 			this->button_image->TabIndex = 2;
 			this->button_image->UseVisualStyleBackColor = false;
-			this->button_image->Click += gcnew System::EventHandler(this, &MainForm::button_image_Click);
+			this->button_image->Click += gcnew System::EventHandler(this, &gui::button_image_Click);
 			// 
 			// button_file
 			// 
@@ -174,7 +174,7 @@ namespace Mirage {
 			this->button_file->Size = System::Drawing::Size(217, 197);
 			this->button_file->TabIndex = 3;
 			this->button_file->UseVisualStyleBackColor = false;
-			this->button_file->Click += gcnew System::EventHandler(this, &MainForm::button_file_Click);
+			this->button_file->Click += gcnew System::EventHandler(this, &gui::button_file_Click);
 			// 
 			// button_go
 			// 
@@ -185,7 +185,7 @@ namespace Mirage {
 			this->button_go->Size = System::Drawing::Size(217, 197);
 			this->button_go->TabIndex = 4;
 			this->button_go->UseVisualStyleBackColor = false;
-			this->button_go->Click += gcnew System::EventHandler(this, &MainForm::button_go_Click);
+			this->button_go->Click += gcnew System::EventHandler(this, &gui::button_go_Click);
 			// 
 			// text_button_image
 			// 
@@ -233,12 +233,12 @@ namespace Mirage {
 			this->input_1->Size = System::Drawing::Size(280, 47);
 			this->input_1->TabIndex = 8;
 			this->input_1->UseSystemPasswordChar = true;
-			this->input_1->TextChanged += gcnew System::EventHandler(this, &MainForm::input_1_TextChanged);
+			this->input_1->TextChanged += gcnew System::EventHandler(this, &gui::input_1_TextChanged);
 			// 
 			// timer_scroll
 			// 
 			this->timer_scroll->Interval = 1;
-			this->timer_scroll->Tick += gcnew System::EventHandler(this, &MainForm::timer_scroll_Tick);
+			this->timer_scroll->Tick += gcnew System::EventHandler(this, &gui::timer_scroll_Tick);
 			// 
 			// header_3
 			// 
@@ -263,7 +263,7 @@ namespace Mirage {
 			this->input_2->Size = System::Drawing::Size(280, 47);
 			this->input_2->TabIndex = 10;
 			this->input_2->UseSystemPasswordChar = true;
-			this->input_2->TextChanged += gcnew System::EventHandler(this, &MainForm::input_2_TextChanged);
+			this->input_2->TextChanged += gcnew System::EventHandler(this, &gui::input_2_TextChanged);
 			// 
 			// button_next1
 			// 
@@ -275,7 +275,7 @@ namespace Mirage {
 			this->button_next1->Size = System::Drawing::Size(47, 47);
 			this->button_next1->TabIndex = 11;
 			this->button_next1->UseVisualStyleBackColor = true;
-			this->button_next1->Click += gcnew System::EventHandler(this, &MainForm::button_next1_Click);
+			this->button_next1->Click += gcnew System::EventHandler(this, &gui::button_next1_Click);
 			// 
 			// button_next2
 			// 
@@ -296,7 +296,7 @@ namespace Mirage {
 			this->button_back1->Size = System::Drawing::Size(40, 40);
 			this->button_back1->TabIndex = 13;
 			this->button_back1->UseVisualStyleBackColor = true;
-			this->button_back1->Click += gcnew System::EventHandler(this, &MainForm::button_back1_Click);
+			this->button_back1->Click += gcnew System::EventHandler(this, &gui::button_back1_Click);
 			// 
 			// button_back2
 			// 
@@ -307,7 +307,7 @@ namespace Mirage {
 			this->button_back2->Size = System::Drawing::Size(40, 40);
 			this->button_back2->TabIndex = 14;
 			this->button_back2->UseVisualStyleBackColor = true;
-			this->button_back2->Click += gcnew System::EventHandler(this, &MainForm::button_back2_Click);
+			this->button_back2->Click += gcnew System::EventHandler(this, &gui::button_back2_Click);
 			// 
 			// text_strength
 			// 
@@ -335,7 +335,7 @@ namespace Mirage {
 			// 
 			// timer_anim
 			// 
-			this->timer_anim->Tick += gcnew System::EventHandler(this, &MainForm::timer_anim_Tick);
+			this->timer_anim->Tick += gcnew System::EventHandler(this, &gui::timer_anim_Tick);
 			// 
 			// header_1_back
 			// 
@@ -351,7 +351,7 @@ namespace Mirage {
 			this->header_1_back->Text = L"\'`-.,                ,.-`\'";
 			this->header_1_back->TextAlign = System::Drawing::ContentAlignment::TopCenter;
 			// 
-			// MainForm
+			// gui
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
@@ -378,7 +378,7 @@ namespace Mirage {
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
 			this->MaximizeBox = false;
 			this->MinimizeBox = false;
-			this->Name = L"MainForm";
+			this->Name = L"gui";
 			this->Opacity = 0.95;
 			this->Text = L"Mirage-Z ALPHA";
 			this->ResumeLayout(false);
@@ -397,7 +397,8 @@ namespace Mirage {
 
 		const char* imagePath,
 			* filePath,
-			* exportPath;
+			* exportPath,
+			* password;
 
 
 	private: System::Void timer_anim_Tick(System::Object^ sender, System::EventArgs^ e)
@@ -702,6 +703,9 @@ namespace Mirage {
 	}
 	private: System::Void button_next1_Click(System::Object^ sender, System::EventArgs^ e)
 	{
+		std::string passwordData;
+		ConvertString(this->input_1->Text, passwordData);
+		password = passwordData.c_str();
 		this->input_2->Text = "";
 		this->ActiveControl = input_2;
 		transIncrement = -20;

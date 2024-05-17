@@ -1,4 +1,4 @@
-#include "MainForm.h"
+#include "gui.h"
 
 using namespace System;
 using namespace System::Windows::Forms;
@@ -8,7 +8,7 @@ int main(array<String^>^ args)
 {
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
-	Mirage::MainForm form;
+	Mirage::gui form;
 	Application::Run(% form);
 
 	return 0;
