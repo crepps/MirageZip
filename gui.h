@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <shlobj.h>
+#include <stdlib.h>
 #include <Windows.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -590,11 +591,11 @@ namespace Mirage {
 	private: System::Void button_image_Click(System::Object^ sender, System::EventArgs^ e)
 	{
 		OpenFileDialog^ openFileDialog1 = gcnew OpenFileDialog;
-		std::string str;
+		static std::string str;
 		size_t strPos;
 
-		openFileDialog1->InitialDirectory = "c:\\";
-		openFileDialog1->Filter = "Image Files|*.jpg;*.jpeg;*.png;";
+		openFileDialog1->InitialDirectory = gcnew String(getenv("USERPROFILE"));
+		openFileDialog1->Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;";
 		openFileDialog1->FilterIndex = 2;
 		openFileDialog1->RestoreDirectory = true;
 
@@ -624,7 +625,7 @@ namespace Mirage {
 		std::string str;
 		size_t strPos;
 
-		openFileDialog1->InitialDirectory = "c:\\";
+		openFileDialog1->InitialDirectory = gcnew String(getenv("USERPROFILE"));
 		openFileDialog1->Filter = "All files (*.*)|*.*";
 		openFileDialog1->FilterIndex = 2;
 		openFileDialog1->RestoreDirectory = true;
@@ -695,7 +696,7 @@ namespace Mirage {
 			transIncrement = -20;
 			timer_scroll->Start();
 		}
-	} //"Image Files|*.jpg;*.jpeg;*.png;"
+	} //"Image Files|*.jpg;*.jpeg;*.png;*.gif;"
 	private: System::Void button_next1_Click(System::Object^ sender, System::EventArgs^ e)
 	{
 		std::string passwordData;
