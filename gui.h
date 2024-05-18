@@ -28,11 +28,11 @@ posYButtonBack2[3] = { 601, 307, 13 };
 
 const std::vector<std::string> headerFrames =
 {
-	"'`-.,                ,.-`'",
-	"`-.,'                ',.-`",
-	"-.,'`                `',.-",
-	".,`'-                -'`,.",
-	",`'-.                .-'`,"
+	"'`-.,                 ,.-`'",
+	"`-.,'                 ',.-`",
+	"-.,'`                 `',.-",
+	".,`'-                 -'`,.",
+	",`'-.                 .-'`,"
 };
 
 namespace Mirage {
@@ -49,6 +49,21 @@ namespace Mirage {
 	/// </summary>
 	public ref class gui : public System::Windows::Forms::Form
 	{
+	private:
+		int currentRegion{ 1 },
+			transIncrement,
+			anchor,
+			snapIndex;
+
+		bool imageSelected = false,
+			fileSelected = false;
+
+		const char* imagePath,
+			* imageExt,
+			* filePath,
+			* exportPath,
+			* password;
+
 	public:
 		gui(void)
 		{
@@ -60,15 +75,9 @@ namespace Mirage {
 			this->button_next1->Enabled = false;
 			this->button_next2->Enabled = false;
 			this->timer_anim->Start();
-			//
-			//TODO: Add the constructor code here
-			//
 		}
 
 	protected:
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
 		~gui()
 		{
 			if (components)
@@ -103,12 +112,6 @@ namespace Mirage {
 
 
 	private: System::ComponentModel::IContainer^ components;
-
-	private:
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -147,11 +150,11 @@ namespace Mirage {
 				static_cast<System::Byte>(0)));
 			this->header_1->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(60)), static_cast<System::Int32>(static_cast<System::Byte>(60)),
 				static_cast<System::Int32>(static_cast<System::Byte>(100)));
-			this->header_1->Location = System::Drawing::Point(349, 22);
+			this->header_1->Location = System::Drawing::Point(344, 22);
 			this->header_1->Name = L"header_1";
-			this->header_1->Size = System::Drawing::Size(163, 19);
+			this->header_1->Size = System::Drawing::Size(174, 19);
 			this->header_1->TabIndex = 1;
-			this->header_1->Text = L"Mirage-Z ALPHA";
+			this->header_1->Text = L"MirageZip ALPHA";
 			this->header_1->TextAlign = System::Drawing::ContentAlignment::TopCenter;
 			// 
 			// button_image
@@ -345,7 +348,7 @@ namespace Mirage {
 				static_cast<System::Byte>(0)));
 			this->header_1_back->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(200)), static_cast<System::Int32>(static_cast<System::Byte>(200)),
 				static_cast<System::Int32>(static_cast<System::Byte>(240)));
-			this->header_1_back->Location = System::Drawing::Point(283, 22);
+			this->header_1_back->Location = System::Drawing::Point(278, 22);
 			this->header_1_back->Name = L"header_1_back";
 			this->header_1_back->Size = System::Drawing::Size(295, 19);
 			this->header_1_back->TabIndex = 18;
@@ -358,7 +361,7 @@ namespace Mirage {
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::White;
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
-			this->ClientSize = System::Drawing::Size(850, 279);
+			this->ClientSize = System::Drawing::Size(850, 275);
 			this->Controls->Add(this->header_1_back);
 			this->Controls->Add(this->text_match);
 			this->Controls->Add(this->text_strength);
@@ -381,26 +384,12 @@ namespace Mirage {
 			this->MinimizeBox = false;
 			this->Name = L"gui";
 			this->Opacity = 0.95;
-			this->Text = L"Mirage-Z ALPHA";
+			this->Text = L"MirageZip ALPHA";
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
 		}
 #pragma endregion
-
-		int currentRegion{ 1 },
-			transIncrement,
-			anchor,
-			snapIndex;
-
-		bool imageSelected = false,
-			fileSelected = false;
-
-		const char* imagePath,
-			* imageExt,
-			* filePath,
-			* exportPath,
-			* password;
 
 	private: System::Void timer_anim_Tick(System::Object^ sender, System::EventArgs^ e)
 	{
