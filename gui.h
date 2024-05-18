@@ -396,10 +396,10 @@ namespace Mirage {
 			fileSelected = false;
 
 		const char* imagePath,
+			* imageExt,
 			* filePath,
 			* exportPath,
 			* password;
-
 
 	private: System::Void timer_anim_Tick(System::Object^ sender, System::EventArgs^ e)
 	{
@@ -608,6 +608,10 @@ namespace Mirage {
 			this->text_button_image->Text = gcnew String(str.data());
 			this->text_button_image->ForeColor = System::Drawing::Color::Green;
 
+			strPos = str.find_last_of('.');
+			str.erase(0, strPos);
+			imageExt = str.c_str();
+
 			imageSelected = true;
 
 			if (fileSelected)
@@ -673,10 +677,14 @@ namespace Mirage {
 	}
 	private: System::Void button_go_Click(System::Object^ sender, System::EventArgs^ e)
 	{
-		std::string filePath;
+		std::string filePath, filter;
+		filter = "Image Files|*";
+		filter += imageExt;
+		filter += ";";
+		this->header_1->Text = gcnew String(filter.data());
 		System::Windows::Forms::SaveFileDialog^ saveFileDialog1;
 		saveFileDialog1 = gcnew System::Windows::Forms::SaveFileDialog();
-		saveFileDialog1->Filter = "Image Files|*.jpg;*.jpeg;*.png;";
+		saveFileDialog1->Filter = gcnew String(filter.data());
 		System::Windows::Forms::DialogResult result = saveFileDialog1->ShowDialog();
 		if (result == System::Windows::Forms::DialogResult::OK)
 		{
@@ -687,7 +695,7 @@ namespace Mirage {
 			transIncrement = -20;
 			timer_scroll->Start();
 		}
-	}
+	} //"Image Files|*.jpg;*.jpeg;*.png;"
 	private: System::Void button_next1_Click(System::Object^ sender, System::EventArgs^ e)
 	{
 		std::string passwordData;
