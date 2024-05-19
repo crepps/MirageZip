@@ -73,13 +73,14 @@ int MirageZip::ZipFile()
     // Zip file using buffer, close archive
     zip_source_t* source;
     source = zip_source_buffer(archive, data, fileSize, 0);
-    delete [] data;
     zip_file_add(archive, fileName.c_str(), source, 0);
 
     if (password != "\0")
         zip_file_set_encryption(archive, 0, ZIP_EM_AES_256, password.c_str());
 
     zip_close(archive);
+
+    delete[] data;
 
     return 0;
 }

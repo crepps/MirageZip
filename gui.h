@@ -36,8 +36,8 @@ const std::vector<std::string> headerFrames =
 	",`'-.                 .-'`,"
 };
 
-namespace Mirage {
-
+namespace Mirage
+{
 	using namespace System;
 	using namespace System::ComponentModel;
 	using namespace System::Collections;
@@ -58,8 +58,9 @@ namespace Mirage {
 			anchor,
 			snapIndex;
 
-		bool imageSelected = false,
-			fileSelected = false;
+		bool imageSelected{ false },
+			fileSelected{ false },
+			passMatch{ false };
 
 		const char* imagePath,
 			* imageExt,
@@ -251,16 +252,15 @@ namespace Mirage {
 			// 
 			// header_3
 			// 
-			this->header_3->AutoSize = true;
 			this->header_3->Font = (gcnew System::Drawing::Font(L"Candara Light", 36, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->header_3->ForeColor = System::Drawing::Color::Black;
-			this->header_3->Location = System::Drawing::Point(236, 646);
+			this->header_3->Location = System::Drawing::Point(201, 646);
 			this->header_3->Name = L"header_3";
-			this->header_3->Size = System::Drawing::Size(389, 59);
+			this->header_3->Size = System::Drawing::Size(455, 59);
 			this->header_3->TabIndex = 9;
 			this->header_3->Text = L"Confirm password";
-			this->header_3->TextAlign = System::Drawing::ContentAlignment::TopCenter;
+			this->header_3->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
 			// 
 			// input_2
 			// 
@@ -295,6 +295,7 @@ namespace Mirage {
 			this->button_next2->Size = System::Drawing::Size(47, 47);
 			this->button_next2->TabIndex = 12;
 			this->button_next2->UseVisualStyleBackColor = true;
+			this->button_next2->Click += gcnew System::EventHandler(this, &gui::button_next2_Click);
 			// 
 			// button_back1
 			// 
@@ -320,7 +321,7 @@ namespace Mirage {
 			// 
 			// text_strength
 			// 
-			this->text_strength->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->text_strength->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->text_strength->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
@@ -332,7 +333,7 @@ namespace Mirage {
 			// 
 			// text_match
 			// 
-			this->text_match->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->text_match->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->text_match->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
@@ -366,7 +367,7 @@ namespace Mirage {
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::White;
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
-			this->ClientSize = System::Drawing::Size(850, 275);
+			this->ClientSize = System::Drawing::Size(850, 273);
 			this->Controls->Add(this->header_1_back);
 			this->Controls->Add(this->text_match);
 			this->Controls->Add(this->text_strength);
@@ -396,347 +397,351 @@ namespace Mirage {
 		}
 #pragma endregion
 
-	private: System::Void timer_anim_Tick(System::Object^ sender, System::EventArgs^ e)
-	{
-		static int currentFrame{ 0 };
-
-		this->header_1_back->Text = (currentFrame < 4 ? gcnew String(headerFrames[++currentFrame].data()) : gcnew String(headerFrames[currentFrame = 0].data()));
-	}
-	private: System::Void timer_scroll_Tick(System::Object^ sender, System::EventArgs^ e)
-	{
-		// Translate from region 1
-		if (currentRegion == 1)
+		private: System::Void timer_anim_Tick(System::Object^ sender, System::EventArgs^ e)
 		{
-			header_1->Location = System::Drawing::Point(header_1->Location.X, header_1->Location.Y + transIncrement);
-			header_2->Location = System::Drawing::Point(header_2->Location.X, header_2->Location.Y + transIncrement);
-			header_3->Location = System::Drawing::Point(header_3->Location.X, header_3->Location.Y + transIncrement);
-			header_1_back->Location = System::Drawing::Point(header_1_back->Location.X, header_1_back->Location.Y + transIncrement);
+			static int currentFrame{ 0 };
 
-			button_image->Location = System::Drawing::Point(button_image->Location.X, button_image->Location.Y + transIncrement);
-			button_file->Location = System::Drawing::Point(button_file->Location.X, button_file->Location.Y + transIncrement);
-			button_go->Location = System::Drawing::Point(button_go->Location.X, button_go->Location.Y + transIncrement);
-
-			text_button_image->Location = System::Drawing::Point(text_button_image->Location.X, text_button_image->Location.Y + transIncrement);
-			text_button_file->Location = System::Drawing::Point(text_button_file->Location.X, text_button_file->Location.Y + transIncrement);
-			text_strength->Location = System::Drawing::Point(text_strength->Location.X, text_strength->Location.Y + transIncrement);
-			text_match->Location = System::Drawing::Point(text_match->Location.X, text_match->Location.Y + transIncrement);
-
-			input_1->Location = System::Drawing::Point(input_1->Location.X, input_1->Location.Y + transIncrement);
-			input_2->Location = System::Drawing::Point(input_2->Location.X, input_2->Location.Y + transIncrement);
-
-			button_next1->Location = System::Drawing::Point(button_next1->Location.X, button_next1->Location.Y + transIncrement);
-			button_next2->Location = System::Drawing::Point(button_next2->Location.X, button_next2->Location.Y + transIncrement);
-
-			button_back1->Location = System::Drawing::Point(button_back1->Location.X, button_back1->Location.Y + transIncrement);
-			button_back2->Location = System::Drawing::Point(button_back2->Location.X, button_back2->Location.Y + transIncrement);
-
-			// Snap y-positions and update region
-			if (header_2->Location.Y <= posYHeader2[1])
+			this->header_1_back->Text = (currentFrame < 4 ? gcnew String(headerFrames[++currentFrame].data()) : gcnew String(headerFrames[currentFrame = 0].data()));
+		}
+		private: System::Void timer_scroll_Tick(System::Object^ sender, System::EventArgs^ e)
+		{
+			// Translate from region 1
+			if (currentRegion == 1)
 			{
-				header_1->Location = System::Drawing::Point(header_1->Location.X, posYHeader1[1]);
-				header_2->Location = System::Drawing::Point(header_2->Location.X, posYHeader2[1]);
-				header_3->Location = System::Drawing::Point(header_3->Location.X, posYHeader3[1]);
-				header_1_back->Location = System::Drawing::Point(header_1_back->Location.X, posYHeader1[1]);
+				header_1->Location = System::Drawing::Point(header_1->Location.X, header_1->Location.Y + transIncrement);
+				header_2->Location = System::Drawing::Point(header_2->Location.X, header_2->Location.Y + transIncrement);
+				header_3->Location = System::Drawing::Point(header_3->Location.X, header_3->Location.Y + transIncrement);
+				header_1_back->Location = System::Drawing::Point(header_1_back->Location.X, header_1_back->Location.Y + transIncrement);
 
-				button_image->Location = System::Drawing::Point(button_image->Location.X, posYButtons[1]);
-				button_file->Location = System::Drawing::Point(button_file->Location.X, posYButtons[1]);
-				button_go->Location = System::Drawing::Point(button_go->Location.X, posYButtons[1]);
+				button_image->Location = System::Drawing::Point(button_image->Location.X, button_image->Location.Y + transIncrement);
+				button_file->Location = System::Drawing::Point(button_file->Location.X, button_file->Location.Y + transIncrement);
+				button_go->Location = System::Drawing::Point(button_go->Location.X, button_go->Location.Y + transIncrement);
 
-				text_button_image->Location = System::Drawing::Point(text_button_image->Location.X, posYButtonText[1]);
-				text_button_file->Location = System::Drawing::Point(text_button_file->Location.X, posYButtonText[1]);
-				text_strength->Location = System::Drawing::Point(text_strength->Location.X, posYStrengthText[1]);
-				text_match->Location = System::Drawing::Point(text_match->Location.X, posYMatchText[1]);
+				text_button_image->Location = System::Drawing::Point(text_button_image->Location.X, text_button_image->Location.Y + transIncrement);
+				text_button_file->Location = System::Drawing::Point(text_button_file->Location.X, text_button_file->Location.Y + transIncrement);
+				text_strength->Location = System::Drawing::Point(text_strength->Location.X, text_strength->Location.Y + transIncrement);
+				text_match->Location = System::Drawing::Point(text_match->Location.X, text_match->Location.Y + transIncrement);
 
-				input_1->Location = System::Drawing::Point(input_1->Location.X, posYInput1[1]);
-				input_2->Location = System::Drawing::Point(input_2->Location.X, posYInput2[1]);
+				input_1->Location = System::Drawing::Point(input_1->Location.X, input_1->Location.Y + transIncrement);
+				input_2->Location = System::Drawing::Point(input_2->Location.X, input_2->Location.Y + transIncrement);
 
-				button_next1->Location = System::Drawing::Point(button_next1->Location.X, posYButtonNext1[1]);
-				button_next2->Location = System::Drawing::Point(button_next2->Location.X, posYButtonNext2[1]);
+				button_next1->Location = System::Drawing::Point(button_next1->Location.X, button_next1->Location.Y + transIncrement);
+				button_next2->Location = System::Drawing::Point(button_next2->Location.X, button_next2->Location.Y + transIncrement);
 
-				button_back1->Location = System::Drawing::Point(button_back1->Location.X, posYButtonBack1[1]);
-				button_back2->Location = System::Drawing::Point(button_back2->Location.X, posYButtonBack2[1]);
+				button_back1->Location = System::Drawing::Point(button_back1->Location.X, button_back1->Location.Y + transIncrement);
+				button_back2->Location = System::Drawing::Point(button_back2->Location.X, button_back2->Location.Y + transIncrement);
 
-				currentRegion = 2;
+				// Snap y-positions and update region
+				if (header_2->Location.Y <= posYHeader2[1])
+				{
+					header_1->Location = System::Drawing::Point(header_1->Location.X, posYHeader1[1]);
+					header_2->Location = System::Drawing::Point(header_2->Location.X, posYHeader2[1]);
+					header_3->Location = System::Drawing::Point(header_3->Location.X, posYHeader3[1]);
+					header_1_back->Location = System::Drawing::Point(header_1_back->Location.X, posYHeader1[1]);
 
-				timer_scroll->Stop();
+					button_image->Location = System::Drawing::Point(button_image->Location.X, posYButtons[1]);
+					button_file->Location = System::Drawing::Point(button_file->Location.X, posYButtons[1]);
+					button_go->Location = System::Drawing::Point(button_go->Location.X, posYButtons[1]);
+
+					text_button_image->Location = System::Drawing::Point(text_button_image->Location.X, posYButtonText[1]);
+					text_button_file->Location = System::Drawing::Point(text_button_file->Location.X, posYButtonText[1]);
+					text_strength->Location = System::Drawing::Point(text_strength->Location.X, posYStrengthText[1]);
+					text_match->Location = System::Drawing::Point(text_match->Location.X, posYMatchText[1]);
+
+					input_1->Location = System::Drawing::Point(input_1->Location.X, posYInput1[1]);
+					input_2->Location = System::Drawing::Point(input_2->Location.X, posYInput2[1]);
+
+					button_next1->Location = System::Drawing::Point(button_next1->Location.X, posYButtonNext1[1]);
+					button_next2->Location = System::Drawing::Point(button_next2->Location.X, posYButtonNext2[1]);
+
+					button_back1->Location = System::Drawing::Point(button_back1->Location.X, posYButtonBack1[1]);
+					button_back2->Location = System::Drawing::Point(button_back2->Location.X, posYButtonBack2[1]);
+
+					currentRegion = 2;
+
+					timer_scroll->Stop();
+				}
+			}
+
+			// Translate from region 2
+			else if (currentRegion == 2)
+			{
+				header_1->Location = System::Drawing::Point(header_1->Location.X, header_1->Location.Y + transIncrement);
+				header_2->Location = System::Drawing::Point(header_2->Location.X, header_2->Location.Y + transIncrement);
+				header_3->Location = System::Drawing::Point(header_3->Location.X, header_3->Location.Y + transIncrement);
+				header_1_back->Location = System::Drawing::Point(header_1_back->Location.X, header_1_back->Location.Y + transIncrement);
+
+				button_image->Location = System::Drawing::Point(button_image->Location.X, button_image->Location.Y + transIncrement);
+				button_file->Location = System::Drawing::Point(button_file->Location.X, button_file->Location.Y + transIncrement);
+				button_go->Location = System::Drawing::Point(button_go->Location.X, button_go->Location.Y + transIncrement);
+
+				text_button_image->Location = System::Drawing::Point(text_button_image->Location.X, text_button_image->Location.Y + transIncrement);
+				text_button_file->Location = System::Drawing::Point(text_button_file->Location.X, text_button_file->Location.Y + transIncrement);
+				text_strength->Location = System::Drawing::Point(text_strength->Location.X, text_strength->Location.Y + transIncrement);
+				text_match->Location = System::Drawing::Point(text_match->Location.X, text_match->Location.Y + transIncrement);
+
+				input_1->Location = System::Drawing::Point(input_1->Location.X, input_1->Location.Y + transIncrement);
+				input_2->Location = System::Drawing::Point(input_2->Location.X, input_2->Location.Y + transIncrement);
+
+				button_next1->Location = System::Drawing::Point(button_next1->Location.X, button_next1->Location.Y + transIncrement);
+				button_next2->Location = System::Drawing::Point(button_next2->Location.X, button_next2->Location.Y + transIncrement);
+
+				button_back1->Location = System::Drawing::Point(button_back1->Location.X, button_back1->Location.Y + transIncrement);
+				button_back2->Location = System::Drawing::Point(button_back2->Location.X, button_back2->Location.Y + transIncrement);
+
+				// Snap y-positions and update region
+				anchor = (transIncrement < 0 ? header_3->Location.Y : header_1->Location.Y * -1);
+
+				if (anchor <= (transIncrement < 0 ? posYHeader3[2] : posYHeader1[0] * -1))
+				{
+					snapIndex = (transIncrement < 0 ? 2 : 0);
+
+					header_1->Location = System::Drawing::Point(header_1->Location.X, posYHeader1[snapIndex]);
+					header_2->Location = System::Drawing::Point(header_2->Location.X, posYHeader2[snapIndex]);
+					header_3->Location = System::Drawing::Point(header_3->Location.X, posYHeader3[snapIndex]);
+					header_1_back->Location = System::Drawing::Point(header_1_back->Location.X, posYHeader1[snapIndex]);
+
+					button_image->Location = System::Drawing::Point(button_image->Location.X, posYButtons[snapIndex]);
+					button_file->Location = System::Drawing::Point(button_file->Location.X, posYButtons[snapIndex]);
+					button_go->Location = System::Drawing::Point(button_go->Location.X, posYButtons[snapIndex]);
+
+					text_button_image->Location = System::Drawing::Point(text_button_image->Location.X, posYButtonText[snapIndex]);
+					text_button_file->Location = System::Drawing::Point(text_button_file->Location.X, posYButtonText[snapIndex]);
+					text_strength->Location = System::Drawing::Point(text_strength->Location.X, posYStrengthText[snapIndex]);
+					text_match->Location = System::Drawing::Point(text_match->Location.X, posYMatchText[snapIndex]);
+
+					input_1->Location = System::Drawing::Point(input_1->Location.X, posYInput1[snapIndex]);
+					input_2->Location = System::Drawing::Point(input_2->Location.X, posYInput2[snapIndex]);
+
+					button_next1->Location = System::Drawing::Point(button_next1->Location.X, posYButtonNext1[snapIndex]);
+					button_next2->Location = System::Drawing::Point(button_next2->Location.X, posYButtonNext2[snapIndex]);
+
+					button_back1->Location = System::Drawing::Point(button_back1->Location.X, posYButtonBack1[snapIndex]);
+					button_back2->Location = System::Drawing::Point(button_back2->Location.X, posYButtonBack2[snapIndex]);
+
+					currentRegion = (transIncrement < 0 ? 3 : 1);
+
+					timer_scroll->Stop();
+				}
+			}
+
+			// Translate from region 3
+			else if (currentRegion == 3)
+			{
+				header_1->Location = System::Drawing::Point(header_1->Location.X, header_1->Location.Y + transIncrement);
+				header_2->Location = System::Drawing::Point(header_2->Location.X, header_2->Location.Y + transIncrement);
+				header_3->Location = System::Drawing::Point(header_3->Location.X, header_3->Location.Y + transIncrement);
+				header_1_back->Location = System::Drawing::Point(header_1_back->Location.X, header_1_back->Location.Y + transIncrement);
+
+				button_image->Location = System::Drawing::Point(button_image->Location.X, button_image->Location.Y + transIncrement);
+				button_file->Location = System::Drawing::Point(button_file->Location.X, button_file->Location.Y + transIncrement);
+				button_go->Location = System::Drawing::Point(button_go->Location.X, button_go->Location.Y + transIncrement);
+
+				text_button_image->Location = System::Drawing::Point(text_button_image->Location.X, text_button_image->Location.Y + transIncrement);
+				text_button_file->Location = System::Drawing::Point(text_button_file->Location.X, text_button_file->Location.Y + transIncrement);
+				text_strength->Location = System::Drawing::Point(text_strength->Location.X, text_strength->Location.Y + transIncrement);
+				text_match->Location = System::Drawing::Point(text_match->Location.X, text_match->Location.Y + transIncrement);
+
+				input_1->Location = System::Drawing::Point(input_1->Location.X, input_1->Location.Y + transIncrement);
+				input_2->Location = System::Drawing::Point(input_2->Location.X, input_2->Location.Y + transIncrement);
+
+				button_next1->Location = System::Drawing::Point(button_next1->Location.X, button_next1->Location.Y + transIncrement);
+				button_next2->Location = System::Drawing::Point(button_next2->Location.X, button_next2->Location.Y + transIncrement);
+
+				button_back1->Location = System::Drawing::Point(button_back1->Location.X, button_back1->Location.Y + transIncrement);
+				button_back2->Location = System::Drawing::Point(button_back2->Location.X, button_back2->Location.Y + transIncrement);
+
+				// Snap y-positions and update region
+				if (header_2->Location.Y >= posYHeader2[1])
+				{
+					header_1->Location = System::Drawing::Point(header_1->Location.X, posYHeader1[1]);
+					header_2->Location = System::Drawing::Point(header_2->Location.X, posYHeader2[1]);
+					header_3->Location = System::Drawing::Point(header_3->Location.X, posYHeader3[1]);
+					header_1_back->Location = System::Drawing::Point(header_1_back->Location.X, posYHeader1[1]);
+
+					button_image->Location = System::Drawing::Point(button_image->Location.X, posYButtons[1]);
+					button_file->Location = System::Drawing::Point(button_file->Location.X, posYButtons[1]);
+					button_go->Location = System::Drawing::Point(button_go->Location.X, posYButtons[1]);
+
+					text_button_image->Location = System::Drawing::Point(text_button_image->Location.X, posYButtonText[1]);
+					text_button_file->Location = System::Drawing::Point(text_button_file->Location.X, posYButtonText[1]);
+					text_strength->Location = System::Drawing::Point(text_strength->Location.X, posYStrengthText[1]);
+					text_match->Location = System::Drawing::Point(text_match->Location.X, posYMatchText[1]);
+
+					input_1->Location = System::Drawing::Point(input_1->Location.X, posYInput1[1]);
+					input_2->Location = System::Drawing::Point(input_2->Location.X, posYInput2[1]);
+
+					button_next1->Location = System::Drawing::Point(button_next1->Location.X, posYButtonNext1[1]);
+					button_next2->Location = System::Drawing::Point(button_next2->Location.X, posYButtonNext2[1]);
+
+					button_back1->Location = System::Drawing::Point(button_back1->Location.X, posYButtonBack1[1]);
+					button_back2->Location = System::Drawing::Point(button_back2->Location.X, posYButtonBack2[1]);
+
+					currentRegion = 2;
+
+					timer_scroll->Stop();
+				}
 			}
 		}
-
-		// Translate from region 2
-		else if (currentRegion == 2)
+		private: System::Void button_image_Click(System::Object^ sender, System::EventArgs^ e)
 		{
-			header_1->Location = System::Drawing::Point(header_1->Location.X, header_1->Location.Y + transIncrement);
-			header_2->Location = System::Drawing::Point(header_2->Location.X, header_2->Location.Y + transIncrement);
-			header_3->Location = System::Drawing::Point(header_3->Location.X, header_3->Location.Y + transIncrement);
-			header_1_back->Location = System::Drawing::Point(header_1_back->Location.X, header_1_back->Location.Y + transIncrement);
+			OpenFileDialog^ openFileDialog1 = gcnew OpenFileDialog;
+			static std::string str;
+			size_t strPos;
 
-			button_image->Location = System::Drawing::Point(button_image->Location.X, button_image->Location.Y + transIncrement);
-			button_file->Location = System::Drawing::Point(button_file->Location.X, button_file->Location.Y + transIncrement);
-			button_go->Location = System::Drawing::Point(button_go->Location.X, button_go->Location.Y + transIncrement);
+			openFileDialog1->InitialDirectory = gcnew String(getenv("USERPROFILE"));
+			openFileDialog1->Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;";
+			openFileDialog1->FilterIndex = 2;
+			openFileDialog1->RestoreDirectory = true;
 
-			text_button_image->Location = System::Drawing::Point(text_button_image->Location.X, text_button_image->Location.Y + transIncrement);
-			text_button_file->Location = System::Drawing::Point(text_button_file->Location.X, text_button_file->Location.Y + transIncrement);
-			text_strength->Location = System::Drawing::Point(text_strength->Location.X, text_strength->Location.Y + transIncrement);
-			text_match->Location = System::Drawing::Point(text_match->Location.X, text_match->Location.Y + transIncrement);
-
-			input_1->Location = System::Drawing::Point(input_1->Location.X, input_1->Location.Y + transIncrement);
-			input_2->Location = System::Drawing::Point(input_2->Location.X, input_2->Location.Y + transIncrement);
-
-			button_next1->Location = System::Drawing::Point(button_next1->Location.X, button_next1->Location.Y + transIncrement);
-			button_next2->Location = System::Drawing::Point(button_next2->Location.X, button_next2->Location.Y + transIncrement);
-
-			button_back1->Location = System::Drawing::Point(button_back1->Location.X, button_back1->Location.Y + transIncrement);
-			button_back2->Location = System::Drawing::Point(button_back2->Location.X, button_back2->Location.Y + transIncrement);
-
-			// Snap y-positions and update region
-			anchor = (transIncrement < 0 ? header_3->Location.Y : header_1->Location.Y * -1);
-
-			if (anchor <= (transIncrement < 0 ? posYHeader3[2] : posYHeader1[0] * -1))
+			if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
 			{
-				snapIndex = (transIncrement < 0 ? 2 : 0);
+				ConvertString(openFileDialog1->FileName, str);
+				imagePath = str.c_str();
+				this->miragePtr->SetPath(MirageZip::Path::IMAGE, str);
+				strPos = str.find_last_of("\\");
+				str.erase(0, strPos + 1);
 
-				header_1->Location = System::Drawing::Point(header_1->Location.X, posYHeader1[snapIndex]);
-				header_2->Location = System::Drawing::Point(header_2->Location.X, posYHeader2[snapIndex]);
-				header_3->Location = System::Drawing::Point(header_3->Location.X, posYHeader3[snapIndex]);
-				header_1_back->Location = System::Drawing::Point(header_1_back->Location.X, posYHeader1[snapIndex]);
+				this->text_button_image->Text = gcnew String(str.data());
+				this->text_button_image->ForeColor = System::Drawing::Color::Green;
 
-				button_image->Location = System::Drawing::Point(button_image->Location.X, posYButtons[snapIndex]);
-				button_file->Location = System::Drawing::Point(button_file->Location.X, posYButtons[snapIndex]);
-				button_go->Location = System::Drawing::Point(button_go->Location.X, posYButtons[snapIndex]);
+				strPos = str.find_last_of('.');
+				str.erase(0, strPos);
+				imageExt = str.c_str();
 
-				text_button_image->Location = System::Drawing::Point(text_button_image->Location.X, posYButtonText[snapIndex]);
-				text_button_file->Location = System::Drawing::Point(text_button_file->Location.X, posYButtonText[snapIndex]);
-				text_strength->Location = System::Drawing::Point(text_strength->Location.X, posYStrengthText[snapIndex]);
-				text_match->Location = System::Drawing::Point(text_match->Location.X, posYMatchText[snapIndex]);
+				imageSelected = true;
 
-				input_1->Location = System::Drawing::Point(input_1->Location.X, posYInput1[snapIndex]);
-				input_2->Location = System::Drawing::Point(input_2->Location.X, posYInput2[snapIndex]);
-
-				button_next1->Location = System::Drawing::Point(button_next1->Location.X, posYButtonNext1[snapIndex]);
-				button_next2->Location = System::Drawing::Point(button_next2->Location.X, posYButtonNext2[snapIndex]);
-
-				button_back1->Location = System::Drawing::Point(button_back1->Location.X, posYButtonBack1[snapIndex]);
-				button_back2->Location = System::Drawing::Point(button_back2->Location.X, posYButtonBack2[snapIndex]);
-
-				currentRegion = (transIncrement < 0 ? 3 : 1);
-
-				timer_scroll->Stop();
+				if (fileSelected)
+					this->button_go->Enabled = true;
 			}
 		}
-
-		// Translate from region 3
-		else if (currentRegion == 3)
+		private: System::Void button_file_Click(System::Object^ sender, System::EventArgs^ e)
 		{
-			header_1->Location = System::Drawing::Point(header_1->Location.X, header_1->Location.Y + transIncrement);
-			header_2->Location = System::Drawing::Point(header_2->Location.X, header_2->Location.Y + transIncrement);
-			header_3->Location = System::Drawing::Point(header_3->Location.X, header_3->Location.Y + transIncrement);
-			header_1_back->Location = System::Drawing::Point(header_1_back->Location.X, header_1_back->Location.Y + transIncrement);
+			OpenFileDialog^ openFileDialog1 = gcnew OpenFileDialog;
+			std::string str;
+			size_t strPos;
 
-			button_image->Location = System::Drawing::Point(button_image->Location.X, button_image->Location.Y + transIncrement);
-			button_file->Location = System::Drawing::Point(button_file->Location.X, button_file->Location.Y + transIncrement);
-			button_go->Location = System::Drawing::Point(button_go->Location.X, button_go->Location.Y + transIncrement);
+			openFileDialog1->InitialDirectory = gcnew String(getenv("USERPROFILE"));
+			openFileDialog1->Filter = "All files (*.*)|*.*";
+			openFileDialog1->FilterIndex = 2;
+			openFileDialog1->RestoreDirectory = true;
 
-			text_button_image->Location = System::Drawing::Point(text_button_image->Location.X, text_button_image->Location.Y + transIncrement);
-			text_button_file->Location = System::Drawing::Point(text_button_file->Location.X, text_button_file->Location.Y + transIncrement);
-			text_strength->Location = System::Drawing::Point(text_strength->Location.X, text_strength->Location.Y + transIncrement);
-			text_match->Location = System::Drawing::Point(text_match->Location.X, text_match->Location.Y + transIncrement);
-
-			input_1->Location = System::Drawing::Point(input_1->Location.X, input_1->Location.Y + transIncrement);
-			input_2->Location = System::Drawing::Point(input_2->Location.X, input_2->Location.Y + transIncrement);
-
-			button_next1->Location = System::Drawing::Point(button_next1->Location.X, button_next1->Location.Y + transIncrement);
-			button_next2->Location = System::Drawing::Point(button_next2->Location.X, button_next2->Location.Y + transIncrement);
-
-			button_back1->Location = System::Drawing::Point(button_back1->Location.X, button_back1->Location.Y + transIncrement);
-			button_back2->Location = System::Drawing::Point(button_back2->Location.X, button_back2->Location.Y + transIncrement);
-
-			// Snap y-positions and update region
-			if (header_2->Location.Y >= posYHeader2[1])
+			if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
 			{
-				header_1->Location = System::Drawing::Point(header_1->Location.X, posYHeader1[1]);
-				header_2->Location = System::Drawing::Point(header_2->Location.X, posYHeader2[1]);
-				header_3->Location = System::Drawing::Point(header_3->Location.X, posYHeader3[1]);
-				header_1_back->Location = System::Drawing::Point(header_1_back->Location.X, posYHeader1[1]);
+				ConvertString(openFileDialog1->FileName, str);
+				filePath = str.c_str();
+				this->miragePtr->SetPath(MirageZip::Path::FILE, str);
+				strPos = str.find_last_of("\\");
+				str.erase(0, strPos + 1);
 
-				button_image->Location = System::Drawing::Point(button_image->Location.X, posYButtons[1]);
-				button_file->Location = System::Drawing::Point(button_file->Location.X, posYButtons[1]);
-				button_go->Location = System::Drawing::Point(button_go->Location.X, posYButtons[1]);
+				this->text_button_file->Text = gcnew String(str.data());
+				this->text_button_file->ForeColor = System::Drawing::Color::Green;
 
-				text_button_image->Location = System::Drawing::Point(text_button_image->Location.X, posYButtonText[1]);
-				text_button_file->Location = System::Drawing::Point(text_button_file->Location.X, posYButtonText[1]);
-				text_strength->Location = System::Drawing::Point(text_strength->Location.X, posYStrengthText[1]);
-				text_match->Location = System::Drawing::Point(text_match->Location.X, posYMatchText[1]);
+				fileSelected = true;
 
-				input_1->Location = System::Drawing::Point(input_1->Location.X, posYInput1[1]);
-				input_2->Location = System::Drawing::Point(input_2->Location.X, posYInput2[1]);
-
-				button_next1->Location = System::Drawing::Point(button_next1->Location.X, posYButtonNext1[1]);
-				button_next2->Location = System::Drawing::Point(button_next2->Location.X, posYButtonNext2[1]);
-
-				button_back1->Location = System::Drawing::Point(button_back1->Location.X, posYButtonBack1[1]);
-				button_back2->Location = System::Drawing::Point(button_back2->Location.X, posYButtonBack2[1]);
-
-				currentRegion = 2;
-
-				timer_scroll->Stop();
+				if (imageSelected)
+					this->button_go->Enabled = true;
 			}
 		}
-	}
-	private: System::Void button_image_Click(System::Object^ sender, System::EventArgs^ e)
-	{
-		OpenFileDialog^ openFileDialog1 = gcnew OpenFileDialog;
-		static std::string str;
-		size_t strPos;
-
-		openFileDialog1->InitialDirectory = gcnew String(getenv("USERPROFILE"));
-		openFileDialog1->Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;";
-		openFileDialog1->FilterIndex = 2;
-		openFileDialog1->RestoreDirectory = true;
-
-		if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+		private: System::Void input_1_TextChanged(System::Object^ sender, System::EventArgs^ e)
 		{
-			ConvertString(openFileDialog1->FileName, str);
-			imagePath = str.c_str();
-			this->miragePtr->SetPath(MirageZip::Path::IMAGE, str);
-			strPos = str.find_last_of("\\");
-			str.erase(0, strPos + 1);
+			// Determine password strength (todo)
+			if (this->input_1->Text->Length >= 1 && this->input_1->Text->Length < 8)
+			{
+				this->text_strength->Text = "Weak";
+				this->text_strength->ForeColor = System::Drawing::Color::Red;
+			}
 
-			this->text_button_image->Text = gcnew String(str.data());
-			this->text_button_image->ForeColor = System::Drawing::Color::Green;
+			else if (this->input_1->Text->Length >= 8 && this->input_1->Text->Length < 12)
+			{
+				this->text_strength->Text = "Fair";
+				this->text_strength->ForeColor = System::Drawing::Color::Orange;
+			}
 
-			strPos = str.find_last_of('.');
-			str.erase(0, strPos);
-			imageExt = str.c_str();
+			else if (this->input_1->Text->Length >= 12)
+			{
+				this->text_strength->Text = "Strong";
+				this->text_strength->ForeColor = System::Drawing::Color::Green;
+			}
 
-			imageSelected = true;
+			if (this->input_1->Text->Length > 0)
+				this->button_next1->Enabled = true;
 
-			if (fileSelected)
-				this->button_go->Enabled = true;
+			else
+			{
+				this->button_next1->Enabled = false;
+				this->text_strength->Text = "";
+			}
 		}
-	}
-	private: System::Void button_file_Click(System::Object^ sender, System::EventArgs^ e)
-	{
-		OpenFileDialog^ openFileDialog1 = gcnew OpenFileDialog;
-		std::string str;
-		size_t strPos;
-
-		openFileDialog1->InitialDirectory = gcnew String(getenv("USERPROFILE"));
-		openFileDialog1->Filter = "All files (*.*)|*.*";
-		openFileDialog1->FilterIndex = 2;
-		openFileDialog1->RestoreDirectory = true;
-
-		if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+		private: System::Void button_go_Click(System::Object^ sender, System::EventArgs^ e)
 		{
-			ConvertString(openFileDialog1->FileName, str);
-			filePath = str.c_str();
-			this->miragePtr->SetPath(MirageZip::Path::FILE, str);
-			strPos = str.find_last_of("\\");
-			str.erase(0, strPos + 1);
-
-			this->text_button_file->Text = gcnew String(str.data());
-			this->text_button_file->ForeColor = System::Drawing::Color::Green;
-
-			fileSelected = true;
-
-			if (imageSelected)
-				this->button_go->Enabled = true;
+			std::string filePath, filter;
+			filter = "Image Files|*";
+			filter += imageExt;
+			filter += ";";
+			this->header_1->Text = gcnew String(filter.data());
+			System::Windows::Forms::SaveFileDialog^ saveFileDialog1;
+			saveFileDialog1 = gcnew System::Windows::Forms::SaveFileDialog();
+			saveFileDialog1->Filter = gcnew String(filter.data());
+			System::Windows::Forms::DialogResult result = saveFileDialog1->ShowDialog();
+			if (result == System::Windows::Forms::DialogResult::OK)
+			{
+				ConvertString(saveFileDialog1->FileName, filePath);
+				exportPath = filePath.c_str();
+				this->miragePtr->SetPath(MirageZip::Path::EXPORT, filePath);
+				this->input_1->Text = "";
+				this->ActiveControl = input_1;
+				transIncrement = -20;
+				timer_scroll->Start();
+			}
 		}
-	}
-	private: System::Void input_1_TextChanged(System::Object^ sender, System::EventArgs^ e)
-	{
-		// Determine password strength (todo)
-		if (this->input_1->Text->Length >= 1 && this->input_1->Text->Length < 8)
+		private: System::Void button_back1_Click(System::Object^ sender, System::EventArgs^ e)
 		{
-			this->text_strength->Text = "Weak";
-			this->text_strength->ForeColor = System::Drawing::Color::Red;
+			transIncrement = 20;
+			timer_scroll->Start();
 		}
-
-		else if (this->input_1->Text->Length >= 8 && this->input_1->Text->Length < 12)
+		private: System::Void button_next1_Click(System::Object^ sender, System::EventArgs^ e)
 		{
-			this->text_strength->Text = "Fair";
-			this->text_strength->ForeColor = System::Drawing::Color::Orange;
-		}
-
-		else if (this->input_1->Text->Length >= 12)
-		{
-			this->text_strength->Text = "Strong";
-			this->text_strength->ForeColor = System::Drawing::Color::Green;
-		}
-
-		if (this->input_1->Text->Length > 0)
-			this->button_next1->Enabled = true;
-
-		else
-		{
-			this->button_next1->Enabled = false;
-			this->text_strength->Text = "";
-		}
-	}
-	private: System::Void button_go_Click(System::Object^ sender, System::EventArgs^ e)
-	{
-		std::string filePath, filter;
-		filter = "Image Files|*";
-		filter += imageExt;
-		filter += ";";
-		this->header_1->Text = gcnew String(filter.data());
-		System::Windows::Forms::SaveFileDialog^ saveFileDialog1;
-		saveFileDialog1 = gcnew System::Windows::Forms::SaveFileDialog();
-		saveFileDialog1->Filter = gcnew String(filter.data());
-		System::Windows::Forms::DialogResult result = saveFileDialog1->ShowDialog();
-		if (result == System::Windows::Forms::DialogResult::OK)
-		{
-			ConvertString(saveFileDialog1->FileName, filePath);
-			exportPath = filePath.c_str();
-			this->miragePtr->SetPath(MirageZip::Path::EXPORT, filePath);
-			this->input_1->Text = "";
-			this->ActiveControl = input_1;
+			std::string passwordData;
+			ConvertString(this->input_1->Text, passwordData);
+			password = passwordData.c_str();
+			this->input_2->Text = "";
+			this->ActiveControl = input_2;
 			transIncrement = -20;
 			timer_scroll->Start();
-
+		}
+		private: System::Void button_back2_Click(System::Object^ sender, System::EventArgs^ e)
+		{
+			this->input_2->Text = "";
+			this->ActiveControl = input_1;
+			transIncrement = 20;
+			timer_scroll->Start();
+		}
+		private: System::Void button_next2_Click(System::Object^ sender, System::EventArgs^ e)
+		{
 			this->miragePtr->ZipFile();
 		}
-	} //"Image Files|*.jpg;*.jpeg;*.png;*.gif;"
-	private: System::Void button_next1_Click(System::Object^ sender, System::EventArgs^ e)
-	{
-		std::string passwordData;
-		ConvertString(this->input_1->Text, passwordData);
-		password = passwordData.c_str();
-		this->input_2->Text = "";
-		this->ActiveControl = input_2;
-		transIncrement = -20;
-		timer_scroll->Start();
-	}
-	private: System::Void button_back1_Click(System::Object^ sender, System::EventArgs^ e)
-	{
-		transIncrement = 20;
-		timer_scroll->Start();
-	}
-	private: System::Void button_back2_Click(System::Object^ sender, System::EventArgs^ e)
-	{
-		this->input_2->Text = "";
-		this->ActiveControl = input_1;
-		transIncrement = 20;
-		timer_scroll->Start();
-	}
-	private: System::Void input_2_TextChanged(System::Object^ sender, System::EventArgs^ e)
-	{
-		if (this->input_2->Text == this->input_1->Text)
+		private: System::Void input_2_TextChanged(System::Object^ sender, System::EventArgs^ e)
 		{
-			this->text_match->Text = "Match";
-			this->text_match->ForeColor = System::Drawing::Color::Green;
-			this->button_next2->Enabled = true;
-		}
+			if (this->input_2->Text == this->input_1->Text)
+			{
+				passMatch = true;
+				this->text_match->Text = "Match";
+				this->text_match->ForeColor = System::Drawing::Color::Green;
+				this->button_next2->Enabled = true;
+			}
 
-		else
-		{
-			this->text_match->Text = "Different";
-			this->text_match->ForeColor = System::Drawing::Color::Red;
-			this->button_next2->Enabled = false;
-		}
+			else
+			{
+				passMatch = false;
+				this->text_match->Text = "Different";
+				this->text_match->ForeColor = System::Drawing::Color::Red;
+				this->button_next2->Enabled = false;
+			}
 
-		if (this->input_2->Text->Length < 1)
-			this->text_match->Text = "";
-	}
+			if (this->input_2->Text->Length < 1)
+				this->text_match->Text = "";
+		}
 	};
 }
 
