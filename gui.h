@@ -345,6 +345,7 @@ namespace Mirage
 			// 
 			// timer_anim
 			// 
+			this->timer_anim->Interval = 1;
 			this->timer_anim->Tick += gcnew System::EventHandler(this, &gui::timer_anim_Tick);
 			// 
 			// header_1_back
@@ -367,7 +368,7 @@ namespace Mirage
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::White;
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
-			this->ClientSize = System::Drawing::Size(850, 273);
+			this->ClientSize = System::Drawing::Size(850, 274);
 			this->Controls->Add(this->header_1_back);
 			this->Controls->Add(this->text_match);
 			this->Controls->Add(this->text_strength);
@@ -399,9 +400,20 @@ namespace Mirage
 
 		private: System::Void timer_anim_Tick(System::Object^ sender, System::EventArgs^ e)
 		{
-			static int currentFrame{ 0 };
+			static int currentFrame{ 0 },
+					ticks{ 0 };
 
-			this->header_1_back->Text = (currentFrame < 4 ? gcnew String(headerFrames[++currentFrame].data()) : gcnew String(headerFrames[currentFrame = 0].data()));
+			if (++ticks == 7)
+			{
+				this->header_1_back->Text = (currentFrame < 4 ? gcnew String(headerFrames[++currentFrame].data()) : gcnew String(headerFrames[currentFrame = 0].data()));
+				ticks = 0;
+			}
+
+			if (this->header_3->Text == "Confirmed password")
+			{
+				if (this->header_3->Location.Y >= 60 && this->header_3->Location.Y < 105)
+					this->header_3->Location = System::Drawing::Point(this->header_3->Location.X, this->header_3->Location.Y + 10);
+			}
 		}
 		private: System::Void timer_scroll_Tick(System::Object^ sender, System::EventArgs^ e)
 		{
@@ -719,6 +731,11 @@ namespace Mirage
 		}
 		private: System::Void button_next2_Click(System::Object^ sender, System::EventArgs^ e)
 		{
+			this->header_3->Text = "Confirmed password";
+			this->header_3->ForeColor = System::Drawing::Color::Green;
+			this->input_2->Visible = false;
+			this->button_next2->Visible = false;
+			this->text_match->Visible = false;
 			this->miragePtr->ZipFile();
 		}
 		private: System::Void input_2_TextChanged(System::Object^ sender, System::EventArgs^ e)
