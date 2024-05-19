@@ -2,6 +2,8 @@
 
 MirageZip::MirageZip()
 {
+    password = "\0";
+
     CreateAppData();
 }
 int MirageZip::CreateAppData()
@@ -25,11 +27,32 @@ int MirageZip::CreateAppData()
 
     return 0;
 }
+void MirageZip::SetPath(Path type, std::string path)
+{
+    switch (type)
+    {
+    case IMAGE:
+        imagePath = path;
+        break;
+
+    case FILE:
+        filePath = path;
+        break;
+
+    case EXPORT:
+        exportPath = path;
+    }
+}
+void MirageZip::SetPassword(std::string pw)
+{
+    password = pw;
+}
 int MirageZip::ZipFile()
 {
     // Create archive and open
+    std::string archivePath = workingDir + "\\archive.zip";
     int errCode = 0;
-    zip* archive = zip_open("archive.zip", ZIP_CREATE, &errCode);
+    zip* archive = zip_open(archivePath.c_str(), ZIP_CREATE, &errCode);
 
     // Open file, get size
     std::ifstream file(filePath, std::ios::binary);
@@ -62,6 +85,7 @@ int MirageZip::ZipFile()
 }
 int MirageZip::Concatenate()
 {
+    std::string zipPath{ workingDir + "\\archive.zip"};
     return 0;
 }
 MirageZip::~MirageZip()

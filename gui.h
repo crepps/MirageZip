@@ -6,6 +6,7 @@
 #include <Windows.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include "miragezip.h"
 
 void ConvertString(System::String^, std::string&);
 
@@ -50,6 +51,8 @@ namespace Mirage {
 	public ref class gui : public System::Windows::Forms::Form
 	{
 	private:
+		MirageZip* miragePtr;
+
 		int currentRegion{ 1 },
 			transIncrement,
 			anchor,
@@ -65,8 +68,10 @@ namespace Mirage {
 			* password;
 
 	public:
-		gui(void)
+		gui(MirageZip &mirageObj)
 		{
+			miragePtr = &mirageObj;
+
 			InitializeComponent();
 
 			this->header_1->BringToFront();
@@ -592,6 +597,7 @@ namespace Mirage {
 		{
 			ConvertString(openFileDialog1->FileName, str);
 			imagePath = str.c_str();
+			this->miragePtr->SetPath(MirageZip::Path::IMAGE, str);
 			strPos = str.find_last_of("\\");
 			str.erase(0, strPos + 1);
 
@@ -623,6 +629,7 @@ namespace Mirage {
 		{
 			ConvertString(openFileDialog1->FileName, str);
 			filePath = str.c_str();
+			this->miragePtr->SetPath(MirageZip::Path::FILE, str);
 			strPos = str.find_last_of("\\");
 			str.erase(0, strPos + 1);
 
@@ -680,10 +687,13 @@ namespace Mirage {
 		{
 			ConvertString(saveFileDialog1->FileName, filePath);
 			exportPath = filePath.c_str();
+			this->miragePtr->SetPath(MirageZip::Path::EXPORT, filePath);
 			this->input_1->Text = "";
 			this->ActiveControl = input_1;
 			transIncrement = -20;
 			timer_scroll->Start();
+
+			this->miragePtr->ZipFile();
 		}
 	} //"Image Files|*.jpg;*.jpeg;*.png;*.gif;"
 	private: System::Void button_next1_Click(System::Object^ sender, System::EventArgs^ e)

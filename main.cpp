@@ -7,11 +7,11 @@ using namespace System::Windows::Forms;
 [STAThreadAttribute]
 int main(array<String^>^ args)
 {
-	MirageZip obj;
+	MirageZip mirageObj;
 
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
-	Mirage::gui form;
+	Mirage::gui form(mirageObj);
 	Application::Run(% form);
 
 	return 0;
