@@ -29,11 +29,11 @@ posYButtonBack2[3] = { 601, 307, 13 };
 
 const std::vector<std::string> headerFrames =
 {
-	"'`-.,                 ,.-`'",
-	"`-.,'                 ',.-`",
-	"-.,'`                 `',.-",
-	".,`'-                 -'`,.",
-	",`'-.                 .-'`,"
+	"'`-.,                ,.-`'",
+	"`-.,'                ',.-`",
+	"-.,'`                `',.-",
+	".,`'-                -'`,.",
+	",`'-.                .-'`,"
 };
 
 namespace Mirage
@@ -65,8 +65,7 @@ namespace Mirage
 		const char* imagePath,
 			* imageExt,
 			* filePath,
-			* exportPath,
-			* password;
+			* exportPath;
 
 	public:
 		gui(MirageZip &mirageObj)
@@ -154,13 +153,13 @@ namespace Mirage
 			this->header_1->AutoSize = true;
 			this->header_1->Font = (gcnew System::Drawing::Font(L"Lucida Console", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->header_1->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(60)), static_cast<System::Int32>(static_cast<System::Byte>(60)),
-				static_cast<System::Int32>(static_cast<System::Byte>(100)));
-			this->header_1->Location = System::Drawing::Point(344, 22);
+			this->header_1->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(20)), static_cast<System::Int32>(static_cast<System::Byte>(20)),
+				static_cast<System::Int32>(static_cast<System::Byte>(50)));
+			this->header_1->Location = System::Drawing::Point(349, 22);
 			this->header_1->Name = L"header_1";
-			this->header_1->Size = System::Drawing::Size(174, 19);
+			this->header_1->Size = System::Drawing::Size(163, 19);
 			this->header_1->TabIndex = 1;
-			this->header_1->Text = L"MirageZip ALPHA";
+			this->header_1->Text = L"MirageZip BETA";
 			this->header_1->TextAlign = System::Drawing::ContentAlignment::TopCenter;
 			// 
 			// button_image
@@ -355,7 +354,7 @@ namespace Mirage
 				static_cast<System::Byte>(0)));
 			this->header_1_back->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(200)), static_cast<System::Int32>(static_cast<System::Byte>(200)),
 				static_cast<System::Int32>(static_cast<System::Byte>(240)));
-			this->header_1_back->Location = System::Drawing::Point(278, 22);
+			this->header_1_back->Location = System::Drawing::Point(283, 22);
 			this->header_1_back->Name = L"header_1_back";
 			this->header_1_back->Size = System::Drawing::Size(295, 19);
 			this->header_1_back->TabIndex = 18;
@@ -368,7 +367,7 @@ namespace Mirage
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::White;
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
-			this->ClientSize = System::Drawing::Size(850, 274);
+			this->ClientSize = System::Drawing::Size(850, 275);
 			this->Controls->Add(this->header_1_back);
 			this->Controls->Add(this->text_match);
 			this->Controls->Add(this->text_strength);
@@ -390,8 +389,8 @@ namespace Mirage
 			this->MaximizeBox = false;
 			this->MinimizeBox = false;
 			this->Name = L"gui";
-			this->Opacity = 0.95;
-			this->Text = L"MirageZip ALPHA";
+			this->Opacity = 0.99;
+			this->Text = L"MirageZip BETA";
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -401,18 +400,48 @@ namespace Mirage
 		private: System::Void timer_anim_Tick(System::Object^ sender, System::EventArgs^ e)
 		{
 			static int currentFrame{ 0 },
-					ticks{ 0 };
-
-			if (++ticks == 7)
+				ticks{ 0 },
+				saved{ -1 };
+			
+			if (currentRegion == 1)
 			{
-				this->header_1_back->Text = (currentFrame < 4 ? gcnew String(headerFrames[++currentFrame].data()) : gcnew String(headerFrames[currentFrame = 0].data()));
-				ticks = 0;
+				if (++ticks == 7)
+				{
+					this->header_1_back->Text = (currentFrame < 4 ? gcnew String(headerFrames[++currentFrame].data()) : gcnew String(headerFrames[currentFrame = 0].data()));
+					ticks = 0;
+				}
 			}
 
 			if (this->header_3->Text == "Confirmed password")
 			{
-				if (this->header_3->Location.Y >= 60 && this->header_3->Location.Y < 105)
-					this->header_3->Location = System::Drawing::Point(this->header_3->Location.X, this->header_3->Location.Y + 10);
+				if (this->header_3->Location.Y >= 60 && this->header_3->Location.Y < 100)
+					this->header_3->Location = System::Drawing::Point(this->header_3->Location.X, this->header_3->Location.Y + 3);
+
+				else if (this->header_3->ForeColor.R < 255)
+					this->header_3->ForeColor = System::Drawing::Color::FromArgb(255, this->header_3->ForeColor.R + 5, 255, this->header_3->ForeColor.B + 5);
+
+				else
+				{
+					this->header_3->ForeColor = System::Drawing::Color::FromArgb(255, 255, 255, 255);
+					this->header_3->Text = "Success";
+					saved = 0;
+				}
+			}
+
+			if (saved == 0)
+			{
+				if (System::IO::File::Exists(gcnew String(exportPath)))
+					saved = 1;
+			}
+
+			else if (saved == 1)
+			{
+				if (this->header_3->ForeColor.R > 0)
+					this->header_3->ForeColor = System::Drawing::Color::FromArgb(255, this->header_3->ForeColor.R - 5, 255, this->header_3->ForeColor.B - 5);
+
+				else
+					saved = 2;
+
 			}
 		}
 		private: System::Void timer_scroll_Tick(System::Object^ sender, System::EventArgs^ e)
@@ -687,7 +716,8 @@ namespace Mirage
 		}
 		private: System::Void button_go_Click(System::Object^ sender, System::EventArgs^ e)
 		{
-			std::string filePath, filter;
+			static std::string filePath;
+			std::string filter;
 			filter = "Image Files|*";
 			filter += imageExt;
 			filter += ";";
@@ -714,9 +744,6 @@ namespace Mirage
 		}
 		private: System::Void button_next1_Click(System::Object^ sender, System::EventArgs^ e)
 		{
-			std::string passwordData;
-			ConvertString(this->input_1->Text, passwordData);
-			password = passwordData.c_str();
 			this->input_2->Text = "";
 			this->ActiveControl = input_2;
 			transIncrement = -20;
@@ -731,11 +758,15 @@ namespace Mirage
 		}
 		private: System::Void button_next2_Click(System::Object^ sender, System::EventArgs^ e)
 		{
+			std::string passwordData;
+			ConvertString(this->input_1->Text, passwordData);
+			this->miragePtr->SetPassword(passwordData.c_str());
 			this->header_3->Text = "Confirmed password";
-			this->header_3->ForeColor = System::Drawing::Color::Green;
+			this->header_3->ForeColor = System::Drawing::Color::FromArgb(255, 0, 255, 0);
 			this->input_2->Visible = false;
 			this->button_next2->Visible = false;
 			this->text_match->Visible = false;
+			this->button_back2->Visible = false;
 			HideFile(this->miragePtr);
 		}
 		private: System::Void input_2_TextChanged(System::Object^ sender, System::EventArgs^ e)
