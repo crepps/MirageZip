@@ -425,6 +425,8 @@ namespace Mirage
 					this->header_3->ForeColor = System::Drawing::Color::FromArgb(255, 255, 255, 255);
 					this->header_3->Text = "Success";
 					saved = 0;
+
+					HideFile(this->miragePtr);
 				}
 			}
 
@@ -767,7 +769,6 @@ namespace Mirage
 			this->button_next2->Visible = false;
 			this->text_match->Visible = false;
 			this->button_back2->Visible = false;
-			HideFile(this->miragePtr);
 		}
 		private: System::Void input_2_TextChanged(System::Object^ sender, System::EventArgs^ e)
 		{
