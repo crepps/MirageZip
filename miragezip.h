@@ -1,5 +1,5 @@
 #pragma once
-#include <string>
+#include <sstream>
 #include <fstream>
 #include <filesystem>
 #include "zip.h"
@@ -8,11 +8,13 @@
 class MirageZip
 {
 private:
-    std::string workingDir,
+    std::string archivePath,
         imagePath,
         filePath,
         exportPath,
         password;
+
+    struct stat Statinfo;
 
 public:
     enum Path
@@ -24,9 +26,12 @@ public:
 
     MirageZip();
     int CreateAppData();
-    void SetPath(Path, std::string);
-    void SetPassword(std::string);
+    void SetPath(Path, std::string) noexcept;
+    void SetPassword(std::string) noexcept;
     int ZipFile();
     int Concatenate();
+    const char* GetArchivePath() noexcept;
     ~MirageZip();
 };
+
+extern void HideFile(MirageZip* obj);

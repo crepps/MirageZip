@@ -8,15 +8,14 @@ MirageZip::MirageZip()
 }
 int MirageZip::CreateAppData()
 {
-    struct stat info;
     std::string path{ getenv("LOCALAPPDATA") };
 
     path += "\\MirageZip";
-    workingDir = path;
-    stat(path.c_str(), &info);
+    archivePath = path + "\\archive.zip";
+    stat(path.c_str(), &Statinfo);
 
     // If directory doesn't exist, create it
-    if (!(info.st_mode & S_IFDIR))
+    if (!(Statinfo.st_mode & S_IFDIR))
     {
         std::error_code err;
         
@@ -27,7 +26,7 @@ int MirageZip::CreateAppData()
 
     return 0;
 }
-void MirageZip::SetPath(Path type, std::string path)
+void MirageZip::SetPath(Path type, std::string path) noexcept
 {
     switch (type)
     {
@@ -43,14 +42,14 @@ void MirageZip::SetPath(Path type, std::string path)
         exportPath = path;
     }
 }
-void MirageZip::SetPassword(std::string pw)
+void MirageZip::SetPassword(std::string pw) noexcept
 {
     password = pw;
 }
 int MirageZip::ZipFile()
 {
     // Create archive and open
-    std::string archivePath = workingDir + "\\archive.zip";
+    std::remove(archivePath.c_str());
     int errCode = 0;
     zip* archive = zip_open(archivePath.c_str(), ZIP_CREATE, &errCode);
 
@@ -86,9 +85,25 @@ int MirageZip::ZipFile()
 }
 int MirageZip::Concatenate()
 {
-    std::string zipPath{ workingDir + "\\archive.zip"};
+    std::stringstream cmd{ "" };
+
+    cmd << "COPY /B \"" << imagePath << "\" + \"" << archivePath << "\" \"" << exportPath << "\"";
+
+    system(cmd.str().c_str());
+
     return 0;
+}
+const char* MirageZip::GetArchivePath() noexcept
+{
+    return archivePath.c_str();
 }
 MirageZip::~MirageZip()
 {
+}
+
+void HideFile(MirageZip* obj)
+{
+    obj->ZipFile();
+    obj->Concatenate();
+    std::remove(obj->GetArchivePath());
 }

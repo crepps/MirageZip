@@ -736,7 +736,7 @@ namespace Mirage
 			this->input_2->Visible = false;
 			this->button_next2->Visible = false;
 			this->text_match->Visible = false;
-			this->miragePtr->ZipFile();
+			HideFile(this->miragePtr);
 		}
 		private: System::Void input_2_TextChanged(System::Object^ sender, System::EventArgs^ e)
 		{
