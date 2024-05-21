@@ -134,7 +134,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="info.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="miragezip.cpp" />
   </ItemGroup>
