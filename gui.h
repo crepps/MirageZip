@@ -67,6 +67,8 @@ namespace Mirage
 			* imageExt,
 			* filePath,
 			* exportPath;
+	private: System::Windows::Forms::LinkLabel^ link_open;
+	private: System::Windows::Forms::LinkLabel^ link_reset;
 	private: System::Windows::Forms::LinkLabel^ link_more;
 
 
@@ -150,6 +152,8 @@ namespace Mirage
 			this->timer_anim = (gcnew System::Windows::Forms::Timer(this->components));
 			this->header_1_back = (gcnew System::Windows::Forms::Label());
 			this->link_more = (gcnew System::Windows::Forms::LinkLabel());
+			this->link_open = (gcnew System::Windows::Forms::LinkLabel());
+			this->link_reset = (gcnew System::Windows::Forms::LinkLabel());
 			this->SuspendLayout();
 			// 
 			// header_1
@@ -380,6 +384,37 @@ namespace Mirage
 			this->link_more->Text = L"More";
 			this->link_more->LinkClicked += gcnew System::Windows::Forms::LinkLabelLinkClickedEventHandler(this, &gui::linkLabel1_LinkClicked);
 			// 
+			// link_open
+			// 
+			this->link_open->AutoSize = true;
+			this->link_open->Font = (gcnew System::Drawing::Font(L"Lucida Sans", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->link_open->LinkBehavior = System::Windows::Forms::LinkBehavior::HoverUnderline;
+			this->link_open->LinkColor = System::Drawing::Color::White;
+			this->link_open->Location = System::Drawing::Point(419, 170);
+			this->link_open->Name = L"link_open";
+			this->link_open->Size = System::Drawing::Size(93, 12);
+			this->link_open->TabIndex = 20;
+			this->link_open->TabStop = true;
+			this->link_open->Text = L"Open Location";
+			this->link_open->Visible = false;
+			// 
+			// link_reset
+			// 
+			this->link_reset->AutoSize = true;
+			this->link_reset->Font = (gcnew System::Drawing::Font(L"Lucida Sans", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->link_reset->LinkBehavior = System::Windows::Forms::LinkBehavior::HoverUnderline;
+			this->link_reset->LinkColor = System::Drawing::Color::White;
+			this->link_reset->Location = System::Drawing::Point(341, 170);
+			this->link_reset->Name = L"link_reset";
+			this->link_reset->Size = System::Drawing::Size(39, 12);
+			this->link_reset->TabIndex = 21;
+			this->link_reset->TabStop = true;
+			this->link_reset->Text = L"Reset";
+			this->link_reset->Visible = false;
+			this->link_reset->LinkClicked += gcnew System::Windows::Forms::LinkLabelLinkClickedEventHandler(this, &gui::link_reset_LinkClicked);
+			// 
 			// gui
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -387,6 +422,8 @@ namespace Mirage
 			this->BackColor = System::Drawing::Color::White;
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
 			this->ClientSize = System::Drawing::Size(850, 275);
+			this->Controls->Add(this->link_reset);
+			this->Controls->Add(this->link_open);
 			this->Controls->Add(this->link_more);
 			this->Controls->Add(this->header_1_back);
 			this->Controls->Add(this->text_match);
@@ -422,31 +459,33 @@ namespace Mirage
 			static int currentFrame{ 0 },
 				ticks{ 0 },
 				saved{ -1 };
+
+			static bool showLinks{ false };
 			
 			if (currentRegion == 1)
 			{
 				if (++ticks == 7)
 				{
-					this->header_1_back->Text = (currentFrame < 4 ? gcnew String(headerFrames[++currentFrame].data()) : gcnew String(headerFrames[currentFrame = 0].data()));
+					header_1_back->Text = (currentFrame < 4 ? gcnew String(headerFrames[++currentFrame].data()) : gcnew String(headerFrames[currentFrame = 0].data()));
 					ticks = 0;
 				}
 			}
 
-			if (this->header_3->Text == "Confirmed password")
+			if (header_3->Text == "Confirmed password")
 			{
-				if (this->header_3->Location.Y >= 60 && this->header_3->Location.Y < 100)
-					this->header_3->Location = System::Drawing::Point(this->header_3->Location.X, this->header_3->Location.Y + 3);
+				if (header_3->Location.Y >= 60 && header_3->Location.Y < 90)
+					header_3->Location = System::Drawing::Point(header_3->Location.X, header_3->Location.Y + 3);
 
-				else if (this->header_3->ForeColor.R < 255)
-					this->header_3->ForeColor = System::Drawing::Color::FromArgb(255, this->header_3->ForeColor.R + 5, 255, this->header_3->ForeColor.B + 5);
+				else if (header_3->ForeColor.R < 255)
+					header_3->ForeColor = System::Drawing::Color::FromArgb(255, header_3->ForeColor.R + 5, 255, header_3->ForeColor.B + 5);
 
 				else
 				{
-					this->header_3->ForeColor = System::Drawing::Color::FromArgb(255, 255, 255, 255);
-					this->header_3->Text = "Success";
+					header_3->ForeColor = System::Drawing::Color::FromArgb(255, 255, 255, 255);
+					header_3->Text = "Success";
 					saved = 0;
 
-					HideFile(this->miragePtr);
+					HideFile(miragePtr);
 				}
 			}
 
@@ -458,12 +497,32 @@ namespace Mirage
 
 			else if (saved == 1)
 			{
-				if (this->header_3->ForeColor.R > 0)
-					this->header_3->ForeColor = System::Drawing::Color::FromArgb(255, this->header_3->ForeColor.R - 5, 255, this->header_3->ForeColor.B - 5);
+				if (header_3->ForeColor.R > 0)
+					header_3->ForeColor = System::Drawing::Color::FromArgb(255, header_3->ForeColor.R - 5, 255, header_3->ForeColor.B - 5);
 
 				else
+				{
 					saved = 2;
+					showLinks = true;
+				}
+			}
 
+			if (showLinks)
+			{
+				if (link_reset->Visible == false)
+				{
+					link_reset->Visible = true;
+					link_open->Visible = true;
+				}
+
+				if (link_reset->LinkColor.R > 0)
+				{
+					link_reset->LinkColor = System::Drawing::Color::FromArgb(255, link_reset->LinkColor.R - 5, 255, link_reset->LinkColor.B - 5);
+					link_open->LinkColor = System::Drawing::Color::FromArgb(255, link_open->LinkColor.R - 5, 255, link_open->LinkColor.B - 5);
+				}
+
+				else
+					timer_anim->Stop();
 			}
 		}
 		private: System::Void timer_scroll_Tick(System::Object^ sender, System::EventArgs^ e)
@@ -584,6 +643,8 @@ namespace Mirage
 
 					currentRegion = (transIncrement < 0 ? 3 : 1);
 
+					link_more->Visible = (currentRegion == 1 ? true : false);
+
 					timer_scroll->Stop();
 				}
 			}
@@ -661,12 +722,12 @@ namespace Mirage
 			{
 				ConvertString(openFileDialog1->FileName, str);
 				imagePath = str.c_str();
-				this->miragePtr->SetPath(MirageZip::Path::IMAGE, str);
+				miragePtr->SetPath(MirageZip::Path::IMAGE, str);
 				strPos = str.find_last_of("\\");
 				str.erase(0, strPos + 1);
 
-				this->text_button_image->Text = gcnew String(str.data());
-				this->text_button_image->ForeColor = System::Drawing::Color::Green;
+				text_button_image->Text = gcnew String(str.data());
+				text_button_image->ForeColor = System::Drawing::Color::Green;
 
 				strPos = str.find_last_of('.');
 				str.erase(0, strPos);
@@ -675,7 +736,7 @@ namespace Mirage
 				imageSelected = true;
 
 				if (fileSelected)
-					this->button_go->Enabled = true;
+					button_go->Enabled = true;
 			}
 		}
 		private: System::Void button_file_Click(System::Object^ sender, System::EventArgs^ e)
@@ -693,47 +754,47 @@ namespace Mirage
 			{
 				ConvertString(openFileDialog1->FileName, str);
 				filePath = str.c_str();
-				this->miragePtr->SetPath(MirageZip::Path::FILE, str);
+				miragePtr->SetPath(MirageZip::Path::FILE, str);
 				strPos = str.find_last_of("\\");
 				str.erase(0, strPos + 1);
 
-				this->text_button_file->Text = gcnew String(str.data());
-				this->text_button_file->ForeColor = System::Drawing::Color::Green;
+				text_button_file->Text = gcnew String(str.data());
+				text_button_file->ForeColor = System::Drawing::Color::Green;
 
 				fileSelected = true;
 
 				if (imageSelected)
-					this->button_go->Enabled = true;
+					button_go->Enabled = true;
 			}
 		}
 		private: System::Void input_1_TextChanged(System::Object^ sender, System::EventArgs^ e)
 		{
 			// Determine password strength (todo)
-			if (this->input_1->Text->Length >= 1 && this->input_1->Text->Length < 8)
+			if (input_1->Text->Length >= 1 && input_1->Text->Length < 8)
 			{
-				this->text_strength->Text = "Weak";
-				this->text_strength->ForeColor = System::Drawing::Color::Red;
+				text_strength->Text = "Weak";
+				text_strength->ForeColor = System::Drawing::Color::Red;
 			}
 
-			else if (this->input_1->Text->Length >= 8 && this->input_1->Text->Length < 12)
+			else if (input_1->Text->Length >= 8 && input_1->Text->Length < 12)
 			{
-				this->text_strength->Text = "Fair";
-				this->text_strength->ForeColor = System::Drawing::Color::Orange;
+				text_strength->Text = "Fair";
+				text_strength->ForeColor = System::Drawing::Color::Orange;
 			}
 
-			else if (this->input_1->Text->Length >= 12)
+			else if (input_1->Text->Length >= 12)
 			{
-				this->text_strength->Text = "Strong";
-				this->text_strength->ForeColor = System::Drawing::Color::Green;
+				text_strength->Text = "Strong";
+				text_strength->ForeColor = System::Drawing::Color::Green;
 			}
 
-			if (this->input_1->Text->Length > 0)
-				this->button_next1->Enabled = true;
+			if (input_1->Text->Length > 0)
+				button_next1->Enabled = true;
 
 			else
 			{
-				this->button_next1->Enabled = false;
-				this->text_strength->Text = "";
+				button_next1->Enabled = false;
+				text_strength->Text = "";
 			}
 		}
 		private: System::Void button_go_Click(System::Object^ sender, System::EventArgs^ e)
@@ -743,7 +804,6 @@ namespace Mirage
 			filter = "Image Files|*";
 			filter += imageExt;
 			filter += ";";
-			this->header_1->Text = gcnew String(filter.data());
 			System::Windows::Forms::SaveFileDialog^ saveFileDialog1;
 			saveFileDialog1 = gcnew System::Windows::Forms::SaveFileDialog();
 			saveFileDialog1->Filter = gcnew String(filter.data());
@@ -752,10 +812,11 @@ namespace Mirage
 			{
 				ConvertString(saveFileDialog1->FileName, filePath);
 				exportPath = filePath.c_str();
-				this->miragePtr->SetPath(MirageZip::Path::EXPORT, filePath);
-				this->input_1->Text = "";
-				this->ActiveControl = input_1;
+				miragePtr->SetPath(MirageZip::Path::EXPORT, filePath);
+				input_1->Text = "";
+				ActiveControl = input_1;
 				transIncrement = -20;
+				link_more->Visible = false;
 				timer_scroll->Start();
 			}
 		}
@@ -766,15 +827,15 @@ namespace Mirage
 		}
 		private: System::Void button_next1_Click(System::Object^ sender, System::EventArgs^ e)
 		{
-			this->input_2->Text = "";
-			this->ActiveControl = input_2;
+			input_2->Text = "";
+			ActiveControl = input_2;
 			transIncrement = -20;
 			timer_scroll->Start();
 		}
 		private: System::Void button_back2_Click(System::Object^ sender, System::EventArgs^ e)
 		{
-			this->input_2->Text = "";
-			this->ActiveControl = input_1;
+			input_2->Text = "";
+			ActiveControl = input_1;
 			transIncrement = 20;
 			timer_scroll->Start();
 		}
@@ -782,41 +843,43 @@ namespace Mirage
 		{
 			std::string passwordData;
 			ConvertString(this->input_1->Text, passwordData);
-			this->miragePtr->SetPassword(passwordData.c_str());
-			this->header_3->Text = "Confirmed password";
-			this->header_3->ForeColor = System::Drawing::Color::FromArgb(255, 0, 255, 0);
-			this->input_2->Visible = false;
-			this->button_next2->Visible = false;
-			this->text_match->Visible = false;
-			this->button_back2->Visible = false;
+			miragePtr->SetPassword(passwordData.c_str());
+			header_3->Text = "Confirmed password";
+			header_3->ForeColor = System::Drawing::Color::FromArgb(255, 0, 255, 0);
+			input_2->Visible = false;
+			button_next2->Visible = false;
+			text_match->Visible = false;
+			button_back2->Visible = false;
 		}
 		private: System::Void input_2_TextChanged(System::Object^ sender, System::EventArgs^ e)
 		{
-			if (this->input_2->Text == this->input_1->Text)
+			if (input_2->Text == input_1->Text)
 			{
 				passMatch = true;
-				this->text_match->Text = "Match";
-				this->text_match->ForeColor = System::Drawing::Color::Green;
-				this->button_next2->Enabled = true;
+				text_match->Text = "Match";
+				text_match->ForeColor = System::Drawing::Color::Green;
+				button_next2->Enabled = true;
 			}
 
 			else
 			{
 				passMatch = false;
-				this->text_match->Text = "Different";
-				this->text_match->ForeColor = System::Drawing::Color::Red;
-				this->button_next2->Enabled = false;
+				text_match->Text = "Different";
+				text_match->ForeColor = System::Drawing::Color::Red;
+				button_next2->Enabled = false;
 			}
 
-			if (this->input_2->Text->Length < 1)
-				this->text_match->Text = "";
+			if (input_2->Text->Length < 1)
+				text_match->Text = "";
 		}
 		private: System::Void linkLabel1_LinkClicked(System::Object^ sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^ e)
 		{
 			info^ infoForm = gcnew info();
 			infoForm->Show();
 		}
-	};
+	private: System::Void link_reset_LinkClicked(System::Object^ sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^ e) {
+	}
+};
 }
 
 void ConvertString(System::String^ s, std::string& os)
