@@ -134,6 +134,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="info.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="miragezip.cpp" />
   </ItemGroup>
@@ -141,11 +142,17 @@
     <ClInclude Include="gui.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="info.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="miragezip.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gui.resx">
       <DependentUpon>gui.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="info.resx">
+      <DependentUpon>info.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

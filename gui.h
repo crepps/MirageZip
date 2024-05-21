@@ -6,6 +6,7 @@
 #include <Windows.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include "info.h"
 #include "miragezip.h"
 
 void ConvertString(System::String^, std::string&);
@@ -66,6 +67,8 @@ namespace Mirage
 			* imageExt,
 			* filePath,
 			* exportPath;
+	private: System::Windows::Forms::LinkLabel^ link_more;
+
 
 	public:
 		gui(MirageZip &mirageObj)
@@ -146,6 +149,7 @@ namespace Mirage
 			this->text_match = (gcnew System::Windows::Forms::Label());
 			this->timer_anim = (gcnew System::Windows::Forms::Timer(this->components));
 			this->header_1_back = (gcnew System::Windows::Forms::Label());
+			this->link_more = (gcnew System::Windows::Forms::LinkLabel());
 			this->SuspendLayout();
 			// 
 			// header_1
@@ -361,6 +365,21 @@ namespace Mirage
 			this->header_1_back->Text = L"\'`-.,                ,.-`\'";
 			this->header_1_back->TextAlign = System::Drawing::ContentAlignment::TopCenter;
 			// 
+			// link_more
+			// 
+			this->link_more->AutoSize = true;
+			this->link_more->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->link_more->LinkColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(64)),
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
+			this->link_more->Location = System::Drawing::Point(786, 22);
+			this->link_more->Name = L"link_more";
+			this->link_more->Size = System::Drawing::Size(31, 13);
+			this->link_more->TabIndex = 19;
+			this->link_more->TabStop = true;
+			this->link_more->Text = L"More";
+			this->link_more->LinkClicked += gcnew System::Windows::Forms::LinkLabelLinkClickedEventHandler(this, &gui::linkLabel1_LinkClicked);
+			// 
 			// gui
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -368,6 +387,7 @@ namespace Mirage
 			this->BackColor = System::Drawing::Color::White;
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
 			this->ClientSize = System::Drawing::Size(850, 275);
+			this->Controls->Add(this->link_more);
 			this->Controls->Add(this->header_1_back);
 			this->Controls->Add(this->text_match);
 			this->Controls->Add(this->text_strength);
@@ -790,6 +810,11 @@ namespace Mirage
 
 			if (this->input_2->Text->Length < 1)
 				this->text_match->Text = "";
+		}
+		private: System::Void linkLabel1_LinkClicked(System::Object^ sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^ e)
+		{
+			info^ infoForm = gcnew info();
+			infoForm->Show();
 		}
 	};
 }

@@ -21,12 +21,18 @@
     <ClInclude Include="miragezip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="info.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="miragezip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="info.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
