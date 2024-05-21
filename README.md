@@ -1,6 +1,6 @@
 # MirageZip
 
-A utility for hiding files inside of images to provide security through obscurity, as well as password protection using 256-bit AES encryption. This is done by simply appending your files' (compressed) data to that of the selected image's binary data.
+A utility for hiding files inside of images to provide security through obscurity, as well as password protection using 256-bit AES encryption. This is done by simply appending your file's (compressed) data to the selected image's binary data.
 
 1. Select the image in which you would like to hide your file (.jpg, .jpeg, .png, .bmp, .gif or .pdf).
 
