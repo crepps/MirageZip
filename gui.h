@@ -69,6 +69,8 @@ namespace Mirage
 			* exportPath;
 	private: System::Windows::Forms::LinkLabel^ link_open;
 	private: System::Windows::Forms::LinkLabel^ link_reset;
+	private: System::Windows::Forms::LinkLabel^ link_divider;
+
 	private: System::Windows::Forms::LinkLabel^ link_more;
 
 
@@ -154,6 +156,7 @@ namespace Mirage
 			this->link_more = (gcnew System::Windows::Forms::LinkLabel());
 			this->link_open = (gcnew System::Windows::Forms::LinkLabel());
 			this->link_reset = (gcnew System::Windows::Forms::LinkLabel());
+			this->link_divider = (gcnew System::Windows::Forms::LinkLabel());
 			this->SuspendLayout();
 			// 
 			// header_1
@@ -387,13 +390,13 @@ namespace Mirage
 			// link_open
 			// 
 			this->link_open->AutoSize = true;
-			this->link_open->Font = (gcnew System::Drawing::Font(L"Lucida Sans", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->link_open->Font = (gcnew System::Drawing::Font(L"Candara", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->link_open->LinkBehavior = System::Windows::Forms::LinkBehavior::HoverUnderline;
 			this->link_open->LinkColor = System::Drawing::Color::White;
-			this->link_open->Location = System::Drawing::Point(419, 170);
+			this->link_open->Location = System::Drawing::Point(412, 164);
 			this->link_open->Name = L"link_open";
-			this->link_open->Size = System::Drawing::Size(93, 12);
+			this->link_open->Size = System::Drawing::Size(83, 14);
 			this->link_open->TabIndex = 20;
 			this->link_open->TabStop = true;
 			this->link_open->Text = L"Open Location";
@@ -402,18 +405,38 @@ namespace Mirage
 			// link_reset
 			// 
 			this->link_reset->AutoSize = true;
-			this->link_reset->Font = (gcnew System::Drawing::Font(L"Lucida Sans", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->link_reset->Font = (gcnew System::Drawing::Font(L"Candara", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->link_reset->LinkBehavior = System::Windows::Forms::LinkBehavior::HoverUnderline;
 			this->link_reset->LinkColor = System::Drawing::Color::White;
-			this->link_reset->Location = System::Drawing::Point(341, 170);
+			this->link_reset->Location = System::Drawing::Point(357, 164);
 			this->link_reset->Name = L"link_reset";
-			this->link_reset->Size = System::Drawing::Size(39, 12);
+			this->link_reset->Size = System::Drawing::Size(35, 14);
 			this->link_reset->TabIndex = 21;
 			this->link_reset->TabStop = true;
 			this->link_reset->Text = L"Reset";
 			this->link_reset->Visible = false;
 			this->link_reset->LinkClicked += gcnew System::Windows::Forms::LinkLabelLinkClickedEventHandler(this, &gui::link_reset_LinkClicked);
+			// 
+			// link_divider
+			// 
+			this->link_divider->ActiveLinkColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(230)),
+				static_cast<System::Int32>(static_cast<System::Byte>(230)), static_cast<System::Int32>(static_cast<System::Byte>(230)));
+			this->link_divider->AutoSize = true;
+			this->link_divider->DisabledLinkColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(230)),
+				static_cast<System::Int32>(static_cast<System::Byte>(230)), static_cast<System::Int32>(static_cast<System::Byte>(230)));
+			this->link_divider->Font = (gcnew System::Drawing::Font(L"Candara", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->link_divider->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(230)), static_cast<System::Int32>(static_cast<System::Byte>(230)),
+				static_cast<System::Int32>(static_cast<System::Byte>(230)));
+			this->link_divider->LinkBehavior = System::Windows::Forms::LinkBehavior::NeverUnderline;
+			this->link_divider->LinkColor = System::Drawing::Color::White;
+			this->link_divider->Location = System::Drawing::Point(398, 164);
+			this->link_divider->Name = L"link_divider";
+			this->link_divider->Size = System::Drawing::Size(10, 14);
+			this->link_divider->TabIndex = 22;
+			this->link_divider->TabStop = true;
+			this->link_divider->Text = L"|";
 			// 
 			// gui
 			// 
@@ -422,6 +445,7 @@ namespace Mirage
 			this->BackColor = System::Drawing::Color::White;
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
 			this->ClientSize = System::Drawing::Size(850, 275);
+			this->Controls->Add(this->link_divider);
 			this->Controls->Add(this->link_reset);
 			this->Controls->Add(this->link_open);
 			this->Controls->Add(this->link_more);
@@ -477,7 +501,9 @@ namespace Mirage
 					header_3->Location = System::Drawing::Point(header_3->Location.X, header_3->Location.Y + 3);
 
 				else if (header_3->ForeColor.R < 255)
-					header_3->ForeColor = System::Drawing::Color::FromArgb(255, header_3->ForeColor.R + 5, 255, header_3->ForeColor.B + 5);
+					header_3->ForeColor = System::Drawing::Color::FromArgb(255, header_3->ForeColor.R + 5,
+						(header_3->ForeColor.B < 220 ? 220 : header_3->ForeColor.G + 5),
+						header_3->ForeColor.B + 5);
 
 				else
 				{
@@ -498,7 +524,9 @@ namespace Mirage
 			else if (saved == 1)
 			{
 				if (header_3->ForeColor.R > 0)
-					header_3->ForeColor = System::Drawing::Color::FromArgb(255, header_3->ForeColor.R - 5, 255, header_3->ForeColor.B - 5);
+					header_3->ForeColor = System::Drawing::Color::FromArgb(255, header_3->ForeColor.R - 5,
+						220,
+						header_3->ForeColor.B - 5);
 
 				else
 				{
@@ -517,8 +545,22 @@ namespace Mirage
 
 				if (link_reset->LinkColor.R > 0)
 				{
-					link_reset->LinkColor = System::Drawing::Color::FromArgb(255, link_reset->LinkColor.R - 5, 255, link_reset->LinkColor.B - 5);
-					link_open->LinkColor = System::Drawing::Color::FromArgb(255, link_open->LinkColor.R - 5, 255, link_open->LinkColor.B - 5);
+					link_reset->LinkColor = System::Drawing::Color::FromArgb(255,
+						link_reset->LinkColor.R - 5,
+						(link_reset->LinkColor.B - 5 > 220 ? link_reset->LinkColor.B - 5 : 220),
+						link_reset->LinkColor.B - 5);
+					link_open->LinkColor = System::Drawing::Color::FromArgb(255,
+						link_open->LinkColor.R - 5,
+						(link_open->LinkColor.B - 5 > 220 ? link_open->LinkColor.B - 5 : 220),
+						link_open->LinkColor.B - 5);
+
+					if (link_divider->LinkColor.R > 230)
+					{
+						link_divider->LinkColor = System::Drawing::Color::FromArgb(255,
+							link_divider->LinkColor.R - 5,
+							link_divider->LinkColor.G - 5,
+							link_divider->LinkColor.B - 5);
+					}
 				}
 
 				else

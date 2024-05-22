@@ -54,12 +54,12 @@ namespace Mirage {
 			this->text_info->BackColor = System::Drawing::Color::White;
 			this->text_info->BorderStyle = System::Windows::Forms::BorderStyle::None;
 			this->text_info->Cursor = System::Windows::Forms::Cursors::Cross;
-			this->text_info->Font = (gcnew System::Drawing::Font(L"Segoe UI", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->text_info->Font = (gcnew System::Drawing::Font(L"Segoe UI", 11.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->text_info->Location = System::Drawing::Point(29, 94);
+			this->text_info->Location = System::Drawing::Point(31, 82);
 			this->text_info->Name = L"text_info";
 			this->text_info->ReadOnly = true;
-			this->text_info->Size = System::Drawing::Size(815, 570);
+			this->text_info->Size = System::Drawing::Size(679, 454);
 			this->text_info->TabIndex = 0;
 			this->text_info->Text = resources->GetString(L"text_info.Text");
 			// 
@@ -75,11 +75,11 @@ namespace Mirage {
 			// header
 			// 
 			this->header->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
-			this->header->Font = (gcnew System::Drawing::Font(L"Lucida Console", 26.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->header->Font = (gcnew System::Drawing::Font(L"Lucida Console", 21.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->header->Location = System::Drawing::Point(316, 20);
+			this->header->Location = System::Drawing::Point(268, 21);
 			this->header->Name = L"header";
-			this->header->Size = System::Drawing::Size(248, 50);
+			this->header->Size = System::Drawing::Size(193, 41);
 			this->header->TabIndex = 2;
 			this->header->Text = L"MirageZip";
 			this->header->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -89,7 +89,7 @@ namespace Mirage {
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::White;
-			this->ClientSize = System::Drawing::Size(880, 685);
+			this->ClientSize = System::Drawing::Size(742, 566);
 			this->Controls->Add(this->header);
 			this->Controls->Add(this->hidden);
 			this->Controls->Add(this->text_info);
