@@ -67,6 +67,7 @@ namespace Mirage
 			* imageExt,
 			* filePath,
 			* exportPath;
+
 	private: System::Windows::Forms::LinkLabel^ link_open;
 	private: System::Windows::Forms::LinkLabel^ link_reset;
 	private: System::Windows::Forms::LinkLabel^ link_divider;
@@ -401,6 +402,7 @@ namespace Mirage
 			this->link_open->TabStop = true;
 			this->link_open->Text = L"Open Location";
 			this->link_open->Visible = false;
+			this->link_open->LinkClicked += gcnew System::Windows::Forms::LinkLabelLinkClickedEventHandler(this, &gui::link_open_LinkClicked);
 			// 
 			// link_reset
 			// 
@@ -444,7 +446,7 @@ namespace Mirage
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::White;
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
-			this->ClientSize = System::Drawing::Size(850, 275);
+			this->ClientSize = System::Drawing::Size(850, 268);
 			this->Controls->Add(this->link_divider);
 			this->Controls->Add(this->link_reset);
 			this->Controls->Add(this->link_open);
@@ -919,9 +921,19 @@ namespace Mirage
 			info^ infoForm = gcnew info();
 			infoForm->Show();
 		}
-	private: System::Void link_reset_LinkClicked(System::Object^ sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^ e) {
-	}
-};
+		private: System::Void link_reset_LinkClicked(System::Object^ sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^ e)
+		{
+		}
+		private: System::Void link_open_LinkClicked(System::Object^ sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^ e)
+		{
+			std::string cmd{ "explorer "},
+				openPath{ exportPath };
+			size_t pos = openPath.find_last_of("\\");
+			openPath.erase(pos, openPath.length()-1);
+			cmd += openPath;
+			System::Diagnostics::Process::Start(gcnew String(cmd.data()));
+		}
+	};
 }
 
 void ConvertString(System::String^ s, std::string& os)
