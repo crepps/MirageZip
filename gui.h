@@ -21,8 +21,8 @@ posYHeader2[3] = { 353, 60, -233 },
 posYHeader3[3] = { 646, 353, 60 },
 posYInput1[3] = { 438, 145, -148 },
 posYInput2[3] = { 731, 438, 145 },
-posYButtonNext1[3] = { 438, 145, -148 },
-posYButtonNext2[3] = { 731, 438, 145 },
+posYButtonNext1[3] = { 443, 150, -143 },
+posYButtonNext2[3] = { 736, 443, 150 },
 posYButtonBack1[3] = { 308, 15, -258 },
 posYButtonBack2[3] = { 601, 307, 13 };
 
@@ -71,6 +71,8 @@ namespace Mirage
 	private: System::Windows::Forms::LinkLabel^ link_open;
 	private: System::Windows::Forms::LinkLabel^ link_reset;
 	private: System::Windows::Forms::LinkLabel^ link_divider;
+	private: System::Windows::Forms::Label^ divider_top;
+
 
 	private: System::Windows::Forms::LinkLabel^ link_more;
 
@@ -82,12 +84,21 @@ namespace Mirage
 
 			InitializeComponent();
 
-			this->header_1->BringToFront();
-			this->ActiveControl = this->button_go;
-			this->button_go->Enabled = false;
-			this->button_next1->Enabled = false;
-			this->button_next2->Enabled = false;
-			this->timer_anim->Start();
+			header_1->BringToFront();
+			ActiveControl = button_go;
+			button_go->Enabled = false;
+			button_next1->Enabled = false;
+			button_next2->Enabled = false;
+			timer_anim->Start();
+
+			button_next1->FlatStyle = FlatStyle::Flat;
+			button_next2->FlatStyle = FlatStyle::Flat;
+			button_back1->FlatStyle = FlatStyle::Flat;
+			button_back2->FlatStyle = FlatStyle::Flat;
+			button_next1->FlatAppearance->BorderSize = 0;
+			button_next2->FlatAppearance->BorderSize = 0;
+			button_back1->FlatAppearance->BorderSize = 0;
+			button_back2->FlatAppearance->BorderSize = 0;
 		}
 
 	protected:
@@ -101,7 +112,6 @@ namespace Mirage
 
 	protected:
 	private: System::Windows::Forms::Label^ header_1;
-
 	private: System::Windows::Forms::Button^ button_image;
 	private: System::Windows::Forms::Button^ button_file;
 	private: System::Windows::Forms::Button^ button_go;
@@ -114,10 +124,8 @@ namespace Mirage
 	private: System::Windows::Forms::TextBox^ input_2;
 	private: System::Windows::Forms::Button^ button_next1;
 	private: System::Windows::Forms::Button^ button_next2;
-
 	private: System::Windows::Forms::Button^ button_back1;
 	private: System::Windows::Forms::Button^ button_back2;
-
 	private: System::Windows::Forms::Label^ text_strength;
 	private: System::Windows::Forms::Label^ text_match;
 	private: System::Windows::Forms::Timer^ timer_anim;
@@ -158,6 +166,7 @@ namespace Mirage
 			this->link_open = (gcnew System::Windows::Forms::LinkLabel());
 			this->link_reset = (gcnew System::Windows::Forms::LinkLabel());
 			this->link_divider = (gcnew System::Windows::Forms::LinkLabel());
+			this->divider_top = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
 			// header_1
@@ -167,7 +176,7 @@ namespace Mirage
 				static_cast<System::Byte>(0)));
 			this->header_1->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(20)), static_cast<System::Int32>(static_cast<System::Byte>(20)),
 				static_cast<System::Int32>(static_cast<System::Byte>(50)));
-			this->header_1->Location = System::Drawing::Point(349, 22);
+			this->header_1->Location = System::Drawing::Point(346, 22);
 			this->header_1->Name = L"header_1";
 			this->header_1->Size = System::Drawing::Size(163, 19);
 			this->header_1->TabIndex = 1;
@@ -190,7 +199,7 @@ namespace Mirage
 			// 
 			this->button_file->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"button_file.BackgroundImage")));
 			this->button_file->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
-			this->button_file->Location = System::Drawing::Point(322, 63);
+			this->button_file->Location = System::Drawing::Point(318, 63);
 			this->button_file->Name = L"button_file";
 			this->button_file->Size = System::Drawing::Size(217, 197);
 			this->button_file->TabIndex = 3;
@@ -201,7 +210,7 @@ namespace Mirage
 			// 
 			this->button_go->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"button_go.BackgroundImage")));
 			this->button_go->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
-			this->button_go->Location = System::Drawing::Point(600, 63);
+			this->button_go->Location = System::Drawing::Point(595, 63);
 			this->button_go->Name = L"button_go";
 			this->button_go->Size = System::Drawing::Size(217, 197);
 			this->button_go->TabIndex = 4;
@@ -224,7 +233,7 @@ namespace Mirage
 			// 
 			this->text_button_file->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			this->text_button_file->Location = System::Drawing::Point(330, 219);
+			this->text_button_file->Location = System::Drawing::Point(326, 219);
 			this->text_button_file->Name = L"text_button_file";
 			this->text_button_file->Size = System::Drawing::Size(200, 28);
 			this->text_button_file->TabIndex = 6;
@@ -290,9 +299,9 @@ namespace Mirage
 			this->button_next1->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"button_next1.BackgroundImage")));
 			this->button_next1->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
 			this->button_next1->FlatAppearance->BorderSize = 0;
-			this->button_next1->Location = System::Drawing::Point(554, 438);
+			this->button_next1->Location = System::Drawing::Point(554, 443);
 			this->button_next1->Name = L"button_next1";
-			this->button_next1->Size = System::Drawing::Size(47, 47);
+			this->button_next1->Size = System::Drawing::Size(38, 38);
 			this->button_next1->TabIndex = 11;
 			this->button_next1->UseVisualStyleBackColor = true;
 			this->button_next1->Click += gcnew System::EventHandler(this, &gui::button_next1_Click);
@@ -301,9 +310,9 @@ namespace Mirage
 			// 
 			this->button_next2->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"button_next2.BackgroundImage")));
 			this->button_next2->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
-			this->button_next2->Location = System::Drawing::Point(554, 731);
+			this->button_next2->Location = System::Drawing::Point(554, 736);
 			this->button_next2->Name = L"button_next2";
-			this->button_next2->Size = System::Drawing::Size(47, 47);
+			this->button_next2->Size = System::Drawing::Size(38, 38);
 			this->button_next2->TabIndex = 12;
 			this->button_next2->UseVisualStyleBackColor = true;
 			this->button_next2->Click += gcnew System::EventHandler(this, &gui::button_next2_Click);
@@ -312,9 +321,9 @@ namespace Mirage
 			// 
 			this->button_back1->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"button_back1.BackgroundImage")));
 			this->button_back1->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
-			this->button_back1->Location = System::Drawing::Point(38, 322);
+			this->button_back1->Location = System::Drawing::Point(12, 322);
 			this->button_back1->Name = L"button_back1";
-			this->button_back1->Size = System::Drawing::Size(40, 40);
+			this->button_back1->Size = System::Drawing::Size(35, 35);
 			this->button_back1->TabIndex = 13;
 			this->button_back1->UseVisualStyleBackColor = true;
 			this->button_back1->Click += gcnew System::EventHandler(this, &gui::button_back1_Click);
@@ -323,9 +332,9 @@ namespace Mirage
 			// 
 			this->button_back2->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"button_back2.BackgroundImage")));
 			this->button_back2->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
-			this->button_back2->Location = System::Drawing::Point(38, 582);
+			this->button_back2->Location = System::Drawing::Point(12, 582);
 			this->button_back2->Name = L"button_back2";
-			this->button_back2->Size = System::Drawing::Size(40, 40);
+			this->button_back2->Size = System::Drawing::Size(35, 35);
 			this->button_back2->TabIndex = 14;
 			this->button_back2->UseVisualStyleBackColor = true;
 			this->button_back2->Click += gcnew System::EventHandler(this, &gui::button_back2_Click);
@@ -366,7 +375,7 @@ namespace Mirage
 				static_cast<System::Byte>(0)));
 			this->header_1_back->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(200)), static_cast<System::Int32>(static_cast<System::Byte>(200)),
 				static_cast<System::Int32>(static_cast<System::Byte>(240)));
-			this->header_1_back->Location = System::Drawing::Point(283, 22);
+			this->header_1_back->Location = System::Drawing::Point(280, 22);
 			this->header_1_back->Name = L"header_1_back";
 			this->header_1_back->Size = System::Drawing::Size(295, 19);
 			this->header_1_back->TabIndex = 18;
@@ -443,13 +452,28 @@ namespace Mirage
 			this->link_divider->Text = L"|";
 			this->link_divider->Visible = false;
 			// 
+			// divider_top
+			// 
+			this->divider_top->Font = (gcnew System::Drawing::Font(L"MS Gothic", 24, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->divider_top->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(240)), static_cast<System::Int32>(static_cast<System::Byte>(240)),
+				static_cast<System::Int32>(static_cast<System::Byte>(240)));
+			this->divider_top->Location = System::Drawing::Point(0, -17);
+			this->divider_top->Name = L"divider_top";
+			this->divider_top->Size = System::Drawing::Size(849, 24);
+			this->divider_top->TabIndex = 23;
+			this->divider_top->Text = L"-----------------------------------------------";
+			this->divider_top->TextAlign = System::Drawing::ContentAlignment::TopCenter;
+			// 
 			// gui
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::White;
+			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
-			this->ClientSize = System::Drawing::Size(850, 280);
+			this->ClientSize = System::Drawing::Size(850, 279);
+			this->Controls->Add(this->divider_top);
 			this->Controls->Add(this->link_divider);
 			this->Controls->Add(this->link_reset);
 			this->Controls->Add(this->link_open);
@@ -514,6 +538,7 @@ namespace Mirage
 				{
 					header_3->ForeColor = System::Drawing::Color::FromArgb(255, 255, 255, 255);
 					header_3->Text = "Success";
+					BackgroundImage = Image::FromFile("images\\back2.png");
 					saved = 0;
 
 					HideFile(miragePtr);
@@ -579,6 +604,9 @@ namespace Mirage
 			// Translate from region 1
 			if (currentRegion == 1)
 			{
+				if (BackgroundImage != nullptr)
+					BackgroundImage = nullptr;
+
 				header_1->Location = System::Drawing::Point(header_1->Location.X, header_1->Location.Y + transIncrement);
 				header_2->Location = System::Drawing::Point(header_2->Location.X, header_2->Location.Y + transIncrement);
 				header_3->Location = System::Drawing::Point(header_3->Location.X, header_3->Location.Y + transIncrement);
@@ -691,8 +719,8 @@ namespace Mirage
 					button_back2->Location = System::Drawing::Point(button_back2->Location.X, posYButtonBack2[snapIndex]);
 
 					currentRegion = (transIncrement < 0 ? 3 : 1);
-
 					link_more->Visible = (currentRegion == 1 ? true : false);
+					BackgroundImage = (currentRegion == 1 ? Image::FromFile("images\\back.png") : nullptr);
 
 					timer_scroll->Stop();
 				}
