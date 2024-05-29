@@ -391,6 +391,8 @@ namespace Mirage
 			// link_open
 			// 
 			this->link_open->AutoSize = true;
+			this->link_open->DisabledLinkColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(192)),
+				static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
 			this->link_open->Font = (gcnew System::Drawing::Font(L"Candara", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->link_open->LinkBehavior = System::Windows::Forms::LinkBehavior::HoverUnderline;
@@ -439,6 +441,7 @@ namespace Mirage
 			this->link_divider->TabIndex = 22;
 			this->link_divider->TabStop = true;
 			this->link_divider->Text = L"|";
+			this->link_divider->Visible = false;
 			// 
 			// gui
 			// 
@@ -446,7 +449,7 @@ namespace Mirage
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::White;
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
-			this->ClientSize = System::Drawing::Size(850, 268);
+			this->ClientSize = System::Drawing::Size(850, 280);
 			this->Controls->Add(this->link_divider);
 			this->Controls->Add(this->link_reset);
 			this->Controls->Add(this->link_open);
@@ -539,6 +542,8 @@ namespace Mirage
 
 			if (showLinks)
 			{
+				link_divider->Visible = true;
+
 				if (link_reset->Visible == false)
 				{
 					link_reset->Visible = true;
@@ -926,12 +931,22 @@ namespace Mirage
 		}
 		private: System::Void link_open_LinkClicked(System::Object^ sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^ e)
 		{
-			std::string cmd{ "explorer "},
+			std::string cmd{ "C:\\Windows\\explorer.exe"},
 				openPath{ exportPath };
 			size_t pos = openPath.find_last_of("\\");
 			openPath.erase(pos, openPath.length()-1);
-			cmd += openPath;
-			System::Diagnostics::Process::Start(gcnew String(cmd.data()));
+
+			try
+			{
+				System::Diagnostics::Process::Start(gcnew String(cmd.data()), gcnew String(openPath.data()));
+			}
+
+			catch (Exception^ e)
+			{
+				link_open->Text = "(failed to open)";
+				link_open->ForeColor = System::Drawing::Color::Red;
+				link_open->Enabled = false;
+			}
 		}
 	};
 }
