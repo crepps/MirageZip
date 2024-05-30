@@ -101,6 +101,32 @@ namespace Mirage
 			button_back2->FlatAppearance->BorderSize = 0;
 		}
 
+		void snapItems(int index)
+		{
+			header_1->Location = System::Drawing::Point(header_1->Location.X, posYHeader1[index]);
+			header_2->Location = System::Drawing::Point(header_2->Location.X, posYHeader2[index]);
+			header_3->Location = System::Drawing::Point(header_3->Location.X, posYHeader3[index]);
+			header_1_back->Location = System::Drawing::Point(header_1_back->Location.X, posYHeader1[index]);
+
+			button_image->Location = System::Drawing::Point(button_image->Location.X, posYButtons[index]);
+			button_file->Location = System::Drawing::Point(button_file->Location.X, posYButtons[index]);
+			button_go->Location = System::Drawing::Point(button_go->Location.X, posYButtons[index]);
+
+			text_button_image->Location = System::Drawing::Point(text_button_image->Location.X, posYButtonText[index]);
+			text_button_file->Location = System::Drawing::Point(text_button_file->Location.X, posYButtonText[index]);
+			text_strength->Location = System::Drawing::Point(text_strength->Location.X, posYStrengthText[index]);
+			text_match->Location = System::Drawing::Point(text_match->Location.X, posYMatchText[index]);
+
+			input_1->Location = System::Drawing::Point(input_1->Location.X, posYInput1[index]);
+			input_2->Location = System::Drawing::Point(input_2->Location.X, posYInput2[index]);
+
+			button_next1->Location = System::Drawing::Point(button_next1->Location.X, posYButtonNext1[index]);
+			button_next2->Location = System::Drawing::Point(button_next2->Location.X, posYButtonNext2[index]);
+
+			button_back1->Location = System::Drawing::Point(button_back1->Location.X, posYButtonBack1[index]);
+			button_back2->Location = System::Drawing::Point(button_back2->Location.X, posYButtonBack2[index]);
+		}
+
 	protected:
 		~gui()
 		{
@@ -596,7 +622,10 @@ namespace Mirage
 				}
 
 				else
+				{
 					timer_anim->Stop();
+					showLinks = false;
+				}
 			}
 		}
 		private: System::Void timer_scroll_Tick(System::Object^ sender, System::EventArgs^ e)
@@ -633,28 +662,7 @@ namespace Mirage
 				// Snap y-positions and update region
 				if (header_2->Location.Y <= posYHeader2[1])
 				{
-					header_1->Location = System::Drawing::Point(header_1->Location.X, posYHeader1[1]);
-					header_2->Location = System::Drawing::Point(header_2->Location.X, posYHeader2[1]);
-					header_3->Location = System::Drawing::Point(header_3->Location.X, posYHeader3[1]);
-					header_1_back->Location = System::Drawing::Point(header_1_back->Location.X, posYHeader1[1]);
-
-					button_image->Location = System::Drawing::Point(button_image->Location.X, posYButtons[1]);
-					button_file->Location = System::Drawing::Point(button_file->Location.X, posYButtons[1]);
-					button_go->Location = System::Drawing::Point(button_go->Location.X, posYButtons[1]);
-
-					text_button_image->Location = System::Drawing::Point(text_button_image->Location.X, posYButtonText[1]);
-					text_button_file->Location = System::Drawing::Point(text_button_file->Location.X, posYButtonText[1]);
-					text_strength->Location = System::Drawing::Point(text_strength->Location.X, posYStrengthText[1]);
-					text_match->Location = System::Drawing::Point(text_match->Location.X, posYMatchText[1]);
-
-					input_1->Location = System::Drawing::Point(input_1->Location.X, posYInput1[1]);
-					input_2->Location = System::Drawing::Point(input_2->Location.X, posYInput2[1]);
-
-					button_next1->Location = System::Drawing::Point(button_next1->Location.X, posYButtonNext1[1]);
-					button_next2->Location = System::Drawing::Point(button_next2->Location.X, posYButtonNext2[1]);
-
-					button_back1->Location = System::Drawing::Point(button_back1->Location.X, posYButtonBack1[1]);
-					button_back2->Location = System::Drawing::Point(button_back2->Location.X, posYButtonBack2[1]);
+					snapItems(1);
 
 					currentRegion = 2;
 
@@ -695,28 +703,7 @@ namespace Mirage
 				{
 					snapIndex = (transIncrement < 0 ? 2 : 0);
 
-					header_1->Location = System::Drawing::Point(header_1->Location.X, posYHeader1[snapIndex]);
-					header_2->Location = System::Drawing::Point(header_2->Location.X, posYHeader2[snapIndex]);
-					header_3->Location = System::Drawing::Point(header_3->Location.X, posYHeader3[snapIndex]);
-					header_1_back->Location = System::Drawing::Point(header_1_back->Location.X, posYHeader1[snapIndex]);
-
-					button_image->Location = System::Drawing::Point(button_image->Location.X, posYButtons[snapIndex]);
-					button_file->Location = System::Drawing::Point(button_file->Location.X, posYButtons[snapIndex]);
-					button_go->Location = System::Drawing::Point(button_go->Location.X, posYButtons[snapIndex]);
-
-					text_button_image->Location = System::Drawing::Point(text_button_image->Location.X, posYButtonText[snapIndex]);
-					text_button_file->Location = System::Drawing::Point(text_button_file->Location.X, posYButtonText[snapIndex]);
-					text_strength->Location = System::Drawing::Point(text_strength->Location.X, posYStrengthText[snapIndex]);
-					text_match->Location = System::Drawing::Point(text_match->Location.X, posYMatchText[snapIndex]);
-
-					input_1->Location = System::Drawing::Point(input_1->Location.X, posYInput1[snapIndex]);
-					input_2->Location = System::Drawing::Point(input_2->Location.X, posYInput2[snapIndex]);
-
-					button_next1->Location = System::Drawing::Point(button_next1->Location.X, posYButtonNext1[snapIndex]);
-					button_next2->Location = System::Drawing::Point(button_next2->Location.X, posYButtonNext2[snapIndex]);
-
-					button_back1->Location = System::Drawing::Point(button_back1->Location.X, posYButtonBack1[snapIndex]);
-					button_back2->Location = System::Drawing::Point(button_back2->Location.X, posYButtonBack2[snapIndex]);
+					snapItems(snapIndex);
 
 					currentRegion = (transIncrement < 0 ? 3 : 1);
 					link_more->Visible = (currentRegion == 1 ? true : false);
@@ -755,28 +742,7 @@ namespace Mirage
 				// Snap y-positions and update region
 				if (header_2->Location.Y >= posYHeader2[1])
 				{
-					header_1->Location = System::Drawing::Point(header_1->Location.X, posYHeader1[1]);
-					header_2->Location = System::Drawing::Point(header_2->Location.X, posYHeader2[1]);
-					header_3->Location = System::Drawing::Point(header_3->Location.X, posYHeader3[1]);
-					header_1_back->Location = System::Drawing::Point(header_1_back->Location.X, posYHeader1[1]);
-
-					button_image->Location = System::Drawing::Point(button_image->Location.X, posYButtons[1]);
-					button_file->Location = System::Drawing::Point(button_file->Location.X, posYButtons[1]);
-					button_go->Location = System::Drawing::Point(button_go->Location.X, posYButtons[1]);
-
-					text_button_image->Location = System::Drawing::Point(text_button_image->Location.X, posYButtonText[1]);
-					text_button_file->Location = System::Drawing::Point(text_button_file->Location.X, posYButtonText[1]);
-					text_strength->Location = System::Drawing::Point(text_strength->Location.X, posYStrengthText[1]);
-					text_match->Location = System::Drawing::Point(text_match->Location.X, posYMatchText[1]);
-
-					input_1->Location = System::Drawing::Point(input_1->Location.X, posYInput1[1]);
-					input_2->Location = System::Drawing::Point(input_2->Location.X, posYInput2[1]);
-
-					button_next1->Location = System::Drawing::Point(button_next1->Location.X, posYButtonNext1[1]);
-					button_next2->Location = System::Drawing::Point(button_next2->Location.X, posYButtonNext2[1]);
-
-					button_back1->Location = System::Drawing::Point(button_back1->Location.X, posYButtonBack1[1]);
-					button_back2->Location = System::Drawing::Point(button_back2->Location.X, posYButtonBack2[1]);
+					snapItems(1);
 
 					currentRegion = 2;
 
@@ -956,6 +922,50 @@ namespace Mirage
 		}
 		private: System::Void link_reset_LinkClicked(System::Object^ sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^ e)
 		{
+			imageSelected = fileSelected = passMatch = false;
+			imagePath = filePath = exportPath = nullptr;
+
+			button_go->Enabled = false;
+
+			input_1->Text = "";
+			input_2->Text = "";
+			text_button_image->Text = "< select image >";
+			text_button_file->Text = "< select file >";
+			text_button_image->ForeColor = System::Drawing::Color::Black;
+			text_button_file->ForeColor = System::Drawing::Color::Black;
+
+			BackgroundImage = Image::FromFile("images\\back.png");
+			link_more->Visible = true;
+			link_reset->Visible = false;
+			link_open->Visible = false;
+			link_divider->Visible = false;
+
+			currentRegion = 1;
+			
+			timer_anim->Start();
+
+			header_1->Location = System::Drawing::Point(header_1->Location.X, posYHeader1[0]);
+			header_2->Location = System::Drawing::Point(header_2->Location.X, posYHeader2[0]);
+			header_3->Location = System::Drawing::Point(header_3->Location.X, posYHeader3[0]);
+			header_1_back->Location = System::Drawing::Point(header_1_back->Location.X, posYHeader1[0]);
+
+			button_image->Location = System::Drawing::Point(button_image->Location.X, posYButtons[0]);
+			button_file->Location = System::Drawing::Point(button_file->Location.X, posYButtons[0]);
+			button_go->Location = System::Drawing::Point(button_go->Location.X, posYButtons[0]);
+
+			text_button_image->Location = System::Drawing::Point(text_button_image->Location.X, posYButtonText[0]);
+			text_button_file->Location = System::Drawing::Point(text_button_file->Location.X, posYButtonText[0]);
+			text_strength->Location = System::Drawing::Point(text_strength->Location.X, posYStrengthText[0]);
+			text_match->Location = System::Drawing::Point(text_match->Location.X, posYMatchText[0]);
+
+			input_1->Location = System::Drawing::Point(input_1->Location.X, posYInput1[0]);
+			input_2->Location = System::Drawing::Point(input_2->Location.X, posYInput2[0]);
+
+			button_next1->Location = System::Drawing::Point(button_next1->Location.X, posYButtonNext1[0]);
+			button_next2->Location = System::Drawing::Point(button_next2->Location.X, posYButtonNext2[0]);
+
+			button_back1->Location = System::Drawing::Point(button_back1->Location.X, posYButtonBack1[0]);
+			button_back2->Location = System::Drawing::Point(button_back2->Location.X, posYButtonBack2[0]);
 		}
 		private: System::Void link_open_LinkClicked(System::Object^ sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^ e)
 		{
@@ -969,10 +979,9 @@ namespace Mirage
 				System::Diagnostics::Process::Start(gcnew String(cmd.data()), gcnew String(openPath.data()));
 			}
 
-			catch (Exception^ e)
+			catch (...)
 			{
 				link_open->Text = "(failed to open)";
-				link_open->ForeColor = System::Drawing::Color::Red;
 				link_open->Enabled = false;
 			}
 		}
