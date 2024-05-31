@@ -8,6 +8,7 @@
 #include <sys/stat.h>
 #include "info.h"
 #include "miragezip.h"
+#include "resource.h"
 
 void ConvertString(System::String^, std::string&);
 
@@ -301,9 +302,9 @@ namespace Mirage
 			this->header_3->Font = (gcnew System::Drawing::Font(L"Candara Light", 36, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->header_3->ForeColor = System::Drawing::Color::Black;
-			this->header_3->Location = System::Drawing::Point(201, 646);
+			this->header_3->Location = System::Drawing::Point(226, 646);
 			this->header_3->Name = L"header_3";
-			this->header_3->Size = System::Drawing::Size(455, 59);
+			this->header_3->Size = System::Drawing::Size(390, 59);
 			this->header_3->TabIndex = 9;
 			this->header_3->Text = L"Confirm password";
 			this->header_3->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -498,7 +499,7 @@ namespace Mirage
 			this->BackColor = System::Drawing::Color::White;
 			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
-			this->ClientSize = System::Drawing::Size(850, 279);
+			this->ClientSize = System::Drawing::Size(850, 280);
 			this->Controls->Add(this->divider_top);
 			this->Controls->Add(this->link_divider);
 			this->Controls->Add(this->link_reset);
@@ -532,14 +533,58 @@ namespace Mirage
 
 		}
 #pragma endregion
+		public: System::Drawing::Image^ getImageFromRes(long resource_ID) {
+			// Function getImageFromRes
+			// A function for loading PNG images from resources in C++ CLR/CLI
+			// Copyright (C) Giuseppe Pischedda 2007 / Bordon / Simple
 
+			//Load the resource module:
+			HMODULE hInst = NULL;
+
+			// Find the resource using the resource ID from file "resource.h"
+			HRSRC hResource = ::FindResource(hInst, MAKEINTRESOURCE(resource_ID), L"PNG");
+			if (!hResource) return nullptr;
+
+			// Load the resource and save the total size.
+			DWORD Size = SizeofResource(hInst, hResource);
+			HGLOBAL MemoryHandle = LoadResource(hInst, hResource);
+			if (MemoryHandle == NULL) return nullptr;
+
+			//Create a cli::array of byte with size = total size + 2
+			cli::array<BYTE>^ MemPtr = gcnew array<BYTE>(Size + 2);
+
+			//Cast from LPVOID to char *
+			char* lkr = (char*)(LockResource(MemoryHandle));
+
+			//Copy from unmanaged memory to managed array
+			System::Runtime::InteropServices::Marshal::Copy((IntPtr)lkr, MemPtr, 0, Size);
+
+			// Create a new MemoryStream with size = MemPtr
+			System::IO::MemoryStream^ stream = gcnew System::IO::MemoryStream(MemPtr);
+
+			//Write in the MemoryStream
+			stream->Write(MemPtr, 0, Size);
+
+			//Set the position for read the stream
+			stream->Position = 0;
+
+			//Free allocated resources
+			FreeLibrary(hInst);
+
+			//Create an Image abstract class pointer
+			System::Drawing::Image^ ptrPNG;
+
+			//Assign the stream to abstract class pointer
+			ptrPNG = System::Drawing::Image::FromStream(stream);
+			return ptrPNG;
+		}
 		private: System::Void timer_anim_Tick(System::Object^ sender, System::EventArgs^ e)
 		{
 			static int currentFrame{ 0 },
 				ticks{ 0 },
 				saved{ -1 };
 
-			static bool showLinks{ false };
+			static bool revealLinks{ false };
 			
 			if (currentRegion == 1)
 			{
@@ -562,9 +607,10 @@ namespace Mirage
 
 				else
 				{
+
 					header_3->ForeColor = System::Drawing::Color::FromArgb(255, 255, 255, 255);
 					header_3->Text = "Success";
-					BackgroundImage = Image::FromFile("images\\back2.png");
+					BackgroundImage = getImageFromRes(IDB_PNG2);
 					saved = 0;
 
 					HideFile(miragePtr);
@@ -587,11 +633,11 @@ namespace Mirage
 				else
 				{
 					saved = 2;
-					showLinks = true;
+					revealLinks = true;
 				}
 			}
 
-			if (showLinks)
+			if (revealLinks)
 			{
 				link_divider->Visible = true;
 
@@ -624,7 +670,7 @@ namespace Mirage
 				else
 				{
 					timer_anim->Stop();
-					showLinks = false;
+					revealLinks = false;
 				}
 			}
 		}
@@ -707,7 +753,7 @@ namespace Mirage
 
 					currentRegion = (transIncrement < 0 ? 3 : 1);
 					link_more->Visible = (currentRegion == 1 ? true : false);
-					BackgroundImage = (currentRegion == 1 ? Image::FromFile("images\\back.png") : nullptr);
+					BackgroundImage = (currentRegion == 1 ? getImageFromRes(IDB_PNG1) : nullptr);
 
 					timer_scroll->Stop();
 				}
@@ -934,7 +980,7 @@ namespace Mirage
 			text_button_image->ForeColor = System::Drawing::Color::Black;
 			text_button_file->ForeColor = System::Drawing::Color::Black;
 
-			BackgroundImage = Image::FromFile("images\\back.png");
+			BackgroundImage = getImageFromRes(IDB_PNG1);
 			link_more->Visible = true;
 			link_reset->Visible = false;
 			link_open->Visible = false;

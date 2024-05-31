@@ -145,6 +145,7 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="miragezip.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gui.resx">
@@ -153,6 +154,13 @@
     <EmbeddedResource Include="info.resx">
       <DependentUpon>info.h</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Mirage.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="images\back.png" />
+    <Image Include="images\back2.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

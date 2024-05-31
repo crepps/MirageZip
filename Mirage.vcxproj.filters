@@ -24,6 +24,9 @@
     <ClInclude Include="info.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -32,8 +35,18 @@
     <ClCompile Include="miragezip.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="info.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Mirage.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="images\back.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\back2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
