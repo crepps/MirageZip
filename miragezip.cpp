@@ -26,6 +26,14 @@ int MirageZip::CreateAppData()
 
     return 0;
 }
+void MirageZip::SetError(std::string arg) noexcept
+{
+    error = arg;
+}
+std::string MirageZip::GetError() noexcept
+{
+    return error;
+}
 void MirageZip::SetPath(Path type, std::string path) noexcept
 {
     switch (type)
@@ -46,8 +54,14 @@ void MirageZip::SetPassword(std::string pw) noexcept
 {
     password = pw;
 }
+class MyException : std::runtime_error
+{
+public:
+    MyException() : std::runtime_error("shit") {}
+};
 int MirageZip::ZipFile()
 {
+    throw MyException();
     // Create archive and open
     std::remove(archivePath.c_str());
     int errCode = 0;
@@ -101,9 +115,51 @@ MirageZip::~MirageZip()
 {
 }
 
-void HideFile(MirageZip* obj)
+// -- External --
+int HideFile(MirageZip* obj)
 {
-    obj->ZipFile();
-    obj->Concatenate();
-    std::remove(obj->GetArchivePath());
+    try
+    {
+        obj->ZipFile();
+    }
+    catch (const std::exception& e)
+    {
+        obj->SetError(e.what());
+        return 1;
+    }
+    catch (...)
+    {
+        obj->SetError("Unknown exception thrown when zipping file.");
+        return 1;
+    }
+    try
+    {
+        obj->Concatenate();
+    }
+    catch (const std::exception& e)
+    {
+        obj->SetError(e.what());
+        return 1;
+    }
+    catch (...)
+    {
+        obj->SetError("Unknown exception thrown when concatenating files.");
+        return 1;
+    }
+    try
+    {
+        std::remove(obj->GetArchivePath());
+    }
+    catch (const std::exception& e)
+    {
+        obj->SetError(e.what());
+        return 1;
+    }
+    catch (...)
+    {
+        obj->SetError("Unknown exception thrown when removing temp archive.");
+        return 2;
+    }
+
+    return 0;
 }

@@ -1,6 +1,7 @@
 *.suo
 *.user
 *.zip
+*.aps
 
 /x64
 /images/bak

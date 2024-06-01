@@ -1,4 +1,5 @@
 #pragma once
+
 #include <string>
 #include <vector>
 #include <shlobj.h>
@@ -582,7 +583,8 @@ namespace Mirage
 		{
 			static int currentFrame{ 0 },
 				ticks{ 0 },
-				saved{ -1 };
+				saved{ -1 },
+				error{ 0 };
 
 			static bool revealLinks{ false };
 			
@@ -613,7 +615,13 @@ namespace Mirage
 					BackgroundImage = getImageFromRes(IDB_PNG2);
 					saved = 0;
 
-					HideFile(miragePtr);
+					if (error = HideFile(miragePtr))
+					{
+						MessageBox::Show(gcnew String(miragePtr->GetError().c_str()));
+
+						if (error == 1)
+							Reset();
+					}
 				}
 			}
 
@@ -968,6 +976,10 @@ namespace Mirage
 		}
 		private: System::Void link_reset_LinkClicked(System::Object^ sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^ e)
 		{
+			Reset();
+		}
+		private: void Reset()
+		{
 			imageSelected = fileSelected = passMatch = false;
 			imagePath = filePath = exportPath = nullptr;
 
@@ -987,7 +999,7 @@ namespace Mirage
 			link_divider->Visible = false;
 
 			currentRegion = 1;
-			
+
 			timer_anim->Start();
 
 			header_1->Location = System::Drawing::Point(header_1->Location.X, posYHeader1[0]);
