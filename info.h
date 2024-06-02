@@ -216,6 +216,12 @@ namespace Mirage {
 		{
 			try
 			{
+				char buffer[MAX_PATH];
+				GetModuleFileNameA(NULL, buffer, MAX_PATH);
+				std::string path{ buffer };
+				path.erase(path.end() - 10, path.end());
+				path.append("LICENSE");
+			
 				if (GetFileAttributes(L"LICENSE") == INVALID_FILE_ATTRIBUTES)
 				{
 					link_license->Text = "(license missing)";
