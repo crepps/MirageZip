@@ -129,7 +129,7 @@ int HideFile(MirageZip* obj)
     }
     catch (...)
     {
-        obj->SetError("Unknown exception thrown when zipping file.");
+        obj->SetError("Exception thrown when attempting to zip file.");
         return 1;
     }
     try
@@ -143,7 +143,7 @@ int HideFile(MirageZip* obj)
     }
     catch (...)
     {
-        obj->SetError("Unknown exception thrown when concatenating files.");
+        obj->SetError("Exception thrown when attempting to concatenate files.");
         return 1;
     }
     try
@@ -157,7 +157,7 @@ int HideFile(MirageZip* obj)
     }
     catch (...)
     {
-        obj->SetError("Unknown exception thrown when removing temp archive.");
+        obj->SetError("Exception thrown when attempting to remove temp archive.");
         return 2;
     }
 
