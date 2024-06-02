@@ -425,7 +425,7 @@ namespace Mirage
 			this->link_more->TabIndex = 19;
 			this->link_more->TabStop = true;
 			this->link_more->Text = L"More";
-			this->link_more->LinkClicked += gcnew System::Windows::Forms::LinkLabelLinkClickedEventHandler(this, &gui::linkLabel1_LinkClicked);
+			this->link_more->LinkClicked += gcnew System::Windows::Forms::LinkLabelLinkClickedEventHandler(this, &gui::link_more_LinkClicked);
 			// 
 			// link_open
 			// 
@@ -1000,7 +1000,7 @@ namespace Mirage
 			if (input_2->Text->Length < 1)
 				text_match->Text = "";
 		}
-		private: System::Void linkLabel1_LinkClicked(System::Object^ sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^ e)
+		private: System::Void link_more_LinkClicked(System::Object^ sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^ e)
 		{
 			info^ infoForm = gcnew info();
 			infoForm->Show();

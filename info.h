@@ -1,5 +1,7 @@
 #pragma once
 
+#include "miragezip.h"
+
 namespace Mirage {
 
 	using namespace System;
@@ -14,8 +16,9 @@ namespace Mirage {
 	/// </summary>
 	public ref class info : public System::Windows::Forms::Form
 	{
+	private:
 	public:
-		info(void)
+		info()
 		{
 			InitializeComponent();
 			ActiveControl = this->hidden;
@@ -168,7 +171,7 @@ namespace Mirage {
 			this->link_license->TabStop = true;
 			this->link_license->Text = L"License";
 			this->link_license->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
-			this->link_license->LinkClicked += gcnew System::Windows::Forms::LinkLabelLinkClickedEventHandler(this, &info::linkLabel1_LinkClicked);
+			this->link_license->LinkClicked += gcnew System::Windows::Forms::LinkLabelLinkClickedEventHandler(this, &info::link_license_LinkClicked);
 			// 
 			// divider_bottom
 			// 
@@ -212,7 +215,7 @@ namespace Mirage {
 
 		}
 #pragma endregion
-		private: System::Void linkLabel1_LinkClicked(System::Object^ sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^ e)
+		private: System::Void link_license_LinkClicked(System::Object^ sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^ e)
 		{
 			try
 			{
@@ -222,7 +225,7 @@ namespace Mirage {
 				path.erase(path.end() - 10, path.end());
 				path.append("LICENSE");
 			
-				if (GetFileAttributes(L"LICENSE") == INVALID_FILE_ATTRIBUTES)
+				if (GetFileAttributesA(path.c_str()) == INVALID_FILE_ATTRIBUTES)
 				{
 					link_license->Text = "(license missing)";
 					link_license->Enabled = false;
