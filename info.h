@@ -219,11 +219,8 @@ namespace Mirage {
 		{
 			try
 			{
-				char buffer[MAX_PATH];
-				GetModuleFileNameA(NULL, buffer, MAX_PATH);
-				std::string path{ buffer };
-				path.erase(path.end() - 10, path.end());
-				path.append("LICENSE");
+				std::string path{ getenv("LOCALAPPDATA") };
+				path += "\\MirageZip\\LICENSE";
 			
 				if (GetFileAttributesA(path.c_str()) == INVALID_FILE_ATTRIBUTES)
 				{
@@ -232,7 +229,7 @@ namespace Mirage {
 					return;
 				}
 
-				System::Diagnostics::Process::Start(L"notepad.exe", L"LICENSE");
+				System::Diagnostics::Process::Start(L"notepad.exe", gcnew System::String(path.c_str()));
 			}
 			catch (std::exception& e)
 			{
