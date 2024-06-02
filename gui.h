@@ -897,28 +897,28 @@ namespace Mirage
 		}
 		private: System::Void input_1_TextChanged(System::Object^ sender, System::EventArgs^ e)
 		{
-			// Determine password strength (todo)
-			if (input_1->Text->Length >= 1 && input_1->Text->Length < 8)
+			// Determine password strength
+			std::string pw{ "" };
+			ConvertString(input_1->Text, pw);
+			unsigned int points{miragePtr->TestPassword(pw)};
+
+			if (points < 3)
 			{
 				text_strength->Text = "Weak";
 				text_strength->ForeColor = System::Drawing::Color::Red;
 			}
-
-			else if (input_1->Text->Length >= 8 && input_1->Text->Length < 12)
+			else if (points == 3)
 			{
 				text_strength->Text = "Fair";
 				text_strength->ForeColor = System::Drawing::Color::Orange;
 			}
-
-			else if (input_1->Text->Length >= 12)
+			else if (points == 4)
 			{
 				text_strength->Text = "Strong";
 				text_strength->ForeColor = System::Drawing::Color::Green;
 			}
-
 			if (input_1->Text->Length > 0)
 				button_next1->Enabled = true;
-
 			else
 			{
 				button_next1->Enabled = false;

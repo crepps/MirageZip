@@ -6,7 +6,7 @@ MirageZip::MirageZip()
 
     CreateAppData();
 }
-int MirageZip::CreateAppData()
+unsigned int MirageZip::CreateAppData()
 {
     std::string path{ getenv("LOCALAPPDATA") };
 
@@ -26,15 +26,15 @@ int MirageZip::CreateAppData()
 
     return 0;
 }
-void MirageZip::SetError(std::string arg) noexcept
+void MirageZip::SetError(const std::string& arg) noexcept
 {
     error = arg;
 }
-std::string MirageZip::GetError() noexcept
+std::string MirageZip::GetError() const noexcept
 {
     return error;
 }
-void MirageZip::SetPath(Path type, std::string path) noexcept
+void MirageZip::SetPath(Path type, const std::string& path) noexcept
 {
     switch (type)
     {
@@ -50,11 +50,66 @@ void MirageZip::SetPath(Path type, std::string path) noexcept
         exportPath = path;
     }
 }
-void MirageZip::SetPassword(std::string pw) noexcept
+unsigned int MirageZip::TestPassword(const std::string& pw) const noexcept
+{
+    char lower[]{ "abcdefghijklmnopqrstuvwxyz" },
+        upper[]{"ABCDEFGHIJKLMNOPQRSTUVWXYZ"},
+        numbers[]{"0123456789"},
+        chars[]{"!@#$%^&*()-_=+,.<>/?|[]{}:;~\'\"\\"};
+    bool found[4]{ false, false, false, false };
+    float points{ 0.0f };
+
+    // Test for lowercase, uppercase, numbers and special characters
+    for (auto& c : pw)
+    {
+        if (!found[0])
+        {
+            if (strchr(lower, c))
+            {
+                points += 0.5f;
+                found[0] = true;
+            }
+        }
+        if (!found[1])
+        {
+            if (strchr(upper, c))
+            {
+                points += 0.5f;
+                found[1] = true;
+            }
+        }
+        if (!found[2])
+        {
+            if (strchr(numbers, c))
+            {
+                points += 0.5f;
+                found[2] = true;
+            }
+        }
+        if (!found[3])
+        {
+            if (strchr(chars, c))
+            {
+                points += 0.5f;
+                found[3] = true;
+            }
+        }
+    }
+
+    // Test password length
+    if (pw.length() >= 8 && pw.length() < 12 && points >= 1.5f)
+        ++points;
+
+    else if (pw.length() >= 12)
+        points += 2;
+
+    return (unsigned int)points;
+}
+void MirageZip::SetPassword(const std::string& pw) noexcept
 {
     password = pw;
 }
-int MirageZip::ZipFile()
+unsigned int MirageZip::ZipFile()
 {
     // Create archive and open
     std::remove(archivePath.c_str());
@@ -91,17 +146,15 @@ int MirageZip::ZipFile()
 
     return 0;
 }
-int MirageZip::Concatenate()
+unsigned int MirageZip::Concatenate() const
 {
     std::stringstream cmd{ "" };
-
     cmd << "COPY /B \"" << imagePath << "\" + \"" << archivePath << "\" \"" << exportPath << "\"";
-
     system(cmd.str().c_str());
 
     return 0;
 }
-const char* MirageZip::GetArchivePath() noexcept
+const char* MirageZip::GetArchivePath() const noexcept
 {
     return archivePath.c_str();
 }
@@ -110,7 +163,7 @@ MirageZip::~MirageZip()
 }
 
 // -- External --
-int HideFile(MirageZip* obj)
+unsigned int HideFile(MirageZip* obj)
 {
     try
     {

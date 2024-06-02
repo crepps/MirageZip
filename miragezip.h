@@ -27,15 +27,16 @@ public:
     };
 
     MirageZip();
-    int CreateAppData();
-    void SetError(std::string) noexcept;
-    std::string GetError() noexcept;
-    void SetPath(Path, std::string) noexcept;
-    void SetPassword(std::string) noexcept;
-    int ZipFile();
-    int Concatenate();
-    const char* GetArchivePath() noexcept;
+    unsigned int CreateAppData();
+    void SetError(const std::string&) noexcept;
+    std::string GetError() const noexcept;
+    void SetPath(Path, const std::string&) noexcept;
+    unsigned int TestPassword(const std::string&) const noexcept;
+    void SetPassword(const std::string&) noexcept;
+    unsigned int ZipFile();
+    unsigned int Concatenate() const;
+    const char* GetArchivePath() const noexcept;
     ~MirageZip();
 };
 
-extern int HideFile(MirageZip* obj);
+extern unsigned int HideFile(MirageZip* obj);
