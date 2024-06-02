@@ -292,6 +292,7 @@ namespace Mirage
 			this->input_1->TabIndex = 8;
 			this->input_1->UseSystemPasswordChar = true;
 			this->input_1->TextChanged += gcnew System::EventHandler(this, &gui::input_1_TextChanged);
+			this->input_1->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &gui::PollReturnKey);
 			// 
 			// timer_scroll
 			// 
@@ -321,6 +322,7 @@ namespace Mirage
 			this->input_2->TabIndex = 10;
 			this->input_2->UseSystemPasswordChar = true;
 			this->input_2->TextChanged += gcnew System::EventHandler(this, &gui::input_2_TextChanged);
+			this->input_2->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &gui::PollReturnKey);
 			// 
 			// button_next1
 			// 
@@ -579,6 +581,34 @@ namespace Mirage
 			//Assign the stream to abstract class pointer
 			ptrPNG = System::Drawing::Image::FromStream(stream);
 			return ptrPNG;
+		}
+		private: void PollReturnKey(System::Object^ sender, System::Windows::Forms::KeyPressEventArgs^ e)
+		{
+			if (e->KeyChar == (char)Keys::Return)
+			{
+				e->Handled = true;
+
+				if (sender == input_1)
+				{
+					input_2->Text = "";
+					ActiveControl = input_2;
+					transIncrement = -20;
+					timer_scroll->Start();
+				}
+
+				else if (sender == input_2)
+				{
+					std::string passwordData;
+					ConvertString(this->input_1->Text, passwordData);
+					miragePtr->SetPassword(passwordData.c_str());
+					header_3->Text = "Confirmed password";
+					header_3->ForeColor = System::Drawing::Color::FromArgb(255, 0, 255, 0);
+					input_2->Visible = false;
+					button_next2->Visible = false;
+					text_match->Visible = false;
+					button_back2->Visible = false;
+				}
+			}
 		}
 		private: System::Void timer_anim_Tick(System::Object^ sender, System::EventArgs^ e)
 		{

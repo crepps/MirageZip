@@ -54,14 +54,8 @@ void MirageZip::SetPassword(std::string pw) noexcept
 {
     password = pw;
 }
-class MyException : std::runtime_error
-{
-public:
-    MyException() : std::runtime_error("shit") {}
-};
 int MirageZip::ZipFile()
 {
-    throw MyException();
     // Create archive and open
     std::remove(archivePath.c_str());
     int errCode = 0;
