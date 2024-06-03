@@ -44,6 +44,10 @@ namespace Mirage {
 	private: System::Windows::Forms::Label^ label_copyright;
 	private: System::Windows::Forms::LinkLabel^ link_license;
 	private: System::Windows::Forms::Label^ divider_bottom;
+	private: System::Windows::Forms::Label^ label_coffee;
+	private: System::Windows::Forms::LinkLabel^ link_coffee;
+
+
 
 
 
@@ -71,6 +75,8 @@ namespace Mirage {
 			this->label_copyright = (gcnew System::Windows::Forms::Label());
 			this->link_license = (gcnew System::Windows::Forms::LinkLabel());
 			this->divider_bottom = (gcnew System::Windows::Forms::Label());
+			this->label_coffee = (gcnew System::Windows::Forms::Label());
+			this->link_coffee = (gcnew System::Windows::Forms::LinkLabel());
 			this->SuspendLayout();
 			// 
 			// text_info
@@ -141,7 +147,7 @@ namespace Mirage {
 			this->label_version->AutoSize = true;
 			this->label_version->Font = (gcnew System::Drawing::Font(L"Gadugi", 9.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label_version->Location = System::Drawing::Point(522, 65);
+			this->label_version->Location = System::Drawing::Point(521, 64);
 			this->label_version->Name = L"label_version";
 			this->label_version->Size = System::Drawing::Size(80, 16);
 			this->label_version->TabIndex = 26;
@@ -164,7 +170,7 @@ namespace Mirage {
 				static_cast<System::Byte>(0)));
 			this->link_license->LinkColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(120)),
 				static_cast<System::Int32>(static_cast<System::Byte>(192)));
-			this->link_license->Location = System::Drawing::Point(505, 115);
+			this->link_license->Location = System::Drawing::Point(502, 115);
 			this->link_license->Name = L"link_license";
 			this->link_license->Size = System::Drawing::Size(112, 20);
 			this->link_license->TabIndex = 28;
@@ -186,13 +192,41 @@ namespace Mirage {
 			this->divider_bottom->Text = L"______________________________________________________________________";
 			this->divider_bottom->TextAlign = System::Drawing::ContentAlignment::TopCenter;
 			// 
+			// label_coffee
+			// 
+			this->label_coffee->AutoSize = true;
+			this->label_coffee->Font = (gcnew System::Drawing::Font(L"Gadugi", 9.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label_coffee->Location = System::Drawing::Point(277, 704);
+			this->label_coffee->Name = L"label_coffee";
+			this->label_coffee->Size = System::Drawing::Size(93, 16);
+			this->label_coffee->TabIndex = 30;
+			this->label_coffee->Text = L"Enjoy the app\?";
+			// 
+			// link_coffee
+			// 
+			this->link_coffee->Font = (gcnew System::Drawing::Font(L"Gadugi", 9.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->link_coffee->LinkColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(120)),
+				static_cast<System::Int32>(static_cast<System::Byte>(192)));
+			this->link_coffee->Location = System::Drawing::Point(367, 702);
+			this->link_coffee->Name = L"link_coffee";
+			this->link_coffee->Size = System::Drawing::Size(112, 20);
+			this->link_coffee->TabIndex = 31;
+			this->link_coffee->TabStop = true;
+			this->link_coffee->Text = L"Buy me a coffee";
+			this->link_coffee->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+			this->link_coffee->LinkClicked += gcnew System::Windows::Forms::LinkLabelLinkClickedEventHandler(this, &info::link_coffee_LinkClicked);
+			// 
 			// info
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::White;
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
-			this->ClientSize = System::Drawing::Size(742, 720);
+			this->ClientSize = System::Drawing::Size(742, 739);
+			this->Controls->Add(this->link_coffee);
+			this->Controls->Add(this->label_coffee);
 			this->Controls->Add(this->divider_bottom);
 			this->Controls->Add(this->link_license);
 			this->Controls->Add(this->label_copyright);
@@ -236,6 +270,10 @@ namespace Mirage {
 				link_license->Text = "(failed to open)";
 				link_license->Enabled = false;
 			}
+		}
+		private: System::Void link_coffee_LinkClicked(System::Object^ sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^ e)
+		{
+			System::Diagnostics::Process::Start("https://buymeacoffee.com/crepps");
 		}
 };
 }
