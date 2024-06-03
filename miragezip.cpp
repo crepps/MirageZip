@@ -148,11 +148,20 @@ unsigned int MirageZip::ZipFile()
 }
 unsigned int MirageZip::Concatenate() const
 {
+    STARTUPINFOA info{ sizeof(info) };
+    PROCESS_INFORMATION processInfo;
     std::stringstream cmd{ "" };
-    cmd << "COPY /B \"" << imagePath << "\" + \"" << archivePath << "\" \"" << exportPath << "\"";
-    system(cmd.str().c_str());
+    cmd << "/c COPY /B \"" << imagePath << "\" + \"" << archivePath << "\" \"" << exportPath << "\"";
 
-    return 0;
+    if (CreateProcessA("C:\\Windows\\System32\\cmd.exe", cmd.str().data(), NULL, NULL, TRUE, 0, NULL, NULL, &info, &processInfo))
+    {
+        WaitForSingleObject(processInfo.hProcess, INFINITE);
+        CloseHandle(processInfo.hProcess);
+        CloseHandle(processInfo.hThread);
+        return 0;
+    }
+
+    return 1;
 }
 const char* MirageZip::GetArchivePath() const noexcept
 {

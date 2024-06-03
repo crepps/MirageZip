@@ -4,7 +4,6 @@
 #include <filesystem>
 #include <Windows.h>
 #include "zip.h"
-#include <stdlib.h>
 
 class MirageZip
 {
