@@ -94,12 +94,12 @@ namespace Mirage
 			timer_anim->Start();
 
 			button_next1->FlatStyle = FlatStyle::Flat;
-			button_next2->FlatStyle = FlatStyle::Flat;
-			button_back1->FlatStyle = FlatStyle::Flat;
-			button_back2->FlatStyle = FlatStyle::Flat;
 			button_next1->FlatAppearance->BorderSize = 0;
+			button_next2->FlatStyle = FlatStyle::Flat;
 			button_next2->FlatAppearance->BorderSize = 0;
+			button_back1->FlatStyle = FlatStyle::Flat;
 			button_back1->FlatAppearance->BorderSize = 0;
+			button_back2->FlatStyle = FlatStyle::Flat;
 			button_back2->FlatAppearance->BorderSize = 0;
 		}
 
