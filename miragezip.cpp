@@ -1,11 +1,5 @@
 #include "miragezip.h"
 
-MirageZip::MirageZip()
-{
-    password = "\0";
-
-    CreateAppData();
-}
 unsigned int MirageZip::CreateAppData()
 {
     std::string path{ getenv("LOCALAPPDATA") };
@@ -21,10 +15,10 @@ unsigned int MirageZip::CreateAppData()
         
         err.clear();
         if (!std::filesystem::create_directories(path, err))
-            return 1;
+            return FAILURE_ABORT;
     }
 
-    return 0;
+    return SUCCESS;
 }
 void MirageZip::SetError(const std::string& arg) noexcept
 {
@@ -115,16 +109,18 @@ unsigned int MirageZip::ZipFile()
     std::remove(archivePath.c_str());
     int errCode = 0;
     zip* archive = zip_open(archivePath.c_str(), ZIP_CREATE, &errCode);
+    if (!archive) return FAILURE_ABORT;
 
     // Open file, get size
     std::ifstream file(filePath, std::ios::binary);
+    if (!file.is_open()) return FAILURE_ABORT;
     file.seekg(0, std::ios::end);
     int fileSize = file.tellg();
     file.seekg(0, std::ios::beg);
 
-    // Store file data in buffer, close file
-    char* data = new char[fileSize];
-    file.read(data, fileSize);
+    // Store file fileData in buffer, close file
+    fileData = new char[fileSize];
+    file.read(fileData, fileSize);
     file.close();
 
     // Get filename from file path
@@ -134,7 +130,8 @@ unsigned int MirageZip::ZipFile()
 
     // Zip file using buffer, close archive
     zip_source_t* source;
-    source = zip_source_buffer(archive, data, fileSize, 0);
+    source = zip_source_buffer(archive, fileData, fileSize, 0);
+    if (!source) return FAILURE_ABORT;
     zip_file_add(archive, fileName.c_str(), source, 0);
 
     if (password != "\0")
@@ -142,9 +139,7 @@ unsigned int MirageZip::ZipFile()
 
     zip_close(archive);
 
-    delete[] data;
-
-    return 0;
+    return SUCCESS;
 }
 unsigned int MirageZip::Concatenate() const
 {
@@ -158,17 +153,14 @@ unsigned int MirageZip::Concatenate() const
         WaitForSingleObject(processInfo.hProcess, INFINITE);
         CloseHandle(processInfo.hProcess);
         CloseHandle(processInfo.hThread);
-        return 0;
+        return SUCCESS;
     }
 
-    return 1;
+    return FAILURE_ABORT;
 }
 const char* MirageZip::GetArchivePath() const noexcept
 {
     return archivePath.c_str();
-}
-MirageZip::~MirageZip()
-{
 }
 
 // -- External --
@@ -181,12 +173,12 @@ unsigned int HideFile(MirageZip* obj)
     catch (const std::exception& e)
     {
         obj->SetError(e.what());
-        return 1;
+        return FAILURE_ABORT;
     }
     catch (...)
     {
         obj->SetError("Exception thrown when attempting to zip file.");
-        return 1;
+        return FAILURE_ABORT;
     }
     try
     {
@@ -195,12 +187,12 @@ unsigned int HideFile(MirageZip* obj)
     catch (const std::exception& e)
     {
         obj->SetError(e.what());
-        return 1;
+        return FAILURE_ABORT;
     }
     catch (...)
     {
         obj->SetError("Exception thrown when attempting to concatenate files.");
-        return 1;
+        return FAILURE_ABORT;
     }
     try
     {
@@ -209,13 +201,13 @@ unsigned int HideFile(MirageZip* obj)
     catch (const std::exception& e)
     {
         obj->SetError(e.what());
-        return 1;
+        return FAILURE_ABORT;
     }
     catch (...)
     {
         obj->SetError("Exception thrown when attempting to remove temp archive.");
-        return 2;
+        return FAILURE_CONTINUE;
     }
 
-    return 0;
+    return SUCCESS;
 }

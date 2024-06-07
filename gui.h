@@ -436,7 +436,7 @@ namespace Mirage
 				static_cast<System::Byte>(0)));
 			this->link_open->LinkBehavior = System::Windows::Forms::LinkBehavior::HoverUnderline;
 			this->link_open->LinkColor = System::Drawing::Color::White;
-			this->link_open->Location = System::Drawing::Point(412, 164);
+			this->link_open->Location = System::Drawing::Point(408, 160);
 			this->link_open->Name = L"link_open";
 			this->link_open->Size = System::Drawing::Size(83, 14);
 			this->link_open->TabIndex = 20;
@@ -452,7 +452,7 @@ namespace Mirage
 				static_cast<System::Byte>(0)));
 			this->link_reset->LinkBehavior = System::Windows::Forms::LinkBehavior::HoverUnderline;
 			this->link_reset->LinkColor = System::Drawing::Color::White;
-			this->link_reset->Location = System::Drawing::Point(357, 164);
+			this->link_reset->Location = System::Drawing::Point(353, 160);
 			this->link_reset->Name = L"link_reset";
 			this->link_reset->Size = System::Drawing::Size(35, 14);
 			this->link_reset->TabIndex = 21;
@@ -474,7 +474,7 @@ namespace Mirage
 				static_cast<System::Int32>(static_cast<System::Byte>(230)));
 			this->link_divider->LinkBehavior = System::Windows::Forms::LinkBehavior::NeverUnderline;
 			this->link_divider->LinkColor = System::Drawing::Color::White;
-			this->link_divider->Location = System::Drawing::Point(398, 164);
+			this->link_divider->Location = System::Drawing::Point(394, 160);
 			this->link_divider->Name = L"link_divider";
 			this->link_divider->Size = System::Drawing::Size(10, 14);
 			this->link_divider->TabIndex = 22;

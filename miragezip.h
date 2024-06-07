@@ -11,9 +11,15 @@
 #define MEDIUM_LENGTH 8
 #define STRONG_LENGTH 12
 
+#define SUCCESS 0
+#define FAILURE_ABORT 1
+#define FAILURE_CONTINUE 2
+
 class MirageZip
 {
 private:
+    char* fileData;
+
     std::string error,
         archivePath,
         imagePath,
@@ -31,7 +37,7 @@ public:
         EXPORT
     };
 
-    MirageZip();
+    MirageZip() :fileData(nullptr), password("\0") { CreateAppData(); }
     unsigned int CreateAppData();
     void SetError(const std::string&) noexcept;
     std::string GetError() const noexcept;
@@ -41,7 +47,7 @@ public:
     unsigned int ZipFile();
     unsigned int Concatenate() const;
     const char* GetArchivePath() const noexcept;
-    ~MirageZip();
+    ~MirageZip() { if (fileData) delete[] fileData; }
 };
 
 extern unsigned int HideFile(MirageZip* obj);
