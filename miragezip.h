@@ -5,6 +5,12 @@
 #include <Windows.h>
 #include "zip.h"
 
+#define WEAK_SCORE 2
+#define MEDIUM_SCORE 3
+#define STRONG_SCORE 4
+#define MEDIUM_LENGTH 8
+#define STRONG_LENGTH 12
+
 class MirageZip
 {
 private:

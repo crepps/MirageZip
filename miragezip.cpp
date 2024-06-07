@@ -53,9 +53,9 @@ void MirageZip::SetPath(Path type, const std::string& path) noexcept
 unsigned int MirageZip::TestPassword(const std::string& pw) const noexcept
 {
     char lower[]{ "abcdefghijklmnopqrstuvwxyz" },
-        upper[]{"ABCDEFGHIJKLMNOPQRSTUVWXYZ"},
-        numbers[]{"0123456789"},
-        chars[]{"!@#$%^&*()-_=+,.<>/?|[]{}:;~\'\"\\"};
+        upper[]{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" },
+        numbers[]{ "0123456789" },
+        chars[]{ "!@#$%^&*()-_=+,.<>/?|[]{}:;~\'\"\\" };
     bool found[4]{ false, false, false, false };
     float points{ 0.0f };
 
@@ -97,10 +97,10 @@ unsigned int MirageZip::TestPassword(const std::string& pw) const noexcept
     }
 
     // Test password length
-    if (pw.length() >= 8 && pw.length() < 12 && points >= 1.5f)
+    if (pw.length() >= MEDIUM_LENGTH && pw.length() < STRONG_LENGTH && points >= 1.5f)
         ++points;
 
-    else if (pw.length() >= 12)
+    else if (pw.length() >= STRONG_LENGTH && points >= 1.0f)
         points += 2;
 
     return (unsigned int)points;
