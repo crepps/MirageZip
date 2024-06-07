@@ -46,46 +46,46 @@ void MirageZip::SetPath(Path type, const std::string& path) noexcept
 }
 unsigned int MirageZip::TestPassword(const std::string& pw) const noexcept
 {
-    char lower[]{ "abcdefghijklmnopqrstuvwxyz" },
-        upper[]{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" },
-        numbers[]{ "0123456789" },
-        chars[]{ "!@#$%^&*()-_=+,.<>/?|[]{}:;~\'\"\\" };
-    bool found[4]{ false, false, false, false };
+    char lowerSet[]{ "abcdefghijklmnopqrstuvwxyz" },
+        upperSet[]{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" },
+        numberSet[]{ "0123456789" },
+        charSet[]{ "!@#$%^&*()-_=+,.<>/?|[]{}:;~\'\"\\" };
+    bool found[NUM_SETS]{ false, false, false, false };
     float points{ 0.0f };
 
-    // Test for lowercase, uppercase, numbers and special characters
+    // Test for lowercase, uppercase, numberSet and special characters
     for (auto& c : pw)
     {
-        if (!found[0])
+        if (!found[LOWER])
         {
-            if (strchr(lower, c))
+            if (strchr(lowerSet, c))
             {
                 points += 0.5f;
-                found[0] = true;
+                found[LOWER] = true;
             }
         }
-        if (!found[1])
+        if (!found[UPPER])
         {
-            if (strchr(upper, c))
+            if (strchr(upperSet, c))
             {
                 points += 0.5f;
-                found[1] = true;
+                found[UPPER] = true;
             }
         }
-        if (!found[2])
+        if (!found[NUMBERS])
         {
-            if (strchr(numbers, c))
+            if (strchr(numberSet, c))
             {
                 points += 0.5f;
-                found[2] = true;
+                found[NUMBERS] = true;
             }
         }
-        if (!found[3])
+        if (!found[CHARACTERS])
         {
-            if (strchr(chars, c))
+            if (strchr(charSet, c))
             {
                 points += 0.5f;
-                found[3] = true;
+                found[CHARACTERS] = true;
             }
         }
     }

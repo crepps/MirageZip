@@ -5,15 +5,23 @@
 #include <Windows.h>
 #include "zip.h"
 
+#define SUCCESS 0
+#define FAILURE_ABORT 1
+#define FAILURE_CONTINUE 2
+
+#define LOWER 0
+#define UPPER 1
+#define NUMBERS 2
+#define CHARACTERS 3
+#define NUM_SETS 4
+
 #define WEAK_SCORE 2
 #define MEDIUM_SCORE 3
 #define STRONG_SCORE 4
 #define MEDIUM_LENGTH 8
 #define STRONG_LENGTH 12
 
-#define SUCCESS 0
-#define FAILURE_ABORT 1
-#define FAILURE_CONTINUE 2
+
 
 class MirageZip
 {
