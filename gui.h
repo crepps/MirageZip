@@ -721,28 +721,7 @@ namespace Mirage
 				if (BackgroundImage != nullptr)
 					BackgroundImage = nullptr;
 
-				header_1->Location = System::Drawing::Point(header_1->Location.X, header_1->Location.Y + transIncrement);
-				header_2->Location = System::Drawing::Point(header_2->Location.X, header_2->Location.Y + transIncrement);
-				header_3->Location = System::Drawing::Point(header_3->Location.X, header_3->Location.Y + transIncrement);
-				header_1_back->Location = System::Drawing::Point(header_1_back->Location.X, header_1_back->Location.Y + transIncrement);
-
-				button_image->Location = System::Drawing::Point(button_image->Location.X, button_image->Location.Y + transIncrement);
-				button_file->Location = System::Drawing::Point(button_file->Location.X, button_file->Location.Y + transIncrement);
-				button_go->Location = System::Drawing::Point(button_go->Location.X, button_go->Location.Y + transIncrement);
-
-				text_button_image->Location = System::Drawing::Point(text_button_image->Location.X, text_button_image->Location.Y + transIncrement);
-				text_button_file->Location = System::Drawing::Point(text_button_file->Location.X, text_button_file->Location.Y + transIncrement);
-				text_strength->Location = System::Drawing::Point(text_strength->Location.X, text_strength->Location.Y + transIncrement);
-				text_match->Location = System::Drawing::Point(text_match->Location.X, text_match->Location.Y + transIncrement);
-
-				input_1->Location = System::Drawing::Point(input_1->Location.X, input_1->Location.Y + transIncrement);
-				input_2->Location = System::Drawing::Point(input_2->Location.X, input_2->Location.Y + transIncrement);
-
-				button_next1->Location = System::Drawing::Point(button_next1->Location.X, button_next1->Location.Y + transIncrement);
-				button_next2->Location = System::Drawing::Point(button_next2->Location.X, button_next2->Location.Y + transIncrement);
-
-				button_back1->Location = System::Drawing::Point(button_back1->Location.X, button_back1->Location.Y + transIncrement);
-				button_back2->Location = System::Drawing::Point(button_back2->Location.X, button_back2->Location.Y + transIncrement);
+				Translate();
 
 				// Snap y-positions and update region
 				if (header_2->Location.Y <= posYHeader2[1])
@@ -758,28 +737,7 @@ namespace Mirage
 			// Translate from region 2
 			else if (currentRegion == 2)
 			{
-				header_1->Location = System::Drawing::Point(header_1->Location.X, header_1->Location.Y + transIncrement);
-				header_2->Location = System::Drawing::Point(header_2->Location.X, header_2->Location.Y + transIncrement);
-				header_3->Location = System::Drawing::Point(header_3->Location.X, header_3->Location.Y + transIncrement);
-				header_1_back->Location = System::Drawing::Point(header_1_back->Location.X, header_1_back->Location.Y + transIncrement);
-
-				button_image->Location = System::Drawing::Point(button_image->Location.X, button_image->Location.Y + transIncrement);
-				button_file->Location = System::Drawing::Point(button_file->Location.X, button_file->Location.Y + transIncrement);
-				button_go->Location = System::Drawing::Point(button_go->Location.X, button_go->Location.Y + transIncrement);
-
-				text_button_image->Location = System::Drawing::Point(text_button_image->Location.X, text_button_image->Location.Y + transIncrement);
-				text_button_file->Location = System::Drawing::Point(text_button_file->Location.X, text_button_file->Location.Y + transIncrement);
-				text_strength->Location = System::Drawing::Point(text_strength->Location.X, text_strength->Location.Y + transIncrement);
-				text_match->Location = System::Drawing::Point(text_match->Location.X, text_match->Location.Y + transIncrement);
-
-				input_1->Location = System::Drawing::Point(input_1->Location.X, input_1->Location.Y + transIncrement);
-				input_2->Location = System::Drawing::Point(input_2->Location.X, input_2->Location.Y + transIncrement);
-
-				button_next1->Location = System::Drawing::Point(button_next1->Location.X, button_next1->Location.Y + transIncrement);
-				button_next2->Location = System::Drawing::Point(button_next2->Location.X, button_next2->Location.Y + transIncrement);
-
-				button_back1->Location = System::Drawing::Point(button_back1->Location.X, button_back1->Location.Y + transIncrement);
-				button_back2->Location = System::Drawing::Point(button_back2->Location.X, button_back2->Location.Y + transIncrement);
+				Translate();
 
 				// Snap y-positions and update region
 				anchor = (transIncrement < 0 ? header_3->Location.Y : header_1->Location.Y * -1);
@@ -801,28 +759,7 @@ namespace Mirage
 			// Translate from region 3
 			else if (currentRegion == 3)
 			{
-				header_1->Location = System::Drawing::Point(header_1->Location.X, header_1->Location.Y + transIncrement);
-				header_2->Location = System::Drawing::Point(header_2->Location.X, header_2->Location.Y + transIncrement);
-				header_3->Location = System::Drawing::Point(header_3->Location.X, header_3->Location.Y + transIncrement);
-				header_1_back->Location = System::Drawing::Point(header_1_back->Location.X, header_1_back->Location.Y + transIncrement);
-
-				button_image->Location = System::Drawing::Point(button_image->Location.X, button_image->Location.Y + transIncrement);
-				button_file->Location = System::Drawing::Point(button_file->Location.X, button_file->Location.Y + transIncrement);
-				button_go->Location = System::Drawing::Point(button_go->Location.X, button_go->Location.Y + transIncrement);
-
-				text_button_image->Location = System::Drawing::Point(text_button_image->Location.X, text_button_image->Location.Y + transIncrement);
-				text_button_file->Location = System::Drawing::Point(text_button_file->Location.X, text_button_file->Location.Y + transIncrement);
-				text_strength->Location = System::Drawing::Point(text_strength->Location.X, text_strength->Location.Y + transIncrement);
-				text_match->Location = System::Drawing::Point(text_match->Location.X, text_match->Location.Y + transIncrement);
-
-				input_1->Location = System::Drawing::Point(input_1->Location.X, input_1->Location.Y + transIncrement);
-				input_2->Location = System::Drawing::Point(input_2->Location.X, input_2->Location.Y + transIncrement);
-
-				button_next1->Location = System::Drawing::Point(button_next1->Location.X, button_next1->Location.Y + transIncrement);
-				button_next2->Location = System::Drawing::Point(button_next2->Location.X, button_next2->Location.Y + transIncrement);
-
-				button_back1->Location = System::Drawing::Point(button_back1->Location.X, button_back1->Location.Y + transIncrement);
-				button_back2->Location = System::Drawing::Point(button_back2->Location.X, button_back2->Location.Y + transIncrement);
+				Translate();
 
 				// Snap y-positions and update region
 				if (header_2->Location.Y >= posYHeader2[1])
@@ -1009,6 +946,49 @@ namespace Mirage
 		{
 			Reset();
 		}
+		private: System::Void link_open_LinkClicked(System::Object^ sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^ e)
+		{
+			std::string cmd{ "C:\\Windows\\explorer.exe"},
+				openPath{ exportPath };
+			size_t pos = openPath.find_last_of("\\");
+			openPath.erase(pos, openPath.length()-1);
+
+			try
+			{
+				System::Diagnostics::Process::Start(gcnew String(cmd.data()), gcnew String(openPath.data()));
+			}
+
+			catch (...)
+			{
+				link_open->Text = "(failed to open)";
+				link_open->Enabled = false;
+			}
+		}
+		private: void Translate()
+		{
+			header_1->Location = System::Drawing::Point(header_1->Location.X, header_1->Location.Y + transIncrement);
+			header_2->Location = System::Drawing::Point(header_2->Location.X, header_2->Location.Y + transIncrement);
+			header_3->Location = System::Drawing::Point(header_3->Location.X, header_3->Location.Y + transIncrement);
+			header_1_back->Location = System::Drawing::Point(header_1_back->Location.X, header_1_back->Location.Y + transIncrement);
+
+			button_image->Location = System::Drawing::Point(button_image->Location.X, button_image->Location.Y + transIncrement);
+			button_file->Location = System::Drawing::Point(button_file->Location.X, button_file->Location.Y + transIncrement);
+			button_go->Location = System::Drawing::Point(button_go->Location.X, button_go->Location.Y + transIncrement);
+
+			text_button_image->Location = System::Drawing::Point(text_button_image->Location.X, text_button_image->Location.Y + transIncrement);
+			text_button_file->Location = System::Drawing::Point(text_button_file->Location.X, text_button_file->Location.Y + transIncrement);
+			text_strength->Location = System::Drawing::Point(text_strength->Location.X, text_strength->Location.Y + transIncrement);
+			text_match->Location = System::Drawing::Point(text_match->Location.X, text_match->Location.Y + transIncrement);
+
+			input_1->Location = System::Drawing::Point(input_1->Location.X, input_1->Location.Y + transIncrement);
+			input_2->Location = System::Drawing::Point(input_2->Location.X, input_2->Location.Y + transIncrement);
+
+			button_next1->Location = System::Drawing::Point(button_next1->Location.X, button_next1->Location.Y + transIncrement);
+			button_next2->Location = System::Drawing::Point(button_next2->Location.X, button_next2->Location.Y + transIncrement);
+
+			button_back1->Location = System::Drawing::Point(button_back1->Location.X, button_back1->Location.Y + transIncrement);
+			button_back2->Location = System::Drawing::Point(button_back2->Location.X, button_back2->Location.Y + transIncrement);
+		}
 		private: void Reset()
 		{
 			imageSelected = fileSelected = passMatch = false;
@@ -1055,24 +1035,6 @@ namespace Mirage
 
 			button_back1->Location = System::Drawing::Point(button_back1->Location.X, posYButtonBack1[0]);
 			button_back2->Location = System::Drawing::Point(button_back2->Location.X, posYButtonBack2[0]);
-		}
-		private: System::Void link_open_LinkClicked(System::Object^ sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^ e)
-		{
-			std::string cmd{ "C:\\Windows\\explorer.exe"},
-				openPath{ exportPath };
-			size_t pos = openPath.find_last_of("\\");
-			openPath.erase(pos, openPath.length()-1);
-
-			try
-			{
-				System::Diagnostics::Process::Start(gcnew String(cmd.data()), gcnew String(openPath.data()));
-			}
-
-			catch (...)
-			{
-				link_open->Text = "(failed to open)";
-				link_open->Enabled = false;
-			}
 		}
 	};
 }
