@@ -58,6 +58,11 @@ int main(array<String^>^ args)
 		MessageBox::Show(gcnew String(e.what()));
 		return EXIT_FAILURE;
 	}
+	catch (...)
+	{
+		MessageBox::Show("Unknown exception occured.");
+		return EXIT_FAILURE;
+	}
 
 	return EXIT_SUCCESS;
 }

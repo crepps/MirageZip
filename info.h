@@ -194,24 +194,23 @@ namespace Mirage {
 			// 
 			// label_coffee
 			// 
-			this->label_coffee->AutoSize = true;
-			this->label_coffee->Font = (gcnew System::Drawing::Font(L"Gadugi", 9.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->label_coffee->Font = (gcnew System::Drawing::Font(L"Gadugi", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label_coffee->Location = System::Drawing::Point(277, 704);
+			this->label_coffee->Location = System::Drawing::Point(286, 705);
 			this->label_coffee->Name = L"label_coffee";
-			this->label_coffee->Size = System::Drawing::Size(93, 16);
+			this->label_coffee->Size = System::Drawing::Size(84, 20);
 			this->label_coffee->TabIndex = 30;
 			this->label_coffee->Text = L"Enjoy the app\?";
 			// 
 			// link_coffee
 			// 
-			this->link_coffee->Font = (gcnew System::Drawing::Font(L"Gadugi", 9.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->link_coffee->Font = (gcnew System::Drawing::Font(L"Gadugi", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->link_coffee->LinkColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(120)),
 				static_cast<System::Int32>(static_cast<System::Byte>(192)));
-			this->link_coffee->Location = System::Drawing::Point(367, 702);
+			this->link_coffee->Location = System::Drawing::Point(374, 704);
 			this->link_coffee->Name = L"link_coffee";
-			this->link_coffee->Size = System::Drawing::Size(112, 20);
+			this->link_coffee->Size = System::Drawing::Size(94, 20);
 			this->link_coffee->TabIndex = 31;
 			this->link_coffee->TabStop = true;
 			this->link_coffee->Text = L"Buy me a coffee";

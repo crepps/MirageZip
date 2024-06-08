@@ -53,7 +53,7 @@ unsigned int MirageZip::TestPassword(const std::string& pw) const noexcept
     bool found[NUM_SETS]{ false, false, false, false };
     float points{ 0.0f };
 
-    // Test for lowercase, uppercase, numberSet and special characters
+    // Test for lowercase, uppercase, numbers and special characters
     for (auto& c : pw)
     {
         if (!found[LOWER])
@@ -118,7 +118,7 @@ unsigned int MirageZip::ZipFile()
     int fileSize = file.tellg();
     file.seekg(0, std::ios::beg);
 
-    // Store file fileData in buffer, close file
+    // Store file data in buffer, close file
     fileData = new char[fileSize];
     file.read(fileData, fileSize);
     file.close();
@@ -201,7 +201,7 @@ unsigned int HideFile(MirageZip* obj)
     catch (const std::exception& e)
     {
         obj->SetError(e.what());
-        return FAILURE_ABORT;
+        return FAILURE_CONTINUE;
     }
     catch (...)
     {
