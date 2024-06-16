@@ -2,6 +2,7 @@
 #include <sstream>
 #include <fstream>
 #include <filesystem>
+#include <memory>
 #include <Windows.h>
 #include "zip.h"
 
@@ -20,8 +21,6 @@
 class MirageZip
 {
 private:
-    char* fileData;
-
     std::string error,
         archivePath,
         imagePath,
@@ -29,8 +28,8 @@ private:
         exportPath,
         password;
 
-    struct stat Statinfo;
-
+    struct stat Statinfo;   /* Used for checking whether
+                                directory exists with stat() */
     enum CHAR_TYPE
     {
         LOWER,
@@ -47,7 +46,7 @@ public:
         EXPORT
     };
 
-    MirageZip() :fileData(nullptr), password("\0") { CreateAppData(); }
+    MirageZip() : password("\0") { CreateAppData(); }
     unsigned int CreateAppData();
     void SetError(const std::string&) noexcept;
     std::string GetError() const noexcept;
@@ -57,7 +56,7 @@ public:
     unsigned int ZipFile();
     unsigned int Concatenate() const;
     const char* GetArchivePath() const noexcept;
-    ~MirageZip() { if (fileData) delete[] fileData; }
+    ~MirageZip() {}
 };
 
 extern unsigned int HideFile(MirageZip* obj);

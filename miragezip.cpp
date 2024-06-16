@@ -118,9 +118,9 @@ unsigned int MirageZip::ZipFile()
     int fileSize = file.tellg();
     file.seekg(0, std::ios::beg);
 
-    // Store file data in buffer, close file
-    fileData = new char[fileSize];
-    file.read(fileData, fileSize);
+    // Store file data in resource management object, close file
+    std::shared_ptr<char[]> fileData(new char[fileSize]);
+    file.read(fileData.get(), fileSize);
     file.close();
 
     // Get filename from file path
@@ -130,7 +130,7 @@ unsigned int MirageZip::ZipFile()
 
     // Zip file using buffer, close archive
     zip_source_t* source;
-    source = zip_source_buffer(archive, fileData, fileSize, 0);
+    source = zip_source_buffer(archive, fileData.get(), fileSize, 0);
     if (!source) return FAILURE_ABORT;
     zip_file_add(archive, fileName.c_str(), source, 0);
 
