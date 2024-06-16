@@ -858,7 +858,7 @@ namespace Mirage
 			{
 				ConvertString(openFileDialog1->FileName, str);
 				imagePath = str.c_str();
-				miragePtr->SetPath(MirageZip::Path::IMAGE, str);
+				miragePtr->SetPath(MirageZip::PATH_TYPE::IMAGE, str);
 				strPos = str.find_last_of("\\");
 				str.erase(0, strPos + 1);
 
@@ -890,7 +890,7 @@ namespace Mirage
 			{
 				ConvertString(openFileDialog1->FileName, str);
 				filePath = str.c_str();
-				miragePtr->SetPath(MirageZip::Path::FILE, str);
+				miragePtr->SetPath(MirageZip::PATH_TYPE::FILE, str);
 				strPos = str.find_last_of("\\");
 				str.erase(0, strPos + 1);
 
@@ -948,7 +948,7 @@ namespace Mirage
 			{
 				ConvertString(saveFileDialog1->FileName, filePath);
 				exportPath = filePath.c_str();
-				miragePtr->SetPath(MirageZip::Path::EXPORT, filePath);
+				miragePtr->SetPath(MirageZip::PATH_TYPE::EXPORT, filePath);
 				input_1->Text = "";
 				ActiveControl = input_1;
 				transIncrement = -20;

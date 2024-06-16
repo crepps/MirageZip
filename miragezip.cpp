@@ -28,7 +28,7 @@ std::string MirageZip::GetError() const noexcept
 {
     return error;
 }
-void MirageZip::SetPath(Path type, const std::string& path) noexcept
+void MirageZip::SetPath(PATH_TYPE type, const std::string& path) noexcept
 {
     switch (type)
     {
