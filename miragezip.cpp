@@ -1,24 +1,41 @@
 #include "miragezip.h"
 
+void MirageZip::Init()
+{
+    if (CreateAppData())
+        abort();
+}
 unsigned int MirageZip::CreateAppData()
 {
-    std::string path{ getenv("LOCALAPPDATA") };
-
-    path += "\\MirageZip";
-    archivePath = path + "\\archive.zip";
-    stat(path.c_str(), &Statinfo);
-
-    // If directory doesn't exist, create it
-    if (!(Statinfo.st_mode & S_IFDIR))
+    try
     {
-        std::error_code err;
-        
-        err.clear();
-        if (!std::filesystem::create_directories(path, err))
-            return FAILURE_ABORT;
-    }
+        std::string path{ getenv("LOCALAPPDATA") };
+        path += "\\MirageZip";
+        archivePath = path + "\\archive.zip";
+        stat(path.c_str(), &Statinfo);
 
-    return SUCCESS;
+        // If directory doesn't exist, create it
+        if (!(Statinfo.st_mode & S_IFDIR))
+        {
+            std::error_code err;
+            err.clear();
+
+            if (!std::filesystem::create_directories(path, err))
+            {
+                std::stringstream msg("Error code: ");
+                msg << err;
+                MessageBoxA(0, msg.str().c_str(), "Failed to create app data folder.", MB_OK);
+                return FAILURE_ABORT;
+            }
+        }
+
+        return SUCCESS;
+    }
+    catch (...)
+    {
+        MessageBoxA(0, "Unknown exception thrown.", "Failed to create app data folder.", MB_OK);
+        return FAILURE_ABORT;
+    }
 }
 void MirageZip::SetError(const std::string& arg) noexcept
 {
