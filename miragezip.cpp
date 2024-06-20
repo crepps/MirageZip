@@ -53,7 +53,10 @@ unsigned int MirageZip::TestPassword(const std::string& pw) const noexcept
     bool found[NUM_SETS]{ false, false, false, false };
     float points{ 0.0f };
 
-    // Test for lowercase, uppercase, numbers and special characters
+     /* Compare each character in password to each character set if not yet matched,
+        add half a point for each character set with one or more instances
+        of lowercase, uppercase, digits or special characters in password   */
+
     for (auto& c : pw)
     {
         if (!found[LOWER])
@@ -90,13 +93,17 @@ unsigned int MirageZip::TestPassword(const std::string& pw) const noexcept
         }
     }
 
-    // Test password length
+    // If pass is medium length (less than 12), add one point if it has at least three character types
     if (pw.length() >= MEDIUM_LENGTH && pw.length() < STRONG_LENGTH && points >= 1.5f)
         ++points;
 
+    // If strong length, add two points if it has at least two character types
     else if (pw.length() >= STRONG_LENGTH && points >= 1.0f)
         points += 2;
 
+    /*    weak - fewer than three points
+        medium - three points
+        strong - four points    */
     return (unsigned int)points;
 }
 void MirageZip::SetPassword(const std::string& pw) noexcept
@@ -166,6 +173,7 @@ const char* MirageZip::GetArchivePath() const noexcept
 // -- External --
 unsigned int HideFile(MirageZip* obj)
 {
+    //  Attempt to zip selected file
     try
     {
         obj->ZipFile();
@@ -177,9 +185,11 @@ unsigned int HideFile(MirageZip* obj)
     }
     catch (...)
     {
-        obj->SetError("Exception thrown when attempting to zip file.");
+        obj->SetError("Exception thrown while attempting to zip file.");
         return FAILURE_ABORT;
     }
+
+    // Attempt to concatenate image and temp archive
     try
     {
         obj->Concatenate();
@@ -191,9 +201,11 @@ unsigned int HideFile(MirageZip* obj)
     }
     catch (...)
     {
-        obj->SetError("Exception thrown when attempting to concatenate files.");
+        obj->SetError("Exception thrown while attempting to concatenate files.");
         return FAILURE_ABORT;
     }
+
+    // Attempt to delete temp archive
     try
     {
         std::remove(obj->GetArchivePath());
@@ -205,7 +217,7 @@ unsigned int HideFile(MirageZip* obj)
     }
     catch (...)
     {
-        obj->SetError("Exception thrown when attempting to remove temp archive.");
+        obj->SetError("Exception thrown while attempting to remove temp archive.");
         return FAILURE_CONTINUE;
     }
 

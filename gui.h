@@ -910,17 +910,17 @@ namespace Mirage
 			ConvertString(input_1->Text, pw);
 			unsigned int points{miragePtr->TestPassword(pw)};
 
-			if (points < 3)
+			if (points < MEDIUM_SCORE)
 			{
 				text_strength->Text = "Weak";
 				text_strength->ForeColor = System::Drawing::Color::Red;
 			}
-			else if (points == 3)
+			else if (points == MEDIUM_SCORE)
 			{
 				text_strength->Text = "Fair";
 				text_strength->ForeColor = System::Drawing::Color::Orange;
 			}
-			else if (points == 4)
+			else if (points == STRONG_SCORE)
 			{
 				text_strength->Text = "Strong";
 				text_strength->ForeColor = System::Drawing::Color::Green;
