@@ -177,6 +177,14 @@ namespace Mirage
 
 			timer_anim->Start();
 
+			input_2->Visible = true;
+			button_next2->Visible = true;
+			text_match->Visible = true;
+			button_back2->Visible = true;
+
+			header_3->Text = "Confirm password";
+			header_3->ForeColor = System::Drawing::Color::Black;
+
 			header_1->Location = System::Drawing::Point(header_1->Location.X, posYHeader1[0]);
 			header_2->Location = System::Drawing::Point(header_2->Location.X, posYHeader2[0]);
 			header_3->Location = System::Drawing::Point(header_3->Location.X, posYHeader3[0]);
