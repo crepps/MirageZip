@@ -24,7 +24,7 @@ unsigned int MirageZip::CreateAppData()
             {
                 std::stringstream msg("Error code: ");
                 msg << err;
-                MessageBoxA(0, msg.str().c_str(), "Failed to create app data folder.", MB_OK);
+                MessageBoxA(NULL, msg.str().c_str(), "Failed to create app data folder.", MB_OK);
                 return FAILURE_ABORT;
             }
         }
@@ -33,7 +33,7 @@ unsigned int MirageZip::CreateAppData()
     }
     catch (...)
     {
-        MessageBoxA(0, "Unknown exception thrown.", "Failed to create app data folder.", MB_OK);
+        MessageBoxA(NULL, "Unknown exception thrown.", "Failed to create app data folder.", MB_OK);
         return FAILURE_ABORT;
     }
 }
@@ -63,11 +63,12 @@ void MirageZip::SetPath(PATH_TYPE type, const std::string& path) noexcept
 }
 unsigned int MirageZip::TestPassword(const std::string& pw) const noexcept
 {
+    bool found[NUM_SETS]{ false, false, false, false };
     char lowerSet[]{ "abcdefghijklmnopqrstuvwxyz" },
         upperSet[]{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" },
         numberSet[]{ "0123456789" },
         charSet[]{ "!@#$%^&*()-_=+,.<>/?|[]{}:;~\'\"\\" };
-    bool found[NUM_SETS]{ false, false, false, false };
+    char* sets[NUM_SETS]{ lowerSet, upperSet, numberSet, charSet };
     float points{ 0.0f };
 
      /* Compare each character in password to each character set if not yet matched,
@@ -76,36 +77,15 @@ unsigned int MirageZip::TestPassword(const std::string& pw) const noexcept
 
     for (auto& c : pw)
     {
-        if (!found[LOWER])
+        for (int type = LOWER; type < NUM_SETS; ++type)
         {
-            if (strchr(lowerSet, c))
+            if (!found[type])
             {
-                points += 0.5f;
-                found[LOWER] = true;
-            }
-        }
-        if (!found[UPPER])
-        {
-            if (strchr(upperSet, c))
-            {
-                points += 0.5f;
-                found[UPPER] = true;
-            }
-        }
-        if (!found[NUMBERS])
-        {
-            if (strchr(numberSet, c))
-            {
-                points += 0.5f;
-                found[NUMBERS] = true;
-            }
-        }
-        if (!found[CHARACTERS])
-        {
-            if (strchr(charSet, c))
-            {
-                points += 0.5f;
-                found[CHARACTERS] = true;
+                if (strchr(sets[type], c))
+                {
+                    points += 0.5f;
+                    found[type] = true;
+                }
             }
         }
     }
