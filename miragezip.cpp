@@ -77,7 +77,7 @@ unsigned int MirageZip::TestPassword(const std::string& pw) const noexcept
 
     for (auto& c : pw)
     {
-        for (int type = LOWER; type < NUM_SETS; ++type)
+        for (unsigned char type = LOWER; type < NUM_SETS; ++type)
         {
             if (!found[type])
             {

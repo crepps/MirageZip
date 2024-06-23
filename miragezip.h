@@ -38,6 +38,9 @@ private:
         CHARACTERS
     };
 
+    void Init();
+    unsigned int CreateAppData();
+
 public:
     enum PATH_TYPE
     {
@@ -47,8 +50,6 @@ public:
     };
 
     MirageZip() : password("\0") { Init(); }
-    void Init();
-    unsigned int CreateAppData();
     void SetError(const std::string&) noexcept;
     std::string GetError() const noexcept;
     void SetPath(PATH_TYPE, const std::string&) noexcept;
