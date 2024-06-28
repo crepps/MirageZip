@@ -3,7 +3,10 @@
 void MirageZip::Init()
 {
     if (CreateAppData())
+    {
+        MessageBoxA(NULL, GetError().c_str(), "Failed to create app data folder.", MB_OK);
         abort();
+    }
 }
 unsigned int MirageZip::CreateAppData()
 {
@@ -24,7 +27,7 @@ unsigned int MirageZip::CreateAppData()
             {
                 std::stringstream msg("Error code: ");
                 msg << err;
-                MessageBoxA(NULL, msg.str().c_str(), "Failed to create app data folder.", MB_OK);
+                SetError(msg.str());
                 return FAILURE_ABORT;
             }
         }
@@ -33,7 +36,7 @@ unsigned int MirageZip::CreateAppData()
     }
     catch (...)
     {
-        MessageBoxA(NULL, "Unknown exception thrown.", "Failed to create app data folder.", MB_OK);
+        SetError("Exception thrown.");
         return FAILURE_ABORT;
     }
 }
