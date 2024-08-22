@@ -40,14 +40,6 @@ unsigned int MirageZip::CreateAppData()
         return FAILURE_ABORT;
     }
 }
-void MirageZip::SetError(const std::string& arg) noexcept
-{
-    error = arg;
-}
-std::string MirageZip::GetError() const noexcept
-{
-    return error;
-}
 void MirageZip::SetPath(PATH_TYPE type, const std::string& path) noexcept
 {
     switch (type)
@@ -164,10 +156,6 @@ unsigned int MirageZip::Concatenate() const
     }
 
     return FAILURE_ABORT;
-}
-const char* MirageZip::GetArchivePath() const noexcept
-{
-    return archivePath.c_str();
 }
 
 // -- External --
