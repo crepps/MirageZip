@@ -2,6 +2,9 @@
 
 void MirageZip::Init()
 {
+    /* If %LOCALAPPDATA%\MirageZip doesn't exist, and
+       attempt to create it fails, notify user and abort */
+
     if (CreateAppData())
     {
         MessageBoxA(NULL, GetError().c_str(), "Failed to create app data folder.", MB_OK);
@@ -12,14 +15,15 @@ unsigned int MirageZip::CreateAppData()
 {
     try
     {
+        // Set archivePath member, check whether folder already exists
         std::string path{ getenv("LOCALAPPDATA") };
         path += "\\MirageZip";
         archivePath = path + "\\archive.zip";
         stat(path.c_str(), &Statinfo);
 
-        // If directory doesn't exist, create it
         if (!(Statinfo.st_mode & S_IFDIR))
         {
+            // If directory doesn't exist, create it
             std::error_code err;
             err.clear();
 
@@ -66,9 +70,9 @@ unsigned int MirageZip::TestPassword(const std::string& pw) const noexcept
     char* sets[NUM_SETS]{ lowerSet, upperSet, numberSet, charSet };
     float points{ 0.0f };
 
-     /* Compare each character in password to each character set if not yet matched,
-        add half a point for each character set with one or more instances
-        of lowercase, uppercase, digits or special characters in password   */
+    /* Compare each character in password to each character set if not yet matched,
+       add half a point for each character set with one or more instances
+       of lowercase, uppercase, digits or special characters in password   */
 
     for (auto& c : pw)
     {
@@ -85,26 +89,28 @@ unsigned int MirageZip::TestPassword(const std::string& pw) const noexcept
         }
     }
 
-    // If pass is medium length (less than 12), add one point if it has at least three character types
+    // If pass is medium length (less than 12), add one point if at least three character types
     if (pw.length() >= MEDIUM_LENGTH && pw.length() < STRONG_LENGTH && points >= 1.5f)
         ++points;
 
-    // If strong length, add two points if it has at least two character types
+    // If strong length, add two points if at least two character types
     else if (pw.length() >= STRONG_LENGTH && points >= 1.0f)
         points += 2;
 
     /*    weak - fewer than three points
         medium - three points
         strong - four points    */
+
     return (unsigned int)points;
 }
-void MirageZip::SetPassword(const std::string& pw) noexcept
-{
-    password = pw;
-}
+
 unsigned int MirageZip::ZipFile()
 {
-    // Create archive and open
+    /* This function will read file data into a buffer, zip the file using the buffer, and encrypt
+       the data using 256-bit AES if a password has been set by the user. Error handling is done in
+       HideFile()  */
+
+       // Create archive and open
     std::remove(archivePath.c_str());
     int errCode = 0;
     zip* archive = zip_open(archivePath.c_str(), ZIP_CREATE, &errCode);
@@ -118,7 +124,7 @@ unsigned int MirageZip::ZipFile()
     file.seekg(0, std::ios::beg);
 
     // Store file data in resource management object, close file
-    std::shared_ptr<char[]> fileData(new char[fileSize]);
+    std::unique_ptr<char[]> fileData(new char[fileSize]);
     file.read(fileData.get(), fileSize);
     file.close();
 
@@ -127,24 +133,34 @@ unsigned int MirageZip::ZipFile()
     size_t strPos = fileName.find_last_of("\\");
     fileName.erase(0, strPos + 1);
 
-    // Zip file using buffer, close archive
+    // Zip file using buffer
     zip_source_t* source;
     source = zip_source_buffer(archive, fileData.get(), fileSize, 0);
     if (!source) return FAILURE_ABORT;
     zip_file_add(archive, fileName.c_str(), source, 0);
 
+
+    // Encrypt archive if password was set
     if (password != "\0")
         zip_file_set_encryption(archive, 0, ZIP_EM_AES_256, password.c_str());
 
+    // Close archive
     zip_close(archive);
 
     return SUCCESS;
 }
 unsigned int MirageZip::Concatenate() const
 {
+    /* Execute Windows system command to combine files, e.g.:
+
+       COPY /B <image path> + <archive path> <destination path>
+
+       Error handling is done in HideFile()   */
+
     STARTUPINFOA info{ sizeof(info) };
     PROCESS_INFORMATION processInfo;
     std::stringstream cmd{ "" };
+
     cmd << "/c COPY /B \"" << imagePath << "\" + \"" << archivePath << "\" \"" << exportPath << "\"";
 
     if (CreateProcessA("C:\\Windows\\System32\\cmd.exe", cmd.str().data(), NULL, NULL, TRUE, 0, NULL, NULL, &info, &processInfo))

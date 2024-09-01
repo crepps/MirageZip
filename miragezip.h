@@ -5,7 +5,7 @@
  *         and evaluating its strength, zipping and encrypting
  *         imported files with libzip, and concatenating the
  *         archive with an imported image file.
- * 
+ *
  * @author Kevin Crepps
  * @date   August 2024
  *********************************************************************/
@@ -21,21 +21,21 @@
 
 #include "zip.h"
 
-/**
- * Custom return codes specifying that
- * a given operation:
- * 
- * - Succeeded (0)
- * - Failed and aborting is recommended (1)
- * - Failed but program can safely continue (2)
- */
+ /**
+  * Custom return codes specifying that
+  * a given operation:
+  *
+  * - Succeeded (0)
+  * - Failed and aborting is recommended (1)
+  * - Failed but program can safely continue (2)
+  */
 #define SUCCESS 0
 #define FAILURE_ABORT 1
 #define FAILURE_CONTINUE 2
 
-/**
- * Constants used to determine password strength.
- */
+  /**
+   * Constants used in determining password strength.
+   */
 #define WEAK_SCORE 2
 #define MEDIUM_SCORE 3
 #define STRONG_SCORE 4
@@ -46,45 +46,6 @@
 
 class MirageZip
 {
-private:
-    std::string error,      // Error info set in SetError()
-        archivePath,        // Path to zip created in temp directory
-        imagePath,          // Path to user-selected image file
-        filePath,           // Path to user-selected files to be zipped
-        exportPath,         // Destination of output file
-        password;           // Password used to encrypt archive
-
-    struct stat Statinfo;   /* Used for checking whether
-                                directory exists with stat() */
-
-    /**
-     * Character set types used in password evaluation.
-     */
-    enum CHAR_TYPE
-    {
-        LOWER,
-        UPPER,
-        NUMBERS,
-        CHARACTERS
-    };
-
-    /**
-     * @brief
-     * Called from the constructor. CreateAppData is run from here.
-     * If unable to create directory, user is notified, program aborts.
-     */
-    void Init();
-
-    /**
-     * @brief
-     * Checks for existance of %LOCALAPPDATA%\MirageZip, attempts to
-     * create it if it doesn't exist.
-     * 
-     * @return 
-	 * Custom return code defined at the top of miragezip.h.
-     */
-    unsigned int CreateAppData();
-
 public:
     /**
      * Used to specify path type with SetPath().
@@ -99,7 +60,7 @@ public:
     /**
      * @brief
      * Password containing null terminator is indicative of initial
-     * state. Call Init() to create app data folder.
+     * state. Call private function Init() to create app data folder.
      */
     MirageZip() : password("\0") { Init(); }
 
@@ -120,11 +81,11 @@ public:
     inline void SetError(const std::string& arg) noexcept { error = std::move(arg); }
 
     /**
-	 * @brief
-	 * Retrieve exception info and other error messages set
-	 * internally with SetError().
-	 */
-	inline std::string GetError() const noexcept { return error; }
+     * @brief
+     * Retrieve exception info and other error messages set
+     * internally with SetError().
+     */
+    inline std::string GetError() const noexcept { return error; }
 
     /**
      * @brief
@@ -137,7 +98,7 @@ public:
      * @brief
      * Use point system to evaluate password strength based on
      * character diversity and length.
-     * 
+     *
      * @return
      * Returns password strength score indicating:
      *   weak - fewer than three points
@@ -148,17 +109,17 @@ public:
 
     /**
      * @brief
-     * Set the password after testing, used to encrypt file
+     * Set the password after evaluating, used to encrypt file
      * archive in ZipFile().
      */
-    void SetPassword(const std::string&) noexcept;
+    inline void SetPassword(const std::string& arg) noexcept { password = arg; }
 
     /**
      * @brief
      * Zip and password-protect files using libzip functions.
-     * 
-     * @return 
-	 * Custom return code defined at the top of miragezip.h.
+     *
+     * @return
+     * Custom return code defined at the top of miragezip.h.
      */
     unsigned int ZipFile();
 
@@ -171,11 +132,55 @@ public:
 
     /**
     * @brief
-    * Return path of new zip file - used in HideFile().
+    * Get path of new zip file - used in HideFile().
     */
     inline const char* GetArchivePath() const noexcept { return archivePath.c_str(); }
 
     ~MirageZip() {}
+
+private:
+    std::string error,      // Error info buffer, set in SetError()
+        archivePath,        // Path to zip; this is set in CreateAppData()
+        imagePath,          // Path to user-selected image file
+        filePath,           // Path to user-selected file to be zipped
+        exportPath,         // Destination of output file
+        password;           // Password used to encrypt archive
+
+    struct stat Statinfo;   /* Used for checking whether
+                                directory exists with stat() */
+
+                                /**
+                                 * Character set types used in password evaluation.
+                                 */
+    enum CHAR_TYPE
+    {
+        LOWER,
+        UPPER,
+        NUMBERS,
+        CHARACTERS
+    };
+
+    /**
+     * @brief
+     * Called from the constructor. CreateAppData is run from here.
+     * If unable to create directory, user is notified, program terminates.
+     */
+    void Init();
+
+    /**
+     * @brief
+     * Checks for existance of %LOCALAPPDATA%\MirageZip, attempts to
+     * create it if it doesn't exist.
+     *
+     * @return
+     * Custom return code defined at the top of miragezip.h.
+     */
+    unsigned int CreateAppData();
 };
 
+/**
+ * @brief
+ * Non-member non-friend function attempts to zip file,
+ * combine it with image, then purge app data files.
+ */
 extern unsigned int HideFile(MirageZip* obj);
