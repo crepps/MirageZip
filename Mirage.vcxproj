@@ -74,7 +74,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\libzip-1.10.1\lib;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Admin\source\repos\Mirage\Mirage\include\core;C:\Users\Admin\source\repos\Mirage\Mirage\include\gui;$(IncludePath)</IncludePath>
     <LibraryPath>C:\libzip-1.10.1\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -136,25 +136,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="miragezip.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="gui.h">
-      <FileType>CppForm</FileType>
+    <ClInclude Include="include\core\miragezip.h" />
+    <ClInclude Include="include\core\resource.h" />
+    <ClInclude Include="include\gui\gui.h">
+      <FileType>CppHeader</FileType>
     </ClInclude>
-    <ClInclude Include="info.h">
-      <FileType>CppForm</FileType>
-    </ClInclude>
-    <ClInclude Include="miragezip.h" />
-    <ClInclude Include="resource.h" />
+    <ClInclude Include="include\gui\info.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gui.resx">
-      <DependentUpon>gui.h</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="info.resx">
-      <DependentUpon>info.h</DependentUpon>
+      <DependentUpon>include\gui\gui.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -164,6 +155,10 @@
     <Image Include="images\back.png" />
     <Image Include="images\back2.png" />
     <Image Include="images\mz.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="lib\miragezip.cpp" />
+    <ClCompile Include="tests\main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
