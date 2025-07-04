@@ -48,15 +48,15 @@ void MirageZip::SetPath(PATH_TYPE type, const std::string& path) noexcept
 {
     switch (type)
     {
-    case IMAGE:
+    case PATH_TYPE::IMAGE:
         imagePath = path;
         break;
 
-    case FILE:
+    case PATH_TYPE::FILE:
         filePath = path;
         break;
 
-    case EXPORT:
+    case PATH_TYPE::EXPORT:
         exportPath = path;
     }
 }
@@ -76,7 +76,7 @@ unsigned int MirageZip::TestPassword(const std::string& pw) const noexcept
 
     for (auto& c : pw)
     {
-        for (unsigned char type = LOWER; type < NUM_SETS; ++type)
+        for (unsigned char type = (unsigned char)CHAR_TYPE::LOWER; type < NUM_SETS; ++type)
         {
             if (!found[type])
             {

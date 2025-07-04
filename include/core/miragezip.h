@@ -21,27 +21,27 @@
 
 #include "zip.h"
 
- /**
-  * Custom return codes specifying that
-  * a given operation:
-  *
-  * - Succeeded (0)
-  * - Failed and aborting is recommended (1)
-  * - Failed but program can safely continue (2)
-  */
-#define SUCCESS 0
-#define FAILURE_ABORT 1
-#define FAILURE_CONTINUE 2
+/**
+* Custom return codes specifying that
+* a given operation:
+*
+* - Succeeded (0)
+* - Failed and aborting is recommended (1)
+* - Failed but program can safely continue (2)
+*/
+constexpr int SUCCESS = 0;
+constexpr int FAILURE_ABORT = 1;
+constexpr int FAILURE_CONTINUE = 2;
 
-  /**
-   * Constants used in determining password strength.
-   */
-#define WEAK_SCORE 2
-#define MEDIUM_SCORE 3
-#define STRONG_SCORE 4
-#define MEDIUM_LENGTH 8
-#define STRONG_LENGTH 12
-#define NUM_SETS 4
+/**
+* Constants used in determining password strength.
+*/
+constexpr int WEAK_SCORE = 2;
+constexpr int MEDIUM_SCORE = 3;
+constexpr int STRONG_SCORE = 4;
+constexpr int MEDIUM_LENGTH = 8;
+constexpr int STRONG_LENGTH = 12;
+constexpr int NUM_SETS = 4;
 
 
 class MirageZip
@@ -50,7 +50,7 @@ public:
     /**
      * Used to specify path type with SetPath().
      */
-    enum PATH_TYPE
+    enum class PATH_TYPE
     {
         IMAGE,
         FILE,
@@ -149,10 +149,10 @@ private:
     struct stat Statinfo;   /* Used for checking whether
                                 directory exists with stat() */
 
-                                /**
-                                 * Character set types used in password evaluation.
-                                 */
-    enum CHAR_TYPE
+    /**
+    * Character set types used in password evaluation.
+    */
+    enum class CHAR_TYPE
     {
         LOWER,
         UPPER,
